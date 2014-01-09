@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "Product Map": {
+            "applicationId": "mU8MunZaCCU1aB6P9TnEofdM7kfpcLQsq9SPL8HZ", 
+            "masterKey": "zP6LHwUzEiwcWadpdwgmyDUXecl5ite0AKajnt4M"
+        }, 
+        "_default": {
+            "link": "Product Map"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.2.16"
+    }
+}
