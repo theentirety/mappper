@@ -1,14 +1,11 @@
 #tree {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   overflow: auto;
-  display: flex;
-  align-items: center;
   text-align: center;
-  justify-content: center;
   background-color: rgba(0, 0, 0, 0.1);
 }
 #tree * {
@@ -16,53 +13,31 @@
   padding: 0;
 }
 #tree ol:first-child {
-  flex-direction: column;
-  display: -webkit-box;
-  /* OLD - iOS 6-, Safari 3.1-6 */
-
-  display: -moz-box;
-  /* OLD - Firefox 19- (buggy but mostly works) */
-
-  display: -ms-flexbox;
-  /* TWEENER - IE 10 */
-
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-flex-align: center;
-  -ms-flex-align: center;
-  -webkit-align-items: center;
-  align-items: center;
   text-align: center;
-  justify-content: center;
   width: 100%;
   height: 100%;
 }
 #tree ol {
   padding-top: 20px;
   position: relative;
-  transition: all 0.5s;
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
+  white-space: nowrap;
 }
 #tree ol ol::before {
   content: '';
   position: absolute;
   top: 0;
   left: 50%;
-  border-left: 1px solid rgba(0, 0, 0, 0.9);
+  border-left: 1px solid rgba(0, 0, 0, 0.4);
   width: 0;
   height: 20px;
 }
 #tree li {
-  float: left;
+  display: inline-block;
   text-align: center;
   list-style-type: none;
   position: relative;
   padding: 20px 5px 0 5px;
-  transition: all 0.5s;
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
+  vertical-align: top;
 }
 #tree li::before,
 #tree li::after {
@@ -70,14 +45,14 @@
   position: absolute;
   top: 0;
   right: 50%;
-  border-top: 1px solid rgba(0, 0, 0, 0.9);
+  border-top: 1px solid rgba(0, 0, 0, 0.4);
   width: 50%;
   height: 20px;
 }
 #tree li::after {
   right: auto;
   left: 50%;
-  border-left: 1px solid rgba(0, 0, 0, 0.9);
+  border-left: 1px solid rgba(0, 0, 0, 0.4);
 }
 #tree li:only-child::after,
 #tree li:only-child::before {
@@ -91,46 +66,57 @@
   border: 0 none;
 }
 #tree li:last-child::before {
-  border-right: 1px solid rgba(0, 0, 0, 0.9);
+  border-right: 1px solid rgba(0, 0, 0, 0.4);
   border-radius: 0 5px 0 0;
-  -webkit-border-radius: 0 5px 0 0;
-  -moz-border-radius: 0 5px 0 0;
 }
 #tree li:first-child::after {
   border-radius: 5px 0 0 0;
-  -webkit-border-radius: 5px 0 0 0;
-  -moz-border-radius: 5px 0 0 0;
 }
-#tree li a {
+#tree li span {
   width: 80px;
   height: 80px;
   text-align: left;
-  border-radius: 20px;
   border: 4px solid rgba(0, 0, 0, 0.9);
-  padding: 5px 10px;
+  font-weight: bold;
+  padding: 10px;
   text-decoration: none;
   color: rgba(0, 0, 0, 0.9);
   font-family: arial, verdana, tahoma;
   font-size: 12px;
   display: inline-block;
   background-color: #FFF;
-  border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  transition: all 0.5s;
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
+  border-radius: 20px;
+  white-space: normal;
 }
-#tree li a:hover,
-#tree li a:hover + ol li a {
-  background: #c8e4f8;
+#tree li span:hover,
+#tree li span:hover + ol li span {
+  background-color: #c8e4f8;
   color: #000;
 }
-#tree li a:hover + ol li::after,
-#tree li a:hover + ol li::before,
-#tree li a:hover + ol::before,
-#tree li a:hover + ol ol::before {
-  border-color: #94a0b4;
+#tree li span:hover + ol li::after,
+#tree li span:hover + ol li::before,
+#tree li span:hover + ol::before,
+#tree li span:hover + ol ol::before {
+  border-color: #000;
+}
+#tree li span.collapsed {
+  opacity: .2;
+}
+#tree li span.collapsed + ol,
+#tree li span.collapsed + li {
+  display: none;
+}
+#tree li span.component {
+  border: 2px dashed rgba(0, 0, 0, 0.4);
+  padding: 12px;
+}
+#tree li span.dialog {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #FFF;
+}
+#tree li span.dialog:hover {
+  background-color: rgba(200, 228, 248, 0.6);
+  color: #000;
 }
 #editor {
   background-color: rgba(255, 255, 255, 0.3);
@@ -151,6 +137,7 @@
   left: 0;
   right: 0;
   overflow: auto;
+  z-index: 2;
 }
 #editor #editor_buttons {
   position: absolute;
@@ -159,6 +146,8 @@
   right: 0;
   height: 50px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.05);
 }
 /* Use the following CSS code if you want to use data attributes for inserting your icons */
 [data-icon]:before {

@@ -31,10 +31,20 @@ define(['knockout'], function(ko) {
 			editor_scrub = function(data) {
 				var temp = $(data).clone();
 
-				// first we need to go through and turn all the text into a tags
+				// first we need to go through and turn all the text into span tags and apply styles
 				$(temp).find('li').each(function() { 
-					var current = $(this).text();
-					$(this).html('<a href="#">' + current + '</a>');
+					var current = $(this).html();
+					var nodeStyle = null;
+					if (current.indexOf('<b>') >= 0 || current.indexOf('<strong>') >= 0) {
+						nodeStyle = 'dialog';
+						current = $(current).text();
+					} else if (current.indexOf('<i>') >= 0) {
+						nodeStyle = 'component';
+						current = $(current).text();
+					}
+					var span = document.createElement('span');
+					$(span).addClass(nodeStyle).text(current);
+					$(this).html(span);
 				});
 
 				// now we need to embed the ol tags inside the parent li tag
@@ -45,6 +55,7 @@ define(['knockout'], function(ko) {
 				});
 				
 				$('#tree').html(temp);
+				ko.postbox.publish('renderTree');
 			}
 
 			editor_keyup = function(item, event) {
