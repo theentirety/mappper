@@ -1,0 +1,15 @@
+<div id="editor_buttons">
+	<button value="insertunorderedlist" data-bind="click: editor_formatButton">List</button>
+	<button value="indent" data-bind="click: editor_formatButton">Indent</button>
+	<button value="outdent" data-bind="click: editor_formatButton">Outdent</button>
+
+	<button value="undo" data-bind="click: editor_formatButton">Undo</button>
+	<button value="redo" data-bind="click: editor_formatButton">Redo</button>
+
+	<button data-bind="click: editor_render">Render</button>
+</div>
+<div id="editor_content" contenteditable="true" data-bind="event: { keydown: editor_keyup }">
+	<ol>
+		<li>First node here...</li>
+	</ol>
+</div>

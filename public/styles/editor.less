@@ -1,8 +1,28 @@
 #editor {
-	background-color: #FFF;
+	background-color: rgba(255,255,255,0.3);
 	position: fixed;
 	right: 0;
 	top: 0;
 	bottom: 0;
 	width: 300px;
+	border-left: 1px solid fade(#000, 10%);
+	overflow: hidden;
+	#editor_content {
+		padding: 0;
+		margin: 0;
+		position: absolute;
+		top: 50px;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		overflow: auto;
+	}
+	#editor_buttons {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 50px;
+		border-bottom: 1px solid fade(#000, 10%);
+	}
 }

@@ -7,14 +7,6 @@ define(['knockout'], function(ko) {
 
 			}
 
-			tree_render = function(data) {
-
-			}
-
-			ko.postbox.subscribe('renderTree', function(data) {
-				tree_render(data);
-			});
-
 			tree_init();
 		}
 	}
