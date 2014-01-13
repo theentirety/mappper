@@ -1,17 +1,25 @@
 <div id="editor_buttons">
-	<button value="insertunorderedlist" data-bind="click: editor_formatButton">List</button>
-	<button value="indent" data-bind="click: editor_formatButton">Indent</button>
-	<button value="outdent" data-bind="click: editor_formatButton">Outdent</button>
+	<button value="insertorderedlist" data-bind="click: editor_formatButton" class="fa fa-list-ol" title="List ()"><span>List</span></button>
+	<button value="indent" data-bind="click: editor_formatButton" class="fa fa-indent" title="Indent (tab)"><span>Indent</span></button>
+	<button value="outdent" data-bind="click: editor_formatButton" class="fa fa-outdent" title="Outdent (`)"><span>Outdent</span></button>
 
-	<button value="bold" data-bind="click: editor_formatButton">Modal</button>
-	<button value="italic" data-bind="click: editor_formatButton">Component</button>
+	<div class="button_group">
+		<button value="normal" data-bind="click: editor_formatButton" class="fa fa-file-o" title="Page Element ()"><span>Page</span></button>
+		<button value="bold" data-bind="click: editor_formatButton" class="fa fa-list-alt" title="Modal/Dialog ()"><span>Modal ()</span></button>
+		<button value="italic" data-bind="click: editor_formatButton" class="fa fa-cog" title="Component ()"><span>Component ()</span></button>
+	</div>
 
-	<button value="undo" data-bind="click: editor_formatButton">Undo</button>
-	<button value="redo" data-bind="click: editor_formatButton">Redo</button>
+	<button data-bind="click: editor_toggleSwatches, css: { 'active': editor_showSwatchPicker }" class="fa fa-eraser" title="Color ()"><span>Color ()</span></button>
 
-	<button data-bind="click: editor_render">Render</button>
+	<button value="undo" data-bind="click: editor_formatButton" class="fa fa-undo" title="Undo (Ctrl+Z)"><span>Undo</span></button>
+	<button value="redo" data-bind="click: editor_formatButton" class="fa fa-repeat" title="Redo (Ctrl+Shift+Z)"><span>Redo</span></button>
+
+	<button data-bind="click: editor_render" class="fa fa-sitemap" title="Render Tree ()"><span>Render</span></button>
 </div>
-<div id="editor_content" contenteditable="true" data-bind="event: { keydown: editor_keyup }">
+<div id="editor_swatchPicker" data-bind="visible: editor_showSwatchPicker, foreach: editor_colors">
+	<button data-bind="click: editor_selectColor, style: { 'background-color': color }" />
+</div>
+<div id="editor_content" contenteditable="true" data-bind="event: { keydown: editor_keyup }, css: { 'submenu_active': editor_showSwatchPicker }">
 	<ol>
 		<li>First node here...</li>
 	</ol>

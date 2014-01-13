@@ -2,6 +2,14 @@ define(['knockout'], function(ko) {
 	return {
 		initialize: function() {
 			// auth_signedIn = ko.observable(false).publishOn('signedIn');
+			editor_showSwatchPicker = ko.observable(false);
+			editor_colors = ko.observableArray([
+				{ color: '#000' },
+				{ color: 'yellow' },
+				{ color: 'blue' },
+				{ color: 'pink' },
+				{ color: 'green' },
+			]);
 
 			editor_init = function() {
 
@@ -17,11 +25,21 @@ define(['knockout'], function(ko) {
 				editor_apply(command);
 			}
 
-			editor_apply = function(command) {
+			editor_apply = function(command, value) {
 				var el = document.getElementById('editor_content');
-				var value = null;
+				var value = value || null;
 
 				document.designMode = 'on';
+
+				if (command == 'normal' || command == 'bold' || command == 'italic') {
+					if (document.queryCommandState('bold')) {
+						document.execCommand('bold', false, value); // remove bold (modal)
+					}
+					if (document.queryCommandState('italic')) {
+						document.execCommand('italic', false, value); // remove italic (component)
+					}
+				}
+
 				document.execCommand(command, false, value);
 				document.designMode = 'off';
 
@@ -32,19 +50,37 @@ define(['knockout'], function(ko) {
 				var temp = $(data).clone();
 
 				// first we need to go through and turn all the text into span tags and apply styles
-				$(temp).find('li').each(function() { 
-					var current = $(this).html();
-					var nodeStyle = null;
-					if (current.indexOf('<b>') >= 0 || current.indexOf('<strong>') >= 0) {
-						nodeStyle = 'dialog';
-						current = $(current).text();
-					} else if (current.indexOf('<i>') >= 0) {
-						nodeStyle = 'component';
-						current = $(current).text();
+				$(temp).find('li').each(function() {
+					if ($(this).text() == '') {
+						$(this).remove();
+					} else {
+						var current = $(this).text();
+						var font = $(this).find('font').get(0);
+						var bold = $(this).find('b,strong').get(0);
+						var italic = $(this).find('i,em').get(0);
+
+						var nodeStyle = null;
+						var span = document.createElement('span');
+
+						// apply a color if added
+						if (font) {
+							color = $(font).attr('color');
+							$(span).attr('style', 'border-color:'+color);
+						}
+
+						// add the dialog class
+						if (bold) {
+							nodeStyle = 'dialog';
+						} 
+
+						// add the component class
+						if (italic) {
+							nodeStyle = 'component';
+						}
+						
+						$(span).addClass(nodeStyle).text(current);
+						$(this).html(span);
 					}
-					var span = document.createElement('span');
-					$(span).addClass(nodeStyle).text(current);
-					$(this).html(span);
 				});
 
 				// now we need to embed the ol tags inside the parent li tag
@@ -56,6 +92,18 @@ define(['knockout'], function(ko) {
 				
 				$('#tree').html(temp);
 				ko.postbox.publish('renderTree');
+			}
+
+			editor_toggleSwatches = function() {
+				if (editor_showSwatchPicker()) {
+					editor_showSwatchPicker(false);
+				} else {
+					editor_showSwatchPicker(true);
+				}
+			}
+
+			editor_selectColor = function(item) {
+				editor_apply('foreColor', item.color)
 			}
 
 			editor_keyup = function(item, event) {
