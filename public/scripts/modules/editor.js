@@ -50,13 +50,15 @@ define(['knockout'], function(ko) {
 
 			editor_save = function() {
 				var currentUser = Parse.User.current();
-				editor_saving(true);
-				editor_saveMessage('Saving...');
 
 				if (currentUser) {
+
 					if (editor_treeId() == null) {
 
 						var friendly = prompt('What do you want to call this map?');
+
+						editor_saving(true);
+						editor_saveMessage('Saving...');
 
 						// first save - do the tree save, then the version
 						Parse.Cloud.run('saveTree', {
@@ -161,6 +163,7 @@ define(['knockout'], function(ko) {
 						var font = $(this).find('font').get(0);
 						var bold = $(this).find('b,strong').get(0);
 						var italic = $(this).find('i,em').get(0);
+						var underlined = $(this).find('u').get(0);
 
 						var nodeStyle = null;
 						var span = document.createElement('span');
@@ -174,6 +177,11 @@ define(['knockout'], function(ko) {
 						// add the dialog class
 						if (bold) {
 							nodeStyle = 'dialog';
+						} 
+
+						// add the dialog class
+						if (underlined) {
+							nodeStyle = 'stacked';
 						} 
 
 						// add the component class

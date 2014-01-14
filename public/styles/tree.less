@@ -33,6 +33,9 @@
 			width: 0; 
 			height: 20px;
 		}
+		&:first-child > li:first-child::before {
+			display: none;
+		}
 	}
 	li {
 		display: inline-block;
@@ -60,10 +63,6 @@
 			// We need to remove left-right connectors from elements without any siblings
 			display: none;
 		}
-		&:only-child{
-			// Remove space from the top of single children
-			padding-top: 0;
-		}
 		&:first-child::before, &:last-child::after {
 			// Remove left connector from first child and right connector from last child
 			border: 0 none;
@@ -75,6 +74,14 @@
 		}
 		&:first-child::after {
 			border-radius: 5px 0 0 0;
+		}
+		&:only-child {
+			padding-top: 20px;
+			&::before {
+				display: block;
+				border-radius: 0;
+				left: 0px;
+			}
 		}
 		span {
 
@@ -108,7 +115,7 @@
 				display: none;
 			}
 			&.component {
-				border: 2px dashed @_color-line;
+				border: 4px dotted;
 				padding: 12px;
 			}
 			&.dialog {
@@ -117,6 +124,35 @@
 				&:hover {
 					background-color: fade(@_color-hoverbg, 60%);
 					color: #000;
+				}
+			}
+			&.stacked {
+				position: relative;
+				&::after, &::before {
+					content: '';
+					display: block;
+					width: auto;
+					height: 40px;
+					border-bottom: 3px solid;
+					padding: 0;
+					margin: 0;
+					z-index: 1;
+					border-radius: 20px;
+					position: absolute;
+				}
+				&::after {
+					bottom: -14px;
+					left: -3px;
+					width: 107px;
+				}
+				&::before {
+					bottom: -9px;
+					left: -3px;
+					width: 107px;
+				}
+				&+ol::before {
+					top: 10px;
+					height: 10px;
 				}
 			}
 		}
