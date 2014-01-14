@@ -41,7 +41,7 @@ require.config({
 require(['parse', 'fonts', 'knockout', 'modules/app', 'ga', 'moment', 'jquery', 'transit', 'knockout-amd-helpers', 'text', 'postbox', 'underscore'], function(parse, fonts, ko, App, ga) {
 
 	// init parse cloud code
-	Parse.initialize("p8uxnp0fPhNgFsVJ7oMdfhjwsax6nDZFNBEXKpWg", "JQ3IcD7fEOKkVzDvWrjFDxE5BCuhjbFLA9UyJ4No");
+	Parse.initialize("mU8MunZaCCU1aB6P9TnEofdM7kfpcLQsq9SPL8HZ", "PtfvEhSrFEERHGoKMi2BIfYcVy16aS9XG9j2BLRd");
 
 	// init and load the third-party fonts
 	WebFont.load({

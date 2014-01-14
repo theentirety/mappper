@@ -16,7 +16,6 @@
 #tree ol:first-child {
   text-align: center;
   width: 100%;
-  height: 100%;
 }
 #tree ol {
   padding-top: 20px;
@@ -140,20 +139,20 @@
   overflow: auto;
 }
 #editor #editor_content.submenu_active {
-  left: 105px;
+  left: 85px;
 }
 #editor #editor_swatchPicker {
   position: absolute;
   left: 50px;
   top: 0;
   height: 100%;
-  width: 50px;
-  background-color: rgba(0, 0, 0, 0.1);
+  width: 30px;
+  background-color: rgba(0, 0, 0, 0.05);
   z-index: 2;
 }
 #editor #editor_swatchPicker button {
   width: 100%;
-  height: 50px;
+  height: 30px;
   border: 0px none;
   background-color: transparent;
   cursor: pointer;
@@ -172,10 +171,10 @@
   font-size: 24px;
   background-color: transparent;
   border: 0px none;
-  width: 35px;
-  height: 35px;
+  width: 34px;
+  height: 34px;
   text-align: center;
-  margin: 5px 0;
+  margin: 3px 0;
   padding: 0;
   color: rgba(0, 0, 0, 0.5);
   cursor: pointer;
@@ -191,12 +190,147 @@
   color: #000;
 }
 #editor #editor_buttons .button_group {
-  border-radius: 10px;
+  border-radius: 5px;
+  margin: 3px 0;
   display: inline-block;
   padding: 0;
-  margin: 0;
   width: 40px;
   border: 1px solid rgba(0, 0, 0, 0.3);
+}
+#editor #editor_buttons .saving {
+  opacity: 0.5;
+}
+#editor #editor_buttons .saving:hover {
+  color: rgba(0, 0, 0, 0.5);
+}
+#editor #editor_save_message {
+  position: absolute;
+  padding: 0 10px;
+  z-index: 3;
+  left: 50px;
+  top: 3px;
+  border-radius: 5px;
+  border: 1px solid #333;
+  background-color: #FFF;
+  color: #333;
+  font-size: 14px;
+  vertical-align: middle;
+  height: 40px;
+  line-height: 40px;
+  font-style: italic;
+  font-family: 'proxima-nova';
+  white-space: nowrap;
+}
+#auth .modal {
+  margin-top: 5px;
+}
+#auth .inner {
+  width: 200px;
+  height: auto;
+}
+#auth .inner p {
+  font-family: 'proxima-nova';
+  font-weight: 100;
+  margin: 0;
+  padding: 0;
+}
+#auth .inner .or {
+  position: relative;
+  margin: 30px auto;
+}
+#auth .inner .or div {
+  padding: 0;
+  position: absolute;
+  border: 1px solid #DDD;
+  border-radius: 20px;
+  width: 25px;
+  margin: 0 auto;
+  left: 50%;
+  margin-left: -15px;
+  top: -15px;
+  background-color: #FFF;
+  height: 25px;
+  line-height: 24px;
+  font-style: italic;
+  font-size: 12px;
+  color: #999;
+}
+#auth .inner hr {
+  margin: 20px 0;
+  border: 0;
+  height: 1px;
+  background: #DDD;
+}
+#auth .inner .tabs {
+  font-size: 24px;
+  padding-bottom: 10px;
+  cursor: pointer;
+}
+#auth .inner .tabs > span {
+  width: 50%;
+  text-align: center;
+}
+#auth .inner .tabs .active {
+  font-weight: bold;
+}
+#auth .inner input[type=text],
+#auth .inner input[type=password] {
+  border: 0px none;
+  width: 100%;
+  height: 40px;
+  border-bottom: 1px solid #CCC;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-family: 'proxima-nova';
+  font-weight: 100;
+  color: #000;
+  padding: 0;
+  border-radius: 0;
+}
+#auth .inner .forgotpassword,
+#auth .inner .cancel {
+  font-size: 12px;
+  margin: 20px 0 0 0;
+  color: #666;
+  display: block;
+  cursor: pointer;
+}
+#auth .inner button[type=submit],
+#auth .inner .facebook {
+  width: 100%;
+  height: 40px;
+  border: 0px none;
+  border-radius: 5px;
+  color: #FFF;
+  background-color: #00ace8;
+  font-size: 24px;
+  font-family: 'proxima-nova';
+  font-weight: 100;
+  cursor: pointer;
+  margin-top: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: center;
+}
+#auth .inner .errors {
+  width: 100%;
+  background-color: red;
+  color: #FFF;
+  font-size: 12px;
+  margin: 5px 0;
+  padding: 10px 5px;
+  font-family: 'proxima-nova';
+  font-weight: 100;
+  text-transform: lowercase;
+  line-height: 12px;
+}
+#auth .inner .errors:first-letter {
+  text-transform: capitalize;
+}
+#auth .inner .facebook {
+  background-color: #3b5998;
+  font-size: 18px;
+  margin-top: 0;
 }
 /* Use the following CSS code if you want to use data attributes for inserting your icons */
 [data-icon]:before {
@@ -245,10 +379,10 @@ nav {
   left: 0;
 }
 .lightbox_bg {
-  -webkit-filter: blur(30px);
-  -moz-filter: blur(30px);
-  -o-filter: blur(30px);
-  filter: blur(30px);
+  -webkit-filter: blur(10px);
+  -moz-filter: blur(10px);
+  -o-filter: blur(10px);
+  filter: blur(10px);
 }
 .modal {
   flex-direction: column;
@@ -280,13 +414,13 @@ nav {
 .modal .close {
   position: absolute;
   color: #FFF;
-  font-size: 14px;
+  font-size: 18px;
   width: 40px;
   top: -20px;
   right: -20px;
   height: 40px;
   border-radius: 20px;
-  line-height: 33px;
+  line-height: 30px;
   background-color: #00ace8;
   border: 3px solid #FFF;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.5);

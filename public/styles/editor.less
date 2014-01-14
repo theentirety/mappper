@@ -17,7 +17,7 @@
 		left: 55px;
 		overflow: auto;
 		&.submenu_active {
-			left: 105px;
+			left: 85px;
 		}
 	}
 	#editor_swatchPicker {
@@ -25,12 +25,12 @@
 		left: 50px;
 		top: 0;
 		height: 100%;
-		width: 50px;
-		background-color: fade(#000, 10%);
+		width: 30px;
+		background-color: fade(#000, 5%);
 		z-index: 2;
 		button {
 			width: 100%;
-			height: 50px;
+			height: 30px;
 			border: 0px none;
 			background-color: transparent;
 			cursor: pointer;
@@ -49,10 +49,10 @@
 			font-size: 24px;
 			background-color: transparent;
 			border: 0px none;
-			width: 35px;
-			height: 35px;
+			width: 34px;
+			height: 34px;
 			text-align: center;
-			margin: 5px 0;
+			margin: 3px 0;
 			padding: 0;
 			color: fade(#000, 50%);
 			cursor: pointer;
@@ -68,12 +68,36 @@
 			}
 		}
 		.button_group {
-			border-radius: 10px;
+			border-radius: 5px;
+			margin: 3px 0;
 			display: inline-block;
 			padding: 0;
-			margin: 0;
 			width: 40px;
 			border: 1px solid fade(#000, 30%);
 		}
+		.saving {
+			opacity: 0.5;
+			&:hover {
+				color: fade(#000, 50%);
+			}
+		}
+	}
+	#editor_save_message {
+		position: absolute;
+		padding: 0 10px;
+		z-index: 3;
+		left: 50px;
+		top: 3px;
+		border-radius: 5px;
+		border: 1px solid #333;
+		background-color: #FFF;
+		color: #333;
+		font-size: 14px;
+		vertical-align: middle;
+		height: 40px;
+		line-height: 40px;
+		font-style: italic;
+		font-family: @_font-proxima;
+		white-space: nowrap;
 	}
 }

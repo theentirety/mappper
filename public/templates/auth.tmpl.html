@@ -1,0 +1,75 @@
+<!-- Sign up / Sign in Modal -->
+<!-- ko if: auth_showAuthModal -->
+<div class="modal" data-bind="visible: !auth_isLoading()">
+	<div class="inner">
+		<button class="close" data-bind="click: auth_closeModals"><span class="fa fa-times"></span></button>
+		<div class="tabs">
+			<span data-bind="click: function() { auth_toggleSignInUp('in') }, css: { 'active': auth_showSignInForm }">Log in</span> · 
+			<span data-bind="click: function() { auth_toggleSignInUp('up') }, css: { 'active': !auth_showSignInForm() }">Sign up</span>
+		</div>
+		<div id="signin_errors" class="errors" data-bind="visible: (auth_signInError().length > 0), text: auth_signInError"></div>
+		<div id="signin" data-bind="visible: (auth_showSignInForm() && !auth_showForgotPasswordForm())">
+			<form data-bind="submit: auth_signIn">
+				<input id="signin_username" type="text" placeholder="Username">
+				<input id="signin_password" type="password" placeholder="Password"></input>
+				<button type="submit">Sign In</button>
+				<span class="forgotpassword" data-bind="click: auth_toggleForgotPassword">Forgot your password?</span>
+			</form>
+			<!--
+			<div class="or">
+				<hr />
+				<div>or</div>
+			</div>
+			<button class="facebook" data-bind="click: auth_signInWithFacebook">Log in with Facebook</button>
+		-->
+		</div>
+		<div id="signup" data-bind="visible: !auth_showSignInForm()">
+			<form data-bind="submit: auth_signUp">
+				<input id="signup_username" type="text" placeholder="Username"></input>
+				<input id="signup_email" type="text" placeholder="Email"></input>
+				<input id="signup_password" type="password" placeholder="Password"></input>
+				<input id="signup_confirm" type="password" placeholder="Re-type password"></input>
+				<button type="submit">Sign Up</button>
+			</form>
+			<!--
+			<div class="or">
+				<hr />
+				<div>or</div>
+			</div>
+			<button class="facebook" data-bind="click: auth_signInWithFacebook">Sign up with Facebook</button>
+		-->
+		</div>		
+		<div id="forgotpassword" data-bind="visible: auth_showForgotPasswordForm">
+			<form data-bind="submit: auth_resetPassword">
+				<input id="forgot_email" type="text" placeholder="Email"></input>
+				<button type="submit">Reset password</button>
+				<span class="cancel" data-bind="click: auth_toggleForgotPassword">Cancel</span>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- /ko -->
+
+<!-- Get username modal -->
+<!-- ko if: auth_showUsernameModal -->
+<div class="modal" data-bind="visible: !auth_isLoading()">
+	<div class="inner">
+		<form data-bind="submit: auth_createUsername">
+			<p>Please choose a username</p>
+			<div id="chose_username_errors" class="errors" data-bind="visible: (auth_choseUsernameError().length > 0), text: auth_choseUsernameError"></div>
+			<input id="chose_username" type="text" placeholder="Username">
+			<button type="submit">Save</button>
+		</form>
+	</div>
+</div>
+<!-- /ko -->
+
+<!-- Auth confirmation modal -->
+<!-- ko if: auth_showConfirmModal -->
+<div class="modal" data-bind="visible: !auth_isLoading()">
+	<div class="inner">
+		<button class="close" data-bind="click: auth_closeModals"><span class="fa fa-times"></span></button>
+		<p data-bind="text: auth_confirmMessage"></p>
+	</div>
+</div>
+<!-- /ko -->

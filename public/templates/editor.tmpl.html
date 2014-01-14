@@ -1,7 +1,18 @@
+<div id="editor_save_message" data-bind="visible: editor_saveMessage().length > 0, text: editor_saveMessage"></div>
 <div id="editor_buttons">
-	<button value="insertorderedlist" data-bind="click: editor_formatButton" class="fa fa-list-ol" title="List ()"><span>List</span></button>
-	<button value="indent" data-bind="click: editor_formatButton" class="fa fa-indent" title="Indent (tab)"><span>Indent</span></button>
-	<button value="outdent" data-bind="click: editor_formatButton" class="fa fa-outdent" title="Outdent (`)"><span>Outdent</span></button>
+	<div class="button_group">
+		<button data-bind="click: editor_save, attr: { 'disabled': editor_saving }, css: { 'saving': editor_saving } " class="fa fa-save" title="Save ()"><span>Save</span></button>
+		<button data-bind="click: editor_render" class="fa fa-sitemap" title="Render Tree ()"><span>Render</span></button>
+		<hr />
+		<button value="undo" data-bind="click: editor_formatButton" class="fa fa-undo" title="Undo (Ctrl+Z)"><span>Undo</span></button>
+		<button value="redo" data-bind="click: editor_formatButton" class="fa fa-repeat" title="Redo (Ctrl+Shift+Z)"><span>Redo</span></button>
+	</div>
+
+	<div class="button_group">
+		<button value="insertorderedlist" data-bind="click: editor_formatButton" class="fa fa-list-ol" title="List ()"><span>List</span></button>
+		<button value="indent" data-bind="click: editor_formatButton" class="fa fa-indent" title="Indent (tab)"><span>Indent</span></button>
+		<button value="outdent" data-bind="click: editor_formatButton" class="fa fa-outdent" title="Outdent (`)"><span>Outdent</span></button>
+	</div>
 
 	<div class="button_group">
 		<button value="normal" data-bind="click: editor_formatButton" class="fa fa-file-o" title="Page Element ()"><span>Page</span></button>
@@ -9,12 +20,10 @@
 		<button value="italic" data-bind="click: editor_formatButton" class="fa fa-cog" title="Component ()"><span>Component ()</span></button>
 	</div>
 
-	<button data-bind="click: editor_toggleSwatches, css: { 'active': editor_showSwatchPicker }" class="fa fa-eraser" title="Color ()"><span>Color ()</span></button>
+	<div class="button_group">
+		<button data-bind="click: editor_toggleSwatches, css: { 'active': editor_showSwatchPicker }" class="fa fa-eraser" title="Color ()"><span>Color ()</span></button>
+	</div>
 
-	<button value="undo" data-bind="click: editor_formatButton" class="fa fa-undo" title="Undo (Ctrl+Z)"><span>Undo</span></button>
-	<button value="redo" data-bind="click: editor_formatButton" class="fa fa-repeat" title="Redo (Ctrl+Shift+Z)"><span>Redo</span></button>
-
-	<button data-bind="click: editor_render" class="fa fa-sitemap" title="Render Tree ()"><span>Render</span></button>
 </div>
 <div id="editor_swatchPicker" data-bind="visible: editor_showSwatchPicker, foreach: editor_colors">
 	<button data-bind="click: editor_selectColor, style: { 'background-color': color }" />

@@ -1,8 +1,12 @@
 define(['knockout'], function(ko) {
 	return {
 		initialize: function() {
-			// auth_signedIn = ko.observable(false).publishOn('signedIn');
 			editor_showSwatchPicker = ko.observable(false);
+			editor_treeId = ko.observable(null);
+			editor_saveMessage = ko.observable('');
+			editor_numVersions = ko.observable(0);
+			editor_saving = ko.observable(false);
+
 			editor_colors = ko.observableArray([
 				{ color: '#000' },
 				{ color: 'yellow' },
@@ -23,6 +27,68 @@ define(['knockout'], function(ko) {
 			editor_formatButton = function(item, event) {
 				var command = $(event.target).val();
 				editor_apply(command);
+			}
+
+			editor_save = function() {
+				var currentUser = Parse.User.current();
+				editor_saving(true);
+				editor_saveMessage('Saving...');
+				if (currentUser) {
+					console.log('save tree ====' + editor_treeId())
+					if (editor_treeId() == null) {
+
+						// first save - do the tree save, then the version
+						Parse.Cloud.run('saveTree', {}, {
+							success: function(result) {
+								editor_treeId(result.id);
+
+								Parse.Cloud.run('saveTreeVersion', {
+									treeData: $('#editor_content').html(),
+									treeId: result.id
+								}, {
+									success: function(result) {
+										editor_getNumVersions();
+									}, 
+									error: function(error) {
+										console.log(error);
+									}
+								});
+							}, 
+							error: function(error) {
+								console.log(error);
+							}
+						});
+					} else {
+
+						// existing object - save just the version
+						Parse.Cloud.run('saveTreeVersion', {
+							treeData: $('#editor_content').html(),
+							treeId: editor_treeId()
+						}, {
+							success: function(result) {
+								editor_getNumVersions();
+							}, 
+							error: function(error) {
+								console.log(error);
+							}
+						});
+					}
+
+				} else {
+					ko.postbox.publish('signIn');
+				}
+			}
+
+			editor_getNumVersions = function() {
+				editor_numVersions(editor_numVersions() + 1);
+				editor_saving(false);
+				editor_saveMessage('Saved (' + editor_numVersions() + ')');
+				$('#editor_save_message').transition({
+					opacity: 0
+				}, 3000, function() {
+					editor_saveMessage('');
+					$(this).css('opacity', 1);
+				})
 			}
 
 			editor_apply = function(command, value) {
