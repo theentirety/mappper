@@ -33,13 +33,11 @@ define(['knockout'], function(ko) {
 			}
 
 			editor_openTree = function(item) {
-				console.log(item)
 				Parse.Cloud.run('loadTree', {
 					treeId: item.id
 				}, {
 					success: function(result) {
 						$('#editor_content').html(result.attributes.data);
-						console.log(result.attributes.tree.id)
 						editor_treeId(result.attributes.tree.id);
 						editor_showLoadingPanel(false);
 						editor_render();
@@ -109,7 +107,6 @@ define(['knockout'], function(ko) {
 					editor_showLoadingPanel(true);
 					Parse.Cloud.run('getTrees', {}, {
 						success: function(result) {
-							console.log(result)
 							editor_trees(result);
 						}, 
 						error: function(error) {
