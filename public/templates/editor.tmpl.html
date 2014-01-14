@@ -45,7 +45,7 @@
 			<!-- ko ifnot: attributes.friendly -->
 			<span data-bind="text: '(untitled)'"></span>
 			<!-- /ko -->
-			<span class="date" data-bind="text: moment(createdAt).fromNow()"></span>
+			<span class="date" data-bind="text: moment(attributes.versionUpdatedAt).fromNow()"></span>
 			<span class="versions" data-bind="text: attributes.numVersions + ' versions'"></span>
 		</li>
 	</ol>

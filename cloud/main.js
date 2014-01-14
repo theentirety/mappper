@@ -42,7 +42,7 @@ Parse.Cloud.define('getTrees', function(request, response) {
 			objectId: currentUser.id
 		});
 
-		query.descending('createdAt');
+		query.descending('versionUpdatedAt');
 		query.equalTo('archived', false);
 
 		query.find({
@@ -147,6 +147,7 @@ Parse.Cloud.afterSave('TreeVersion', function(request) {
 		return query.first();
 	}).then(function(tree) {
 		tree.set('numVersions', count);
+		tree.set('versionUpdatedAt', new Date());
 		tree.save();
 	});
 });
