@@ -1,8 +1,10 @@
 <div id="editor_save_message" data-bind="visible: editor_saveMessage().length > 0, text: editor_saveMessage"></div>
 <div id="editor_buttons">
 	<div class="button_group">
-		<button data-bind="click: editor_save, attr: { 'disabled': editor_saving }, css: { 'saving': editor_saving } " class="fa fa-save" title="Save ()"><span>Save</span></button>
 		<button data-bind="click: editor_render" class="fa fa-sitemap" title="Render Tree ()"><span>Render</span></button>
+		<hr />
+		<button data-bind="click: editor_save, attr: { 'disabled': editor_saving }, css: { 'saving': editor_saving } " class="fa fa-save" title="Save ()"><span>Save</span></button>
+		<button data-bind="click: editor_toggleLoad, css: { 'active': editor_showLoadingPanel }" class="fa fa-folder-open-o" title="Load ()"><span>Load</span></button>
 		<hr />
 		<button value="undo" data-bind="click: editor_formatButton" class="fa fa-undo" title="Undo (Ctrl+Z)"><span>Undo</span></button>
 		<button value="redo" data-bind="click: editor_formatButton" class="fa fa-repeat" title="Redo (Ctrl+Shift+Z)"><span>Redo</span></button>
@@ -31,5 +33,23 @@
 <div id="editor_content" contenteditable="true" data-bind="event: { keydown: editor_keyup }, css: { 'submenu_active': editor_showSwatchPicker }">
 	<ol>
 		<li>First node here...</li>
+	</ol>
+</div>
+<div id="editor_loading_panel" data-bind="visible: editor_showLoadingPanel">
+	<h2>Saved maps</h2>
+	<ol class="trees" data-bind="foreach: editor_trees">
+		<li data-bind="click: editor_openTree">
+			<!-- ko if: attributes.friendly -->
+			<span data-bind="text: attributes.friendly"></span>
+			<!-- /ko -->
+			<!-- ko ifnot: attributes.friendly -->
+			<span data-bind="text: '(untitled)'"></span>
+			<!-- /ko -->
+			<span class="date" data-bind="text: moment(createdAt).fromNow()"></span>
+			<span class="versions" data-bind="text: attributes.numVersions + ' versions'"></span>
+		</li>
+	</ol>
+	<ol class="versions" data-bind="foreach: editor_versions">
+		<li data-bind="text: 'Version ' + $key"></li>
 	</ol>
 </div>

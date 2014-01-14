@@ -6,6 +6,9 @@ define(['knockout'], function(ko) {
 			editor_saveMessage = ko.observable('');
 			editor_numVersions = ko.observable(0);
 			editor_saving = ko.observable(false);
+			editor_showLoadingPanel = ko.observable(false);
+			editor_trees = ko.observableArray();
+			editor_versions = ko.observableArray();
 
 			editor_colors = ko.observableArray([
 				{ color: '#000' },
@@ -29,19 +32,40 @@ define(['knockout'], function(ko) {
 				editor_apply(command);
 			}
 
+			editor_openTree = function(item) {
+				console.log(item)
+				Parse.Cloud.run('loadTree', {
+					treeId: item.id
+				}, {
+					success: function(result) {
+						$('#editor_content').html(result.attributes.data);
+						console.log(result.attributes.tree.id)
+						editor_treeId(result.attributes.tree.id);
+						editor_showLoadingPanel(false);
+						editor_render();
+					}, 
+					error: function(error) {
+						console.log(error);
+					}
+				});
+			}
+
 			editor_save = function() {
 				var currentUser = Parse.User.current();
 				editor_saving(true);
 				editor_saveMessage('Saving...');
+
 				if (currentUser) {
-					console.log('save tree ====' + editor_treeId())
 					if (editor_treeId() == null) {
 
+						var friendly = prompt('What do you want to call this map?');
+
 						// first save - do the tree save, then the version
-						Parse.Cloud.run('saveTree', {}, {
+						Parse.Cloud.run('saveTree', {
+							friendly: friendly
+						}, {
 							success: function(result) {
 								editor_treeId(result.id);
-
 								Parse.Cloud.run('saveTreeVersion', {
 									treeData: $('#editor_content').html(),
 									treeId: result.id
@@ -59,7 +83,6 @@ define(['knockout'], function(ko) {
 							}
 						});
 					} else {
-
 						// existing object - save just the version
 						Parse.Cloud.run('saveTreeVersion', {
 							treeData: $('#editor_content').html(),
@@ -76,6 +99,23 @@ define(['knockout'], function(ko) {
 
 				} else {
 					ko.postbox.publish('signIn');
+				}
+			}
+
+			editor_toggleLoad = function() {
+				if (editor_showLoadingPanel()) {
+					editor_showLoadingPanel(false);
+				} else {
+					editor_showLoadingPanel(true);
+					Parse.Cloud.run('getTrees', {}, {
+						success: function(result) {
+							console.log(result)
+							editor_trees(result);
+						}, 
+						error: function(error) {
+							console.log(error);
+						}
+					});
 				}
 			}
 

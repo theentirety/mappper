@@ -1,5 +1,7 @@
 Parse.Cloud.define('saveTree', function(request, response) {
 	var currentUser = Parse.User.current();
+	var friendly = request.params.friendly || null;
+
 	if (currentUser) {
 
 		var Tree = Parse.Object.extend('Tree');
@@ -12,6 +14,7 @@ Parse.Cloud.define('saveTree', function(request, response) {
 		});
 
 		tree.set('archived', false);
+		tree.set('friendly', friendly);
 
 		tree.save(null, {
 			success: function(result) {
@@ -23,6 +26,68 @@ Parse.Cloud.define('saveTree', function(request, response) {
 		});
 	} else {
 		response.error('User not logged in.');
+	}
+});
+
+Parse.Cloud.define('getTrees', function(request, response) {
+	var currentUser = Parse.User.current();
+	
+	if (currentUser) {
+
+		var query = new Parse.Query('Tree');
+
+		query.equalTo('creator', {
+			__type: 'Pointer',
+			className: '_User',
+			objectId: currentUser.id
+		});
+
+		query.descending('createdAt');
+		query.equalTo('archived', false);
+
+		query.find({
+			success: function(result) {
+				response.success(result);
+			},
+			error: function(error) {
+				response.error(error);
+			}
+		});
+	} else {
+		response.error('No saved maps.');
+	}
+});
+
+Parse.Cloud.define('loadTree', function(request, response) {
+	var currentUser = Parse.User.current();
+	var version = request.params.version || null;
+	
+	if (currentUser) {
+
+		var query = new Parse.Query('TreeVersion');
+
+		query.equalTo('tree', {
+			__type: 'Pointer',
+			className: 'Tree',
+			objectId: request.params.treeId
+		});
+
+		query.descending('createdAt');
+
+		if (version) {
+			// get a specific version
+		}
+
+		query.first({
+			success: function(result) {
+				response.success(result);
+			},
+			error: function(error) {
+				response.error(error);
+			}
+		});
+	} else {
+		response.error('No saved maps.');
 	}
 });
 
@@ -66,8 +131,6 @@ Parse.Cloud.define('saveTreeVersion', function(request, response) {
 Parse.Cloud.afterSave('TreeVersion', function(request) {
 	var treeId = request.object.get('tree').id;
 	var count = 0;
-
-	console.log(treeId)
 
 	var query = new Parse.Query('TreeVersion');
 	query.equalTo('tree', {
