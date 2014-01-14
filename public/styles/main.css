@@ -166,9 +166,19 @@
   border-left: 1px solid rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
+#editor #editor_tree_title {
+  position: absolute;
+  top: 10px;
+  text-align: center;
+  left: 75px;
+  font-size: 24px;
+}
+#editor #editor_tree_title.submenu_active {
+  left: 105px;
+}
 #editor #editor_content {
   padding: 0;
-  margin: 0;
+  margin: 40px 0 0 0;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -206,11 +216,25 @@
   z-index: 5;
   padding: 10px;
 }
-#editor #editor_loading_panel .versions {
-  position: absolute;
-  right: 100%;
+#editor #editor_loading_panel .close,
+#editor #editor_loading_panel .back {
+  height: 40px;
+  width: 40px;
+  background-color: transparent;
+  border: 0px none;
+  font-size: 24px;
+  cursor: pointer;
 }
-#editor #editor_loading_panel h2 {
+#editor #editor_loading_panel .close {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+#editor #editor_loading_panel .back {
+  width: 30px;
+}
+#editor #editor_loading_panel h2,
+#editor #editor_loading_panel h3 {
   font-size: 24px;
   margin: 0;
   padding: 0;
@@ -218,6 +242,24 @@
   font-family: 'proxima-nova';
   border-bottom: 1px solid rgba(255, 255, 255, 0.5);
   width: 100%;
+}
+#editor #editor_loading_panel h3 {
+  font-size: 18px;
+  display: inline-block;
+  width: auto;
+  border-bottom: 0 none;
+  cursor: pointer;
+}
+#editor #editor_loading_panel .editor_empty_message {
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 14px;
+  line-height: 30px;
+}
+#editor #editor_loading_panel .versions li {
+  font-weight: normal;
+}
+#editor #editor_loading_panel .versions .date {
+  float: right;
 }
 #editor #editor_loading_panel ol {
   margin: 0;

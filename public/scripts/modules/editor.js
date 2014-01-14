@@ -9,6 +9,10 @@ define(['knockout'], function(ko) {
 			editor_showLoadingPanel = ko.observable(false);
 			editor_trees = ko.observableArray();
 			editor_versions = ko.observableArray();
+			editor_showVersions = ko.observable(false);
+			editor_treeTitle = ko.observable('(untitled)');
+			editor_versionTreeTitle = ko.observable('');
+			editor_loadTreeMessage = ko.observable('Loading...');
 
 			editor_colors = ko.observableArray([
 				{ color: '#000' },
@@ -37,6 +41,25 @@ define(['knockout'], function(ko) {
 					treeId: item.id
 				}, {
 					success: function(result) {
+						editor_treeTitle(result.attributes.tree.attributes.friendly);
+						$('#editor_content').html(result.attributes.data);
+						editor_treeId(result.attributes.tree.id);
+						editor_showLoadingPanel(false);
+						editor_render();
+					}, 
+					error: function(error) {
+						console.log(error);
+					}
+				});
+			}
+
+			editor_openVersion = function(item) {
+				Parse.Cloud.run('loadTree', {
+					treeId: item.attributes.tree.id,
+					version: item.id
+				}, {
+					success: function(result) {
+						editor_treeTitle(result.attributes.tree.attributes.friendly);
 						$('#editor_content').html(result.attributes.data);
 						editor_treeId(result.attributes.tree.id);
 						editor_showLoadingPanel(false);
@@ -103,25 +126,34 @@ define(['knockout'], function(ko) {
 			}
 
 			editor_toggleLoad = function() {
-				if (editor_showLoadingPanel()) {
-					editor_showLoadingPanel(false);
+				var currentUser = Parse.User.current();
+				if (currentUser) {
+					if (editor_showLoadingPanel()) {
+						editor_showLoadingPanel(false);
+						editor_loadTreeMessage('Loading...');
+					} else {
+						editor_showLoadingPanel(true);
+						Parse.Cloud.run('getTrees', {}, {
+							success: function(result) {
+								editor_trees(result);
+								if (result.length <= 0) {
+									editor_loadTreeMessage('No saved maps.');
+								}
+							}, 
+							error: function(error) {
+								console.log(error);
+							}
+						});
+					}
 				} else {
-					editor_showLoadingPanel(true);
-					Parse.Cloud.run('getTrees', {}, {
-						success: function(result) {
-							editor_trees(result);
-						}, 
-						error: function(error) {
-							console.log(error);
-						}
-					});
+					ko.postbox.publish('signIn');
 				}
 			}
 
 			editor_getNumVersions = function() {
-				editor_numVersions(editor_numVersions() + 1);
+				editor_numVersions(editor_versions.length + 1);
 				editor_saving(false);
-				editor_saveMessage('Saved (' + editor_numVersions() + ')');
+				editor_saveMessage('Saved (version ' + editor_numVersions() + ')');
 				$('#editor_save_message').transition({
 					opacity: 0
 				}, 3000, function() {
@@ -130,18 +162,39 @@ define(['knockout'], function(ko) {
 				})
 			}
 
+			editor_loadVersions = function(item) {
+				editor_showVersions(true);
+				editor_versions([]);
+				editor_versionTreeTitle(item.attributes.friendly);
+				var treeId = item.id;
+				Parse.Cloud.run('getTreeVersions', {
+					treeId: treeId
+				}, {
+					success: function(result) {
+						editor_versions(result);
+						editor_numVersions(result.length);
+					}, 
+					error: function(error) {
+						console.log(error);
+					}
+				});
+			}
+
 			editor_apply = function(command, value) {
 				var el = document.getElementById('editor_content');
 				var value = value || null;
 
 				document.designMode = 'on';
 
-				if (command == 'normal' || command == 'bold' || command == 'italic') {
+				if (command == 'normal' || command == 'bold' || command == 'italic' || command == 'underline') {
 					if (document.queryCommandState('bold')) {
 						document.execCommand('bold', false, value); // remove bold (modal)
 					}
 					if (document.queryCommandState('italic')) {
 						document.execCommand('italic', false, value); // remove italic (component)
+					}
+					if (document.queryCommandState('underline')) {
+						document.execCommand('underline', false, value); // remove underline (stacked)
 					}
 				}
 
