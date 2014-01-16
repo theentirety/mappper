@@ -41,11 +41,13 @@
 		}
 	}
 	#editor_content {
-		padding: 0 10px;
+		padding: 40px 10px 0 0;
 		position: fixed;
-		top: 40px;
+		z-index: 2;
+		top: 0;
 		left: 50px;
-		overflow: visible;
+		height: 100%;
+		overflow: hidden;
 		// border-top: 2px solid fade(#000, 30%);
 		background-color: rgba(255,255,255,0.9);
 		min-width: 200px;
@@ -54,28 +56,34 @@
 		}
 		ol:first-child {
 			padding-left: 30px;
+			height: 100%;
+			width: 100%;
+			overflow: auto;
 		}
 	}
 	#editor_swatchPicker {
 		position: absolute;
 		left: 50px;
-		top: 0;
-		height: 100%;
-		width: 30px;
+		top: 50px;
+		width: auto;
 		background-color: fade(#000, 10%);
-		z-index: 2;
+		z-index: 3;
+		padding: 0;
 		button {
-			width: 100%;
+			width: 30px;
 			height: 30px;
 			border: 0px none;
 			background-color: transparent;
 			cursor: pointer;
+			display: block;
 		}
 	}
 	#editor_menu {
 		position: fixed;
-		top: 5px;
-		left: 10px;
+		top: 0;
+		z-index: 3;
+		padding: 5px 0 0 10px;
+		left: 0;
 		height: 40px;
 		padding-right: 40px;
 		background-color: rgba(255,255,255,0.9);
