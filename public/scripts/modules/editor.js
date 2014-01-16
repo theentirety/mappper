@@ -3,16 +3,20 @@ define(['knockout'], function(ko) {
 		initialize: function() {
 			editor_showSwatchPicker = ko.observable(false);
 			editor_treeId = ko.observable(null);
-			editor_saveMessage = ko.observable('');
 			editor_numVersions = ko.observable(0);
-			editor_saving = ko.observable(false);
+			editor_showMessage = ko.observable(false);
+			editor_message = ko.observable();
 			editor_showLoadingPanel = ko.observable(false);
 			editor_trees = ko.observableArray();
 			editor_versions = ko.observableArray();
 			editor_showVersions = ko.observable(false);
 			editor_treeTitle = ko.observable('(untitled)');
-			editor_versionTreeTitle = ko.observable('');
 			editor_loadTreeMessage = ko.observable('Loading...');
+			editor_showHierarchy = ko.observable(true);
+			editor_activeVersionTree = ko.observable('');
+			editor_activeVersion = ko.observable('');
+			editor_activeVersionNumber = ko.observable(-1);
+			editor_isDirty = ko.observable(false);
 
 			editor_colors = ko.observableArray([
 				{ color: '#000' },
@@ -29,6 +33,7 @@ define(['knockout'], function(ko) {
 			editor_render = function() {
 				var data = $('#editor_content').html();
 				editor_scrub(data);
+				editor_isDirty(true);
 			}
 
 			editor_formatButton = function(item, event) {
@@ -36,39 +41,70 @@ define(['knockout'], function(ko) {
 				editor_apply(command);
 			}
 
-			editor_openTree = function(item) {
-				Parse.Cloud.run('loadTree', {
-					treeId: item.id
-				}, {
-					success: function(result) {
-						editor_treeTitle(result.attributes.tree.attributes.friendly);
-						$('#editor_content').html(result.attributes.data);
-						editor_treeId(result.attributes.tree.id);
-						editor_showLoadingPanel(false);
-						editor_render();
-					}, 
-					error: function(error) {
-						console.log(error);
+			editor_confirmDiscard = function(callback) {
+				if (editor_isDirty()) {
+					var confirmOpen = confirm('This map has unsaved changes. Are you sure you wish to open this map and lose the previous changes?');
+					if (confirmOpen == true) {
+						editor_message('Loading...');
+						editor_showMessage(true);
+						callback();
 					}
+				} else {
+					editor_message('Loading...');
+					editor_showMessage(true);
+					callback();
+				}
+			}
+
+			editor_openTree = function(item) {
+				editor_confirmDiscard(function() {
+					Parse.Cloud.run('loadTree', {
+						treeId: item.id
+					}, {
+						success: function(result) {
+							editor_completeOpen(result);
+							editor_activeVersionNumber(0)
+							editor_versions([]);
+							editor_showVersions(false);
+							editor_activeVersionTree('');
+						}, 
+						error: function(error) {
+							console.log(error);
+						}
+					});
 				});
 			}
 
-			editor_openVersion = function(item) {
-				Parse.Cloud.run('loadTree', {
-					treeId: item.attributes.tree.id,
-					version: item.id
-				}, {
-					success: function(result) {
-						editor_treeTitle(result.attributes.tree.attributes.friendly);
-						$('#editor_content').html(result.attributes.data);
-						editor_treeId(result.attributes.tree.id);
-						editor_showLoadingPanel(false);
-						editor_render();
-					}, 
-					error: function(error) {
-						console.log(error);
-					}
+			editor_openVersion = function(item, event) {
+				editor_confirmDiscard(function() {
+					editor_activeVersion(item.id);
+					editor_activeVersionNumber(parseInt($(event.target).attr('data-version')));
+					Parse.Cloud.run('loadTree', {
+						treeId: item.attributes.tree.id,
+						version: item.id
+					}, {
+						success: function(result) {
+							editor_completeOpen(result);
+						}, 
+						error: function(error) {
+							console.log(error);
+						}
+					});
 				});
+			
+			}
+
+			editor_completeOpen = function(result) {
+				editor_treeTitle(result.attributes.tree.attributes.friendly);
+				$('#editor_content').html(result.attributes.data);
+				editor_treeId(result.attributes.tree.id);
+				editor_showLoadingPanel(false);
+				editor_activeVersionTree(result.attributes.tree.id);
+				editor_activeVersion(result.id);
+				editor_render();
+				editor_isDirty(false);
+				editor_showMessage(false);
+				editor_message('');
 			}
 
 			editor_save = function() {
@@ -80,8 +116,8 @@ define(['knockout'], function(ko) {
 
 						var friendly = prompt('What do you want to call this map?');
 
-						editor_saving(true);
-						editor_saveMessage('Saving...');
+						editor_showMessage(true);
+						editor_message('Saving...');
 
 						// first save - do the tree save, then the version
 						Parse.Cloud.run('saveTree', {
@@ -94,7 +130,7 @@ define(['knockout'], function(ko) {
 									treeId: result.id
 								}, {
 									success: function(result) {
-										editor_getNumVersions();
+										editor_completeSave(result);
 									}, 
 									error: function(error) {
 										console.log(error);
@@ -106,13 +142,15 @@ define(['knockout'], function(ko) {
 							}
 						});
 					} else {
+						editor_showMessage(true);
+						editor_message('Saving...');
 						// existing object - save just the version
 						Parse.Cloud.run('saveTreeVersion', {
 							treeData: $('#editor_content').html(),
 							treeId: editor_treeId()
 						}, {
 							success: function(result) {
-								editor_getNumVersions();
+								editor_completeSave(result);
 							}, 
 							error: function(error) {
 								console.log(error);
@@ -131,6 +169,9 @@ define(['knockout'], function(ko) {
 					if (editor_showLoadingPanel()) {
 						editor_showLoadingPanel(false);
 						editor_loadTreeMessage('Loading...');
+						editor_activeVersionTree(null);
+						editor_showVersions(false);
+						editor_versions([]);
 					} else {
 						editor_showLoadingPanel(true);
 						Parse.Cloud.run('getTrees', {}, {
@@ -150,22 +191,28 @@ define(['knockout'], function(ko) {
 				}
 			}
 
-			editor_getNumVersions = function() {
-				editor_numVersions(editor_versions.length + 1);
-				editor_saving(false);
-				editor_saveMessage('Saved (version ' + editor_numVersions() + ')');
-				$('#editor_save_message').transition({
-					opacity: 0
-				}, 3000, function() {
-					editor_saveMessage('');
-					$(this).css('opacity', 1);
-				})
+			editor_toggleHierarchy = function() {
+				if (editor_showHierarchy()) {
+					editor_showHierarchy(false);
+				} else {
+					editor_showHierarchy(true);
+				}
+			}
+
+			editor_completeSave = function(result) {
+				editor_isDirty(false);
+				editor_showVersions(false);
+				editor_activeVersion(result.id);
+				editor_activeVersionNumber(editor_numVersions() + 1);
+				editor_showMessage(false);
+				editor_message('');
+				editor_activeVersionNumber(0);
 			}
 
 			editor_loadVersions = function(item) {
 				editor_showVersions(true);
-				editor_versions([]);
-				editor_versionTreeTitle(item.attributes.friendly);
+				editor_activeVersionTree(item.id);
+
 				var treeId = item.id;
 				Parse.Cloud.run('getTreeVersions', {
 					treeId: treeId

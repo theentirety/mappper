@@ -1,70 +1,73 @@
-<div id="editor_save_message" data-bind="visible: editor_saveMessage().length > 0, text: editor_saveMessage"></div>
-<div id="editor_buttons">
+<div id="editor_save_message" data-bind="visible: editor_showMessage, text: editor_message"></div>
+<div id="editor_menu">
+	<button data-bind="click: editor_toggleHierarchy, css: { 'active': editor_showHierarchy }" class="fa fa-sitemap" title="View Hierarchy ()"></button>
+	<button data-bind="click: editor_toggleLoad, css: { 'active': editor_showLoadingPanel, 'saving': editor_showMessage }, attr: { 'disabled': editor_showMessage }" class="fa fa-folder-open-o" title="Load ()"></button>
+	<button data-bind="click: editor_save, attr: { 'disabled': editor_showMessage }, css: { 'saving': editor_showMessage }" class="fa fa-save" title="Save ()"></button>
+	<span data-bind="text: editor_treeTitle() + (editor_isDirty() ? '*' : '')"></span>
+	<span class="version_number" data-bind="visible: editor_activeVersionNumber() >= 0, text: (editor_activeVersionNumber() == 0 ? 'latest' : 'v' + editor_activeVersionNumber())"></span>
+</div>
+<div id="editor_buttons" data-bind="visible: editor_showHierarchy">
 	<div class="button_group">
-		<button data-bind="click: editor_render" class="fa fa-sitemap" title="Render Tree ()"></button>
-		<hr />
-		<button data-bind="click: editor_save, attr: { 'disabled': editor_saving }, css: { 'saving': editor_saving } " class="fa fa-save" title="Save ()"></button>
-		<button data-bind="click: editor_toggleLoad, css: { 'active': editor_showLoadingPanel }" class="fa fa-folder-open-o" title="Load ()"></button>
-		<hr />
+		<button data-bind="click: editor_render" class="fa fa-play-circle" title="Render Map ()"></button>
+	</div>
+	<div class="button_group">
 		<button value="undo" data-bind="click: editor_formatButton" class="fa fa-undo" title="Undo (Ctrl+Z)"></button>
 		<button value="redo" data-bind="click: editor_formatButton" class="fa fa-repeat" title="Redo (Ctrl+Shift+Z)"></button>
 	</div>
-
 	<div class="button_group">
 		<button value="insertorderedlist" data-bind="click: editor_formatButton" class="fa fa-list-ol" title="List ()"></button>
 		<button value="indent" data-bind="click: editor_formatButton" class="fa fa-indent" title="Indent (tab)"></button>
 		<button value="outdent" data-bind="click: editor_formatButton" class="fa fa-outdent" title="Outdent (`)"></button>
 	</div>
-
 	<div class="button_group">
 		<button value="normal" data-bind="click: editor_formatButton" class="fa fa-file-o" title="Page ()"></button>
 		<button value="underline" data-bind="click: editor_formatButton" class="fa fa-files-o" title="Multiple Pages ()"></button>
 		<button value="bold" data-bind="click: editor_formatButton" class="fa fa-list-alt" title="Modal/Dialog ()"></button>
 		<button value="italic" data-bind="click: editor_formatButton" class="fa fa-cog" title="Component ()"></button>
 	</div>
-
 	<div class="button_group">
 		<button data-bind="click: editor_toggleSwatches, css: { 'active': editor_showSwatchPicker }" class="fa fa-eraser" title="Color ()"></button>
 	</div>
 
 </div>
-<div id="editor_swatchPicker" data-bind="visible: editor_showSwatchPicker, foreach: editor_colors">
+<div id="editor_swatchPicker" data-bind="visible: editor_showSwatchPicker() && editor_showHierarchy(), foreach: editor_colors">
 	<button data-bind="click: editor_selectColor, style: { 'background-color': color }"></button>
 </div>
-<div id="editor_tree_title" data-bind="css: { 'submenu_active': editor_showSwatchPicker }">
-	<span data-bind="text: editor_treeTitle"></span>
-</div>
-<div id="editor_content" contenteditable="true" data-bind="event: { keydown: editor_keyup }, css: { 'submenu_active': editor_showSwatchPicker }">
+<div id="editor_content" contenteditable="true" data-bind="event: { keydown: editor_keyup }, css: { 'submenu_active': editor_showSwatchPicker }, visible: editor_showHierarchy">
 	<ol>
 		<li>First node here...</li>
 	</ol>
 </div>
-<div id="editor_loading_panel" data-bind="visible: editor_showLoadingPanel">
-	<h2>Saved maps</h2>
-	<button class="close" data-bind="click: editor_toggleLoad"><span class="fa fa-times"></span></button>
-	<span class="editor_empty_message" data-bind="visible: editor_trees().length <= 0, text: editor_loadTreeMessage"></span>
-	<ol class="trees" data-bind="foreach: editor_trees, visible: !editor_showVersions()">
-		<li>
-			<div data-bind="click: editor_openTree">
-				<!-- ko if: attributes.friendly -->
-				<span data-bind="text: attributes.friendly"></span>
-				<!-- /ko -->
-				<!-- ko ifnot: attributes.friendly -->
-				<span data-bind="text: '(untitled)'"></span>
-				<!-- /ko -->
-				<span class="date" data-bind="text: moment(attributes.versionUpdatedAt).fromNow()"></span>
-			</div>
-			<span class="versions" data-bind="text: attributes.numVersions + ' versions', click: editor_loadVersions"></span>
-		</li>
-	</ol>
+<div id="editor_loading_panel" data-bind="visible: editor_showLoadingPanel()">
+	<div class="header">
+		<button class="close" data-bind="click: editor_toggleLoad"><span class="fa fa-times"></span></button>
+		<h2>Load map</h2>
+	</div>
+	<div class="trees">
+		<span class="editor_empty_message" data-bind="visible: editor_trees().length <= 0, text: editor_loadTreeMessage"></span>
+		<ol data-bind="foreach: editor_trees">
+			<li>
+				<div class="map_name" data-bind="click: editor_openTree">
+					<!-- ko if: attributes.friendly -->
+					<span data-bind="text: attributes.friendly"></span>
+					<!-- /ko -->
+					<!-- ko ifnot: attributes.friendly -->
+					<span data-bind="text: '(untitled)'"></span>
+					<!-- /ko -->
+					<span class="date" data-bind="text: moment(attributes.versionUpdatedAt).fromNow()"></span>
+				</div>
+				<div class="version_number" data-bind="css: { 'active': id == editor_activeVersionTree() }, click: editor_loadVersions">
+					<span data-bind="text: attributes.numVersions + ' version' + (attributes.numVersions == 1 ? '' : 's')"></span>
+					<span class="fa fa-angle-right"></span>
+				</div>
+			</li>
+		</ol>
+	</div>
 
 	<div class="versions" data-bind="visible: editor_showVersions">
-		<div data-bind="click: function() { editor_showVersions(false) }">
-			<button class="back"><span class="fa fa-arrow-circle-left"></span></button>
-			<h3 data-bind="text: editor_versionTreeTitle"></h3>
-		</div>
+		<span class="editor_empty_message" data-bind="visible: editor_versions().length <= 0">Loading...</span>
 		<ol data-bind="foreach: editor_versions">
-			<li data-bind="click: editor_openVersion">
+			<li data-bind="click: editor_openVersion, css: { 'active': id == editor_activeVersion() }, attr: { 'data-version': editor_numVersions() - $index() }">
 				Version <span data-bind="text: (editor_numVersions() - $index())"></span> <span class="date" data-bind="text: moment(updatedAt).fromNow()"></span>
 			</li>
 		</ol>

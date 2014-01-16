@@ -2,15 +2,7 @@
 @_color-hoverbg: #c8e4f8;
 
 #tree {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	overflow: auto;
 	text-align: center;
-	background-color: fade(#000, 10%);
-	padding-left: 400px;
 	* {
 		margin: 0;
 		padding: 0;
@@ -18,6 +10,7 @@
 	ol:first-child {
 		text-align: center;
 		width: 100%;
+		margin-top: 40px;
 	}
 	ol {
 		padding-top: 20px;
@@ -85,8 +78,8 @@
 		}
 		span {
 
-			width: 80px;
-			height: 80px;
+			width: 100px;
+			height: 100px;
 			text-align: left;
 			border: 4px solid;
 			font-weight: bold;
@@ -97,7 +90,7 @@
 			font-size: 12px;
 			display: inline-block;
 			background-color: #FFF;
-			border-radius: 20px;
+			border-radius: 10px;
 			white-space: normal;
 
 			&:hover, &:hover+ol li span {
@@ -137,18 +130,18 @@
 					padding: 0;
 					margin: 0;
 					z-index: 1;
-					border-radius: 20px;
+					border-radius: 10px;
 					position: absolute;
 				}
 				&::after {
 					bottom: -14px;
 					left: -3px;
-					width: 107px;
+					width: 100px;
 				}
 				&::before {
 					bottom: -9px;
 					left: -3px;
-					width: 107px;
+					width: 100px;
 				}
 				&+ol::before {
 					top: 10px;
