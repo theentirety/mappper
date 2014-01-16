@@ -125,6 +125,7 @@ define(['knockout'], function(ko) {
 						}, {
 							success: function(result) {
 								editor_treeId(result.id);
+								editor_treeTitle(friendly);
 								Parse.Cloud.run('saveTreeVersion', {
 									treeData: $('#editor_content').html(),
 									treeId: result.id
