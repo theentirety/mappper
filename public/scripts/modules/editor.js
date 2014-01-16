@@ -211,6 +211,7 @@ define(['knockout'], function(ko) {
 			}
 
 			editor_loadVersions = function(item) {
+				editor_versions([]);
 				editor_showVersions(true);
 				editor_activeVersionTree(item.id);
 

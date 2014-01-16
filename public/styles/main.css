@@ -78,16 +78,17 @@
   height: 100px;
   text-align: left;
   border: 4px solid;
-  font-weight: bold;
   padding: 10px;
   text-decoration: none;
   color: rgba(0, 0, 0, 0.9);
   font-family: arial, verdana, tahoma;
-  font-size: 12px;
+  font-size: 14px;
   display: inline-block;
   background-color: #FFF;
   border-radius: 10px;
   white-space: normal;
+  word-break: break-word;
+  font-family: 'proxima-nova';
 }
 #tree li span:hover,
 #tree li span:hover + ol li span {
@@ -149,10 +150,9 @@
   height: 10px;
 }
 #editor {
-  position: fixed;
+  position: absolute;
   left: 0;
   top: 0;
-  bottom: 0;
   width: 400px;
   border-left: 1px solid rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -176,6 +176,14 @@
 #editor button.active {
   background-color: rgba(0, 0, 0, 0.1);
   color: #000;
+}
+#editor button.disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+#editor button.disabled:hover {
+  cursor: default;
+  color: rgba(0, 0, 0, 0.5);
 }
 #editor .button_group {
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
@@ -203,7 +211,7 @@
   min-width: 200px;
 }
 #editor #editor_content.submenu_active {
-  left: 85px;
+  padding-left: 35px;
 }
 #editor #editor_content ol:first-child {
   padding: 0 30px;
@@ -212,7 +220,7 @@
   overflow: auto;
 }
 #editor #editor_swatchPicker {
-  position: absolute;
+  position: fixed;
   left: 50px;
   top: 50px;
   width: auto;
@@ -300,7 +308,7 @@
   min-width: 300px;
   float: left;
   height: 100%;
-  overflow: auto;
+  overflow: hidden;
   padding-top: 40px;
 }
 #editor #editor_loading_panel .trees {
@@ -339,6 +347,9 @@
 #editor #editor_loading_panel .versions li.active .date {
   color: #FFF;
 }
+#editor #editor_loading_panel .versions .version_number {
+  float: left;
+}
 #editor #editor_loading_panel .versions .date {
   float: right;
 }
@@ -361,6 +372,7 @@
   position: relative;
   width: 100%;
   padding: 0 10px;
+  clear: both;
 }
 #editor #editor_loading_panel li .date {
   font-weight: normal;
@@ -407,7 +419,7 @@
   margin-top: 5px;
 }
 #auth .inner {
-  width: 200px;
+  width: 300px;
   height: auto;
 }
 #auth .inner p {

@@ -1,8 +1,7 @@
 #editor {
-	position: fixed;
+	position: absolute;
 	left: 0;
 	top: 0;
-	bottom: 0;
 	width: 400px;
 	border-left: 1px solid fade(#000, 10%);
 	overflow: hidden;
@@ -24,6 +23,14 @@
 		&.active {
 			background-color: fade(#000, 10%);
 			color: #000;
+		}
+		&.disabled {
+			opacity: 0.4;
+			cursor: default;
+			&:hover {
+				cursor: default;
+				color: fade(#000, 50%);
+			}
 		}
 	}
 	.button_group {
@@ -48,11 +55,10 @@
 		left: 50px;
 		height: 100%;
 		overflow: hidden;
-		// border-top: 2px solid fade(#000, 30%);
 		background-color: rgba(255,255,255,0.9);
 		min-width: 200px;
 		&.submenu_active {
-			left: 85px;
+			padding-left: 35px;
 		}
 		ol:first-child {
 			padding: 0 30px;
@@ -62,7 +68,7 @@
 		}
 	}
 	#editor_swatchPicker {
-		position: absolute;
+		position: fixed;
 		left: 50px;
 		top: 50px;
 		width: auto;
@@ -148,7 +154,7 @@
 			min-width: 300px;
 			float: left;
 			height: 100%;
-			overflow: auto;
+			overflow: hidden;
 			padding-top: 40px;
 		}
 		.trees {
@@ -186,6 +192,9 @@
 					}
 				}
 			}
+			.version_number {
+				float: left;
+			}
 			.date {
 				float: right;
 			}
@@ -209,6 +218,7 @@
 			position: relative;
 			width: 100%;
 			padding: 0 10px;
+			clear: both;
 			.date {
 				font-weight: normal;
 				color: fade(#000, 40%);

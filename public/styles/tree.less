@@ -77,21 +77,23 @@
 			}
 		}
 		span {
-
 			width: 100px;
 			height: 100px;
 			text-align: left;
 			border: 4px solid;
-			font-weight: bold;
+			// font-weight: bold;
 			padding: 10px;
 			text-decoration: none;
 			color: fade(#000, 90%);
 			font-family: arial, verdana, tahoma;
-			font-size: 12px;
+			font-size: 14px;
 			display: inline-block;
 			background-color: #FFF;
 			border-radius: 10px;
 			white-space: normal;
+			word-break: break-word;
+			// overflow: hidden;
+			font-family: @_font-proxima;
 
 			&:hover, &:hover+ol li span {
 				// We will apply the hover effect the the lineage of the element also

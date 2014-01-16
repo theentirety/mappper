@@ -2,7 +2,7 @@
 <div id="editor_menu">
 	<button data-bind="click: editor_toggleHierarchy, css: { 'active': editor_showHierarchy }" class="fa fa-sitemap" title="View Hierarchy ()"></button>
 	<button data-bind="click: editor_toggleLoad, css: { 'active': editor_showLoadingPanel, 'saving': editor_showMessage }, attr: { 'disabled': editor_showMessage }" class="fa fa-folder-open-o" title="Load ()"></button>
-	<button data-bind="click: editor_save, attr: { 'disabled': editor_showMessage }, css: { 'saving': editor_showMessage }" class="fa fa-save" title="Save ()"></button>
+	<button data-bind="click: editor_save, attr: { 'disabled': editor_showMessage() || !editor_isDirty() }, css: { 'disabled': editor_showMessage() || !editor_isDirty() }" class="fa fa-save" title="Save ()"></button>
 	<span data-bind="text: editor_treeTitle() + (editor_isDirty() ? '*' : '')"></span>
 	<span class="version_number" data-bind="visible: editor_activeVersionNumber() >= 0, text: (editor_activeVersionNumber() == 0 ? 'latest' : 'v' + editor_activeVersionNumber())"></span>
 </div>
@@ -68,7 +68,7 @@
 		<span class="editor_empty_message" data-bind="visible: editor_versions().length <= 0">Loading...</span>
 		<ol data-bind="foreach: editor_versions">
 			<li data-bind="click: editor_openVersion, css: { 'active': id == editor_activeVersion() }, attr: { 'data-version': editor_numVersions() - $index() }">
-				Version <span data-bind="text: (editor_numVersions() - $index())"></span> <span class="date" data-bind="text: moment(updatedAt).fromNow()"></span>
+				<span class="version_number" data-bind="text: 'Version ' + (editor_numVersions() - $index())"></span> <span class="date" data-bind="text: moment(updatedAt).fromNow()"></span>
 			</li>
 		</ol>
 	</div>
