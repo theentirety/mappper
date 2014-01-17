@@ -33,7 +33,7 @@ define(['knockout'], function(ko) {
 			editor_init = function() {
 				editor_localStorageAvailable(editor_checkLocalstorage());
 				if (editor_localStorageAvailable()) {
-					var draft = localStorage.getItem('draft');
+					var draft = localStorage.getItem('draft') || '';
 					var draftSave = window.setInterval(function() {
 						if (editor_draftTimestamp != editor_lastEditTimestamp) {
 							var draftData = $('#editor_content').html()
