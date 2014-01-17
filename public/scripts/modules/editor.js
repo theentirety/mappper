@@ -17,6 +17,10 @@ define(['knockout'], function(ko) {
 			editor_activeVersion = ko.observable('');
 			editor_activeVersionNumber = ko.observable(-1);
 			editor_isDirty = ko.observable(false);
+			editor_localStorageAvailable = ko.observable(false);
+
+			editor_draftTimestamp = new Date();
+			editor_lastEditTimestamp = editor_draftTimestamp;
 
 			editor_colors = ko.observableArray([
 				{ color: '#000' },
@@ -27,13 +31,54 @@ define(['knockout'], function(ko) {
 			]);
 
 			editor_init = function() {
+				editor_localStorageAvailable(editor_checkLocalstorage());
+				if (editor_localStorageAvailable()) {
+					var draft = localStorage.getItem('draft');
+					var draftSave = window.setInterval(function() {
+						if (editor_draftTimestamp != editor_lastEditTimestamp) {
+							var draftData = $('#editor_content').html()
+							localStorage.setItem('draft', draftData);
+							editor_draftTimestamp = editor_lastEditTimestamp;
+							localStorage.setItem('draftId', editor_treeId());
+							localStorage.setItem('draftTitle', editor_treeTitle());
+						}
+					}, 5000);
 
+					if (draft.length > 0) {
+						var confirmLoad = confirm('There is an unsaved draft. Do you want to restore it?');
+						if (confirmLoad == true) {
+							editor_message('Loading...');
+							editor_showMessage(true);
+							var loader = window.setTimeout(function() {
+								$('#editor_content').html(draft);
+								editor_scrub(draft);
+								editor_showMessage(false);
+								editor_message('');
+								editor_treeTitle(localStorage.getItem('draftTitle'));
+								editor_treeId(localStorage.getItem('draftId'));
+								editor_isDirty(true);
+							}, 1500);
+						}
+					} else {
+						localStorage.setItem('draft', '');
+					}
+				}
+			}
+
+
+			editor_checkLocalstorage = function() {
+				try {
+					return 'localStorage' in window && window['localStorage'] !== null;
+				} catch (e) {
+					return false;
+				}
 			}
 
 			editor_render = function() {
 				var data = $('#editor_content').html();
 				editor_scrub(data);
 				editor_isDirty(true);
+				editor_lastEditTimestamp = new Date();
 			}
 
 			editor_formatButton = function(item, event) {
@@ -67,6 +112,7 @@ define(['knockout'], function(ko) {
 							editor_versions([]);
 							editor_showVersions(false);
 							editor_activeVersionTree('');
+							editor_resetDraftStatus();
 						}, 
 						error: function(error) {
 							console.log(error);
@@ -85,6 +131,7 @@ define(['knockout'], function(ko) {
 					}, {
 						success: function(result) {
 							editor_completeOpen(result);
+							editor_resetDraftStatus();
 						}, 
 						error: function(error) {
 							console.log(error);
@@ -132,6 +179,7 @@ define(['knockout'], function(ko) {
 								}, {
 									success: function(result) {
 										editor_completeSave(result);
+										editor_resetDraftStatus();
 									}, 
 									error: function(error) {
 										console.log(error);
@@ -152,6 +200,7 @@ define(['knockout'], function(ko) {
 						}, {
 							success: function(result) {
 								editor_completeSave(result);
+								editor_resetDraftStatus();
 							}, 
 							error: function(error) {
 								console.log(error);
@@ -198,6 +247,12 @@ define(['knockout'], function(ko) {
 				} else {
 					editor_showHierarchy(true);
 				}
+			}
+
+			editor_resetDraftStatus = function() {
+				editor_lastEditTimestamp = new Date();
+				editor_draftTimestamp = editor_lastEditTimestamp;
+				localStorage.setItem('draft', '');
 			}
 
 			editor_completeSave = function(result) {

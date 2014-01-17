@@ -78,6 +78,7 @@
   height: 100px;
   text-align: left;
   border: 4px solid;
+  font-weight: bold;
   padding: 10px;
   text-decoration: none;
   color: rgba(0, 0, 0, 0.9);

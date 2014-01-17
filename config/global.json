@@ -4,6 +4,10 @@
             "applicationId": "mU8MunZaCCU1aB6P9TnEofdM7kfpcLQsq9SPL8HZ", 
             "masterKey": "zP6LHwUzEiwcWadpdwgmyDUXecl5ite0AKajnt4M"
         }, 
+        "Product Map (dev)": {
+            "applicationId": "M0AFadRVcLDPFR9uZdZTI9JChrt3tiZuTSAMySEp", 
+            "masterKey": "0LMxyFdzYrvB1PNP8wKlbrICbcxt7oPPj6G6PlYQ"
+        }, 
         "_default": {
             "link": "Product Map"
         }
