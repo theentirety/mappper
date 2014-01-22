@@ -3,5 +3,6 @@ define(['knockout'], function(ko) {
 		var self = this;
 
 		self.main_lightboxed = ko.observable().subscribeTo('isLightboxed');
+		self.main_outlineOpen = ko.observable(true).subscribeTo('showOutline');
 	};
 });

@@ -29,6 +29,10 @@ define(['knockout'], function(ko) {
 				auth_showSignInForm(true);
 				ko.postbox.publish('isLightboxed', true);
 			});
+			ko.postbox.subscribe('signOut', function() {
+				auth_signedIn(false);
+				Parse.User.logOut();
+			});
 
 			auth_checkFacebookStatus = function() {
 				FB.getLoginStatus(function(response) {

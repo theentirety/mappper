@@ -8,6 +8,13 @@ require.config({
 			deps: ['jquery'],
 			export: '$'
 		},
+		scrollable: {
+			deps: ['jquery']
+		},
+		utterscroll: {
+			deps: ['jquery'],
+			export: 'debiki'
+		},
 		jquery: {
 			export: '$'
 		},
@@ -38,11 +45,13 @@ require.config({
 		'moment': 'lib/moment.min',
 		'underscore': 'lib/underscore-min',
 		'ga': '//www.google-analytics.com/analytics',
-		'offline': 'lib/offline.min'
+		'offline': 'lib/offline.min',
+		'scrollable': 'lib/jquery-scrollable',
+		'utterscroll': 'lib/debiki-utterscroll'
 	}
 });
 
-require(['parse', 'fonts', 'knockout', 'modules/app', 'ga', 'offline', 'moment', 'jquery', 'transit', 'knockout-amd-helpers', 'text', 'postbox', 'underscore'], function(parse, fonts, ko, App, ga) {
+require(['parse', 'fonts', 'knockout', 'modules/app', 'ga', 'offline', 'moment', 'jquery', 'transit', 'knockout-amd-helpers', 'text', 'postbox', 'underscore', 'scrollable', 'utterscroll'], function(parse, fonts, ko, App, ga) {
 
 	// init parse cloud code
 	Parse.initialize("mU8MunZaCCU1aB6P9TnEofdM7kfpcLQsq9SPL8HZ", "PtfvEhSrFEERHGoKMi2BIfYcVy16aS9XG9j2BLRd");

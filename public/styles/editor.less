@@ -60,11 +60,52 @@
 		&.submenu_active {
 			padding-left: 35px;
 		}
-		ol:first-child {
-			padding: 0 30px;
-			height: 100%;
-			width: 100%;
-			overflow: auto;
+		ol {
+			position: relative;
+			list-style: none;
+			&:first-child {
+				padding: 0 30px;
+				height: 100%;
+				width: 100%;
+				overflow: auto;
+			}
+			&::before {
+				border-left: 1px solid fade(#000, 5%);
+				content: '';
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: -15px;
+			}
+		}
+		li {
+			color: #000;
+			margin-left: 0;
+			white-space: nowrap;
+			&:before {
+				font-family: FontAwesome;
+			    content: '\f10c';
+			    width: 15px;
+			    color: fade(#000, 20%);
+			    position: absolute;
+			    margin-left: -20px;
+				font-size: 7px;
+				padding: 7px 0 0 3px;
+			}
+			&.has_children:before {
+				content: '\f0d7';
+				font-size: 20px;
+				padding: 0;
+			}
+			&.collapsed {
+				&:before {
+					content: '\f0da';
+					padding-left: 3px;
+				}
+				+ ol {
+					display: none;
+				}
+			}
 		}
 	}
 	#editor_swatchPicker {

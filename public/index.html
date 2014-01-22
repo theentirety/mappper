@@ -14,7 +14,7 @@
 	<main>
 		<!-- page content -->
 		<section data-bind="css: { 'lightbox_bg': $root.main_lightboxed }">
-			<section id="tree" data-bind="module: 'tree'"></section>
+			<section id="tree" data-bind="module: 'tree', css: { 'outline_open': $root.main_outlineOpen }"></section>
 			<section id="editor" data-bind="module: 'editor'"></section>
 		</section>
 		<!-- modals -->

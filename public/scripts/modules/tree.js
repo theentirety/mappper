@@ -8,7 +8,9 @@ define(['knockout'], function(ko) {
 			});
 
 			tree_init = function() {
-
+				debiki.Utterscroll.enable({
+					// scrollstoppers: '.CodeMirror, .ui-resizable-handle'
+				});
 			}
 
 			tree_attachBindings = function() {

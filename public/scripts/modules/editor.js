@@ -12,13 +12,15 @@ define(['knockout'], function(ko) {
 			editor_showVersions = ko.observable(false);
 			editor_treeTitle = ko.observable('(untitled)');
 			editor_loadTreeMessage = ko.observable('Loading...');
-			editor_showHierarchy = ko.observable(true);
+			editor_showOutline = ko.observable(true).publishOn('showOutline');
 			editor_activeVersionTree = ko.observable('');
 			editor_activeVersion = ko.observable('');
 			editor_activeVersionNumber = ko.observable(-1);
 			editor_isDirty = ko.observable(false);
 			editor_localStorageAvailable = ko.observable(false);
+			editor_signedIn = ko.observable(false).subscribeTo('signedIn');
 
+			editor_shiftKeyPressed = false;
 			editor_draftTimestamp = new Date();
 			editor_lastEditTimestamp = editor_draftTimestamp;
 
@@ -63,8 +65,22 @@ define(['knockout'], function(ko) {
 						localStorage.setItem('draft', '');
 					}
 				}
+
+				// listen for shift clicks on the nodes
+				$('body').on('click', 'li', function(event) {
+					if (event.offsetX < 0 && $(event.target).hasClass('has_children')) {
+						if ($(event.target).hasClass('collapsed')) {
+							$(event.target).removeClass('collapsed');
+						} else {
+							$(event.target).addClass('collapsed');
+						}
+					}
+				});
 			}
 
+			editor_logout = function() {
+				ko.postbox.publish('signOut');
+			}
 
 			editor_checkLocalstorage = function() {
 				try {
@@ -75,6 +91,7 @@ define(['knockout'], function(ko) {
 			}
 
 			editor_render = function() {
+				editor_formatExpandCollapse();
 				var data = $('#editor_content').html();
 				editor_scrub(data);
 				editor_isDirty(true);
@@ -241,11 +258,11 @@ define(['knockout'], function(ko) {
 				}
 			}
 
-			editor_toggleHierarchy = function() {
-				if (editor_showHierarchy()) {
-					editor_showHierarchy(false);
+			editor_toggleOutline = function() {
+				if (editor_showOutline()) {
+					editor_showOutline(false);
 				} else {
-					editor_showHierarchy(true);
+					editor_showOutline(true);
 				}
 			}
 
@@ -374,22 +391,42 @@ define(['knockout'], function(ko) {
 				editor_apply('foreColor', item.color)
 			}
 
+			editor_formatExpandCollapse = function() {
+				// first convert all of the dots to carets if they have children
+				$('#editor_content li').each(function() {
+					$(this).removeClass('has_children');
+					if ($(this).next('ol').length > 0) {
+						$(this).addClass('has_children');
+					} else {
+						$(this).removeClass('has_children').removeClass('collapsed');
+					}
+				});
+			}
+
 			editor_keyup = function(item, event) {
 				var keyCode = event.which;
 // console.log(keyCode)
 				switch (keyCode) {
+					case 8:
+						// delete
+						editor_formatExpandCollapse();
+						return true;
+						break;
 					case 192:
 						// tilde
 						editor_apply('outdent');
+						editor_formatExpandCollapse();
 						break;
 					case 13: 
 						// return/enter
+						editor_formatExpandCollapse();
 						editor_render();
 						return true;
 						break;
 					case 9: 
 						// tab
 						editor_apply('indent');
+						// editor_formatExpandCollapse();
 						break;
 					default: 
 						return true;

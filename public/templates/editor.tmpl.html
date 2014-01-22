@@ -1,12 +1,13 @@
 <div id="editor_save_message" data-bind="visible: editor_showMessage, text: editor_message"></div>
 <div id="editor_menu">
-	<button data-bind="click: editor_toggleHierarchy, css: { 'active': editor_showHierarchy }" class="fa fa-sitemap" title="View Hierarchy ()"></button>
+	<button data-bind="click: editor_toggleOutline, css: { 'active': editor_showOutline }" class="fa fa-sitemap" title="View Outline ()"></button>
+	<button data-bind="click: editor_logout, visible: editor_signedIn" class="fa fa-power-off" title="Log out"></button>
 	<button data-bind="click: editor_toggleLoad, css: { 'active': editor_showLoadingPanel, 'saving': editor_showMessage }, attr: { 'disabled': editor_showMessage }" class="fa fa-folder-open-o" title="Load ()"></button>
 	<button data-bind="click: editor_save, attr: { 'disabled': editor_showMessage() || !editor_isDirty() }, css: { 'disabled': editor_showMessage() || !editor_isDirty() }" class="fa fa-save" title="Save ()"></button>
 	<span data-bind="text: editor_treeTitle() + (editor_isDirty() ? '*' : '')"></span>
 	<span class="version_number" data-bind="visible: editor_activeVersionNumber() >= 0, text: (editor_activeVersionNumber() == 0 ? 'latest' : 'v' + editor_activeVersionNumber())"></span>
 </div>
-<div id="editor_buttons" data-bind="visible: editor_showHierarchy">
+<div id="editor_buttons" data-bind="visible: editor_showOutline">
 	<div class="button_group">
 		<button data-bind="click: editor_render" class="fa fa-play-circle" title="Render Map ()"></button>
 	</div>
@@ -30,10 +31,10 @@
 	</div>
 
 </div>
-<div id="editor_swatchPicker" data-bind="visible: editor_showSwatchPicker() && editor_showHierarchy(), foreach: editor_colors">
+<div id="editor_swatchPicker" data-bind="visible: editor_showSwatchPicker() && editor_showOutline(), foreach: editor_colors">
 	<button data-bind="click: editor_selectColor, style: { 'background-color': color }"></button>
 </div>
-<div id="editor_content" contenteditable="true" data-bind="event: { keydown: editor_keyup }, css: { 'submenu_active': editor_showSwatchPicker }, visible: editor_showHierarchy">
+<div id="editor_content" contenteditable="true" data-bind="event: { keydown: editor_keyup }, css: { 'submenu_active': editor_showSwatchPicker }, visible: editor_showOutline">
 	<ol>
 		<li>First node here...</li>
 	</ol>
