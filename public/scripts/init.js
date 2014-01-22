@@ -47,7 +47,7 @@ require.config({
 		'ga': '//www.google-analytics.com/analytics',
 		'offline': 'lib/offline.min',
 		'scrollable': 'lib/jquery-scrollable',
-		'utterscroll': 'lib/debiki-utterscroll'
+		'utterscroll': 'lib/debiki-utterscroll',
 	}
 });
 

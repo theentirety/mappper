@@ -2,7 +2,7 @@
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" media="all" href="styles/main.css" />
-	<link rel="stylesheet" type="text/css" media="all" href="styles/offline-theme-default.css" />
+	<link rel="stylesheet" type="text/css" media="all" href="styles/lib/offline-theme-default.css" />
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
 	<title>Product Map</title>
@@ -16,6 +16,7 @@
 		<section data-bind="css: { 'lightbox_bg': $root.main_lightboxed }">
 			<section id="tree" data-bind="module: 'tree', css: { 'outline_open': $root.main_outlineOpen }"></section>
 			<section id="editor" data-bind="module: 'editor'"></section>
+			<section id="treenav" data-bind="module: 'treenav'"></section>
 		</section>
 		<!-- modals -->
 		<section data-bind="css: { 'lightbox_screen': $root.main_lightboxed }">

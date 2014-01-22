@@ -568,6 +568,15 @@
   font-size: 18px;
   margin-top: 0;
 }
+#treenav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: 10px 20px;
+}
+#treenav .slider {
+  width: 100px;
+}
 /* Use the following CSS code if you want to use data attributes for inserting your icons */
 [data-icon]:before {
   font-family: 'nghtclub';

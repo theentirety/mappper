@@ -1,10 +1,18 @@
 define(['knockout'], function(ko) {
 	return {
 		initialize: function() {
-			// auth_signedIn = ko.observable(false).publishOn('signedIn');
+			tree_scale = ko.observable(1);
 
 			ko.postbox.subscribe('renderTree', function() {
 				tree_attachBindings();
+			});
+
+			ko.postbox.subscribe('treeScale', function(value) {
+				tree_scale(value / 100);
+
+				$('#tree').transition({
+					scale: tree_scale()
+				}, 0)
 			});
 
 			tree_init = function() {
