@@ -4,5 +4,6 @@ define(['knockout'], function(ko) {
 
 		self.main_lightboxed = ko.observable().subscribeTo('isLightboxed');
 		self.main_outlineOpen = ko.observable(true).subscribeTo('showOutline');
+		self.main_printMode = ko.observable(false).subscribeTo('printMode');
 	};
 });

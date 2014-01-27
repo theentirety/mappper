@@ -19,6 +19,7 @@ define(['knockout'], function(ko) {
 			editor_isDirty = ko.observable(false);
 			editor_localStorageAvailable = ko.observable(false);
 			editor_signedIn = ko.observable(false).subscribeTo('signedIn');
+			editor_printMode = ko.observable(false).syncWith('printMode');
 
 			editor_shiftKeyPressed = false;
 			editor_draftTimestamp = new Date();

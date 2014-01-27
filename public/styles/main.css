@@ -577,6 +577,21 @@
 #treenav .slider {
   width: 100px;
 }
+#treenav button {
+  width: 34px;
+  height: 34px;
+  border: 0px none;
+  background-color: transparent;
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+}
+#treenav button.active {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+#treenav button:hover {
+  color: #000;
+}
 /* Use the following CSS code if you want to use data attributes for inserting your icons */
 [data-icon]:before {
   font-family: 'nghtclub';
@@ -614,17 +629,17 @@ body input {
   outline: none;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
-::-webkit-scrollbar {
+body::-webkit-scrollbar {
   -webkit-appearance: none;
-  width: 7px;
-  height: 7px;
+  width: 0px;
+  height: 1px;
   background-color: #FFF;
   -webkit-box-shadow: #FFF;
 }
-::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar-thumb {
   border-radius: 4px;
-  background-color: rgba(0, 0, 0, 0.4);
-  -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.4);
+  background-color: rgba(255, 255, 255, 0.4);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.4);
 }
 header,
 footer,
