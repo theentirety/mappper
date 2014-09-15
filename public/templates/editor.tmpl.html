@@ -4,6 +4,7 @@
 	<button data-bind="click: editor_logout, visible: editor_signedIn() && !editor_printMode()" class="fa fa-power-off" title="Log out"></button>
 	<button data-bind="click: editor_toggleLoad, css: { 'active': editor_showLoadingPanel, 'saving': editor_showMessage }, attr: { 'disabled': editor_showMessage }, visible: !editor_printMode()" class="fa fa-folder-open-o" title="Load ()"></button>
 	<button data-bind="click: editor_save, attr: { 'disabled': editor_showMessage() || !editor_isDirty() }, css: { 'disabled': editor_showMessage() || !editor_isDirty() }, visible: !editor_printMode()" class="fa fa-save" title="Save ()"></button>
+	<button data-bind="click: editor_share" class="fa fa-share-alt" title="Share ()"></button>	
 	<span data-bind="text: editor_treeTitle() + (editor_isDirty() ? '*' : '')"></span>
 	<span class="version_number" data-bind="visible: editor_activeVersionNumber() >= 0 && !editor_printMode(), text: (editor_activeVersionNumber() == 0 ? 'latest' : 'v' + editor_activeVersionNumber())"></span>
 </div>

@@ -592,6 +592,274 @@
 #treenav button:hover {
   color: #000;
 }
+#viewer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 400px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+#viewer button {
+  border-radius: 3px;
+  font-size: 20px;
+  background-color: transparent;
+  border: 0px none;
+  width: 34px;
+  height: 34px;
+  text-align: center;
+  margin: 3px;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+#viewer button:hover {
+  color: #000;
+}
+#viewer button.active {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: #000;
+}
+#viewer button.disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+#viewer button.disabled:hover {
+  cursor: default;
+  color: rgba(0, 0, 0, 0.5);
+}
+#viewer .button_group {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+#viewer #viewer_tree_title {
+  position: absolute;
+  top: 10px;
+  text-align: center;
+  left: 75px;
+  font-size: 24px;
+  font-family: 'proxima-nova';
+}
+#viewer #viewer_tree_title.submenu_active {
+  left: 105px;
+}
+#viewer #viewer_content {
+  padding: 40px 0 20px 0;
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  height: 100%;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.9);
+  min-width: 200px;
+}
+#viewer #viewer_content.submenu_active {
+  padding-left: 35px;
+}
+#viewer #viewer_content ol {
+  position: relative;
+  list-style: none;
+}
+#viewer #viewer_content ol:first-child {
+  padding: 0 30px;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+#viewer #viewer_content ol::before {
+  border-left: 1px solid rgba(0, 0, 0, 0.05);
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -15px;
+}
+#viewer #viewer_content li {
+  color: #000;
+  margin-left: 0;
+  white-space: nowrap;
+}
+#viewer #viewer_content li:before {
+  font-family: FontAwesome;
+  content: '\f10c';
+  width: 15px;
+  color: rgba(0, 0, 0, 0.2);
+  position: absolute;
+  margin-left: -20px;
+  font-size: 7px;
+  padding: 7px 0 0 3px;
+}
+#viewer #viewer_content li.has_children:before {
+  content: '\f0d7';
+  font-size: 20px;
+  padding: 0;
+}
+#viewer #viewer_content li.collapsed:before {
+  content: '\f0da';
+  padding-left: 3px;
+}
+#viewer #viewer_content li.collapsed + ol {
+  display: none;
+}
+#viewer #viewer_menu {
+  position: fixed;
+  top: 0;
+  z-index: 3;
+  padding: 5px 0 0 10px;
+  left: 0;
+  height: 40px;
+  padding-right: 40px;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+#viewer #viewer_menu button {
+  margin: 0;
+}
+#viewer #viewer_menu button:first-child {
+  margin-right: 15px;
+}
+#viewer #viewer_menu span {
+  font-size: 24px;
+  margin-left: 5px;
+}
+#viewer #viewer_menu span.version_number {
+  color: rgba(0, 0, 0, 0.3);
+}
+#viewer #viewer_loading_panel {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+  min-width: 300px;
+  overflow: auto;
+  z-index: 5;
+  padding: 0;
+  background-color: #FFF;
+}
+#viewer #viewer_loading_panel .header {
+  position: absolute;
+  width: 100%;
+  height: 40px;
+  background-color: #FFF;
+}
+#viewer #viewer_loading_panel .close {
+  height: 40px;
+  width: 40px;
+  background-color: transparent;
+  border: 0px none;
+  font-size: 20px;
+  cursor: pointer;
+  margin: 0;
+}
+#viewer #viewer_loading_panel h2 {
+  font-size: 24px;
+  line-height: 40px;
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  font-family: 'proxima-nova';
+  width: 100%;
+  display: inline;
+  vertical-align: middle;
+}
+#viewer #viewer_loading_panel .viewer_empty_message {
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 14px;
+  line-height: 40px;
+  padding-left: 10px;
+}
+#viewer #viewer_loading_panel .trees,
+#viewer #viewer_loading_panel .versions {
+  min-width: 300px;
+  float: left;
+  height: 100%;
+  overflow: hidden;
+  padding-top: 40px;
+}
+#viewer #viewer_loading_panel .trees {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+#viewer #viewer_loading_panel .trees .map_name {
+  float: left;
+  cursor: pointer;
+}
+#viewer #viewer_loading_panel .trees .version_number {
+  float: right;
+  background-color: #FFF;
+  padding: 0 10px;
+  height: 30px;
+  margin-top: 5px;
+  line-height: 30px;
+  font-weight: normal;
+  border-radius: 10px;
+  cursor: pointer;
+}
+#viewer #viewer_loading_panel .trees .version_number.active {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #FFF;
+}
+#viewer #viewer_loading_panel .versions {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+#viewer #viewer_loading_panel .versions li {
+  font-weight: normal;
+  cursor: pointer;
+}
+#viewer #viewer_loading_panel .versions li.active {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #FFF;
+}
+#viewer #viewer_loading_panel .versions li.active .date {
+  color: #FFF;
+}
+#viewer #viewer_loading_panel .versions .version_number {
+  float: left;
+}
+#viewer #viewer_loading_panel .versions .date {
+  float: right;
+}
+#viewer #viewer_loading_panel ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: auto;
+  height: 100%;
+  width: 100%;
+}
+#viewer #viewer_loading_panel li {
+  color: #000;
+  font-weight: bold;
+  height: 40px;
+  line-height: 40px;
+  white-space: nowrap;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  position: relative;
+  width: 100%;
+  padding: 0 10px;
+  clear: both;
+}
+#viewer #viewer_loading_panel li .date {
+  font-weight: normal;
+  color: rgba(0, 0, 0, 0.4);
+}
+#viewer #viewer_buttons {
+  position: fixed;
+  top: 40px;
+  left: 0;
+  height: 100%;
+  width: 50px;
+  overflow: hidden;
+  text-align: center;
+  padding-top: 5px;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+#viewer #viewer_buttons .saving {
+  opacity: 0.5;
+}
+#viewer #viewer_buttons .saving:hover {
+  color: rgba(0, 0, 0, 0.5);
+}
 /* Use the following CSS code if you want to use data attributes for inserting your icons */
 [data-icon]:before {
   font-family: 'nghtclub';

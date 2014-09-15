@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" media="all" href="styles/main.css" />
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+
+	<title>Product Map</title>
+	<meta charset="utf-8" />
+	<meta name="description" content="Build a simple product map with components." />
+</head>
+<body data-bind="css: { print_mode: $root.main_printMode }">
+	<header></header>
+	<main>
+		<!-- page content -->
+		<section id="tree" data-bind="module: 'tree', css: { 'outline_open': $root.main_outlineOpen }"></section>
+		<section id="viewer" data-bind="module: 'viewer'"></section>
+		<section id="treenav" data-bind="module: 'treenav'"></section>
+	</main>
+
+	<script type="text/javascript" data-main="scripts/init" src="scripts/lib/require.js"></script>
+</body>
+</html>

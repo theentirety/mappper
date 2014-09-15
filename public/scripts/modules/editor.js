@@ -2,7 +2,7 @@ define(['knockout'], function(ko) {
 	return {
 		initialize: function() {
 			editor_showSwatchPicker = ko.observable(false);
-			editor_treeId = ko.observable(null);
+			editor_treeId = ko.observable(null).publishOn('treeId');
 			editor_numVersions = ko.observable(0);
 			editor_showMessage = ko.observable(false);
 			editor_message = ko.observable();
@@ -16,7 +16,7 @@ define(['knockout'], function(ko) {
 			editor_activeVersionTree = ko.observable('');
 			editor_activeVersion = ko.observable('');
 			editor_activeVersionNumber = ko.observable(-1);
-			editor_isDirty = ko.observable(false);
+			editor_isDirty = ko.observable(false).publishOn('isDirty');
 			editor_localStorageAvailable = ko.observable(false);
 			editor_signedIn = ko.observable(false).subscribeTo('signedIn');
 			editor_printMode = ko.observable(false).syncWith('printMode');
@@ -32,6 +32,10 @@ define(['knockout'], function(ko) {
 				{ color: 'pink' },
 				{ color: 'green' },
 			]);
+
+			ko.postbox.subscribe('save', function() {
+				editor_save();
+			});
 
 			editor_init = function() {
 				editor_localStorageAvailable(editor_checkLocalstorage());
@@ -49,7 +53,7 @@ define(['knockout'], function(ko) {
 
 					if (draft.length > 0) {
 						var confirmLoad = confirm('There is an unsaved draft. Do you want to restore it?');
-						if (confirmLoad == true) {
+						if (confirmLoad) {
 							editor_message('Loading...');
 							editor_showMessage(true);
 							var loader = window.setTimeout(function() {
@@ -61,6 +65,8 @@ define(['knockout'], function(ko) {
 								editor_treeId(localStorage.getItem('draftId'));
 								editor_isDirty(true);
 							}, 1500);
+						} else {
+							return;
 						}
 					} else {
 						localStorage.setItem('draft', '');
@@ -77,6 +83,11 @@ define(['knockout'], function(ko) {
 						}
 					}
 				});
+			}
+
+			editor_share = function() {
+				console.log('share')
+				ko.postbox.publish('share');
 			}
 
 			editor_logout = function() {
@@ -180,6 +191,10 @@ define(['knockout'], function(ko) {
 					if (editor_treeId() == null) {
 
 						var friendly = prompt('What do you want to call this map?');
+
+						if (!friendly) {
+							return;
+						}
 
 						editor_showMessage(true);
 						editor_message('Saving...');
