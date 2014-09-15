@@ -7,6 +7,26 @@
 		margin: 0;
 		padding: 0;
 	}
+	.tree-container {
+		&.square {
+			li>span {
+				width: 100px;
+				height: 100px;
+			}
+		}
+		&.portrait {
+			li>span {
+				width: 100px;
+				height: 160px;
+			}
+		}
+		&.landscape {
+			li>span {
+				width: 160px;
+				height: 100px;
+			}
+		}
+	}
 	ol:first-child {
 		text-align: center;
 		width: 100%;
@@ -79,8 +99,6 @@
 		}
 		span {
 			cursor: pointer;
-			width: 100px;
-			height: 100px;
 			text-align: left;
 			border: 4px solid;
 			font-weight: bold;

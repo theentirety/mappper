@@ -391,7 +391,7 @@ define(['knockout'], function(ko) {
 					$(parent).append(list);
 				});
 				
-				$('#tree').html(temp);
+				$('.tree-container').html(temp);
 				ko.postbox.publish('renderTree');
 			}
 

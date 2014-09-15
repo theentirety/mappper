@@ -2,6 +2,7 @@ define(['knockout'], function(ko) {
 	return {
 		initialize: function() {
 			tree_scale = ko.observable(1);
+			tree_orientation = ko.observable('square').subscribeTo('orientation');
 
 			ko.postbox.subscribe('renderTree', function() {
 				tree_attachBindings();
