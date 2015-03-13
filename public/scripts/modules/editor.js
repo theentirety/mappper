@@ -14,7 +14,7 @@ define(['knockout'], function(ko) {
 			editor_loadTreeMessage = ko.observable('Loading...');
 			editor_showOutline = ko.observable(true).publishOn('showOutline');
 			editor_activeVersionTree = ko.observable('');
-			editor_activeVersion = ko.observable('');
+			editor_activeVersion = ko.observable('').publishOn('treeVersion');
 			editor_activeVersionNumber = ko.observable(-1);
 			editor_isDirty = ko.observable(false).publishOn('isDirty');
 			editor_localStorageAvailable = ko.observable(false);
@@ -89,7 +89,6 @@ define(['knockout'], function(ko) {
 			}
 
 			editor_share = function() {
-				console.log('share')
 				ko.postbox.publish('share');
 			}
 

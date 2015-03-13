@@ -16,6 +16,10 @@ define(['knockout'], function(ko) {
 				}, 0)
 			});
 
+			ko.postbox.subscribe('attachTreeBindings', function() {
+				tree_attachBindings();
+			});
+
 			tree_init = function() {
 				debiki.Utterscroll.enable({
 					// scrollstoppers: '.CodeMirror, .ui-resizable-handle'

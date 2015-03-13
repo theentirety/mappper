@@ -4,6 +4,7 @@ define(['knockout'], function(ko) {
 			viewer_show = ko.observable(false);
 			viewer_isLoading = ko.observable().subscribeTo('isLoading');
 			viewer_treeId = ko.observable();
+			viewer_treeVersion = ko.observable();
 			viewer_showOutline = ko.observable(true);
 			viewer_printMode = ko.observable(false);
 			viewer_treeTitle = ko.observable('untitled');
@@ -11,27 +12,21 @@ define(['knockout'], function(ko) {
 
 			viewer_init = function() {
 				var treeId = viewer_getQueryVariable('id');
-				if (treeId) {
+				var treeVersion = viewer_getQueryVariable('v');
+
+				if (treeId && treeVersion) {
 					viewer_treeId(treeId);
-					viewer_openTree(treeId);
-					// listen for shift clicks on the nodes
-					$('body').on('click', 'li', function(event) {
-						if (event.offsetX < 0 && $(event.target).hasClass('has_children')) {
-							if ($(event.target).hasClass('collapsed')) {
-								$(event.target).removeClass('collapsed');
-							} else {
-								$(event.target).addClass('collapsed');
-							}
-						}
-					});
+					viewer_treeVersion(treeVersion);
+					viewer_openTree();
 				} else {
 					alert('This is an invalid link for a shared product map.');
 				}
 			}
 
-			viewer_openTree = function(item) {
-				Parse.Cloud.run('loadTree', {
-					treeId: viewer_treeId()
+			viewer_openTree = function() {
+				Parse.Cloud.run('loadTreeVersion', {
+					treeId: viewer_treeId(),
+					version: viewer_treeVersion()
 				}, {
 					success: function(result) {
 						if (result) {
@@ -40,11 +35,13 @@ define(['knockout'], function(ko) {
 							$('#viewer_content').html(result.attributes.data);
 							viewer_activeVersionNumber(result.attributes.tree.attributes.numVersions);
 							viewer_render();
+							ko.postbox.publish('attachTreeBindings');
 						} else {
 							alert('This link is not a valid map.');
 						}
 					}, 
 					error: function(error) {
+						console.log(error)
 						alert('There was an error loading the map. Please make sure the map ID ' + viewer_treeId() + ' is valid and refresh the page.');
 					}
 				});
@@ -97,6 +94,7 @@ define(['knockout'], function(ko) {
 						if (font) {
 							color = $(font).attr('color');
 							$(span).attr('style', 'border-color:'+color);
+							$(span).attr('data-color', color);
 						}
 
 						// add the dialog class
@@ -126,8 +124,7 @@ define(['knockout'], function(ko) {
 					$(parent).append(list);
 				});
 				
-				$('#tree').html(temp);
-				ko.postbox.publish('renderTree');
+				$('.tree-container').html(temp);
 			}
 
 			viewer_getQueryVariable = function(variable) {

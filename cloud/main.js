@@ -90,6 +90,7 @@ Parse.Cloud.define('getTreeVersions', function(request, response) {
 Parse.Cloud.define('loadTree', function(request, response) {
 	var currentUser = Parse.User.current();
 	var version = request.params.version || null;
+	var treeId = request.params.treeId || null;
 	
 	if (currentUser) {
 
@@ -118,6 +119,36 @@ Parse.Cloud.define('loadTree', function(request, response) {
 		});
 	} else {
 		response.error('No saved maps.');
+	}
+});
+
+Parse.Cloud.define('loadTreeVersion', function(request, response) {
+	var version = request.params.version || null;
+	var treeId = request.params.treeId || null;
+
+	if (treeId && version) {
+
+		var query = new Parse.Query('TreeVersion');
+
+		query.equalTo('tree', {
+			__type: 'Pointer',
+			className: 'Tree',
+			objectId: treeId
+		});
+
+		query.equalTo('objectId', version);
+		query.include('tree');
+
+		query.first({
+			success: function(result) {
+				response.success(result);
+			},
+			error: function(error) {
+				response.error(error);
+			}
+		});
+	} else {
+		response.error('Missing tree parameters.');
 	}
 });
 

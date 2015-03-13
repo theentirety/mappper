@@ -5,6 +5,7 @@ define(['knockout'], function(ko) {
 			share_isLoading = ko.observable().subscribeTo('isLoading');
 			share_isDirty = ko.observable(false).subscribeTo('isDirty');
 			share_treeId = ko.observable().subscribeTo('treeId');
+			share_treeVersion = ko.observable().subscribeTo('treeVersion');
 
 			share_launch = function() {
 				if (share_isDirty()) {
