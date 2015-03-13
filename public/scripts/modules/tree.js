@@ -27,7 +27,7 @@ define(['knockout'], function(ko) {
 					if ($(this).hasClass('collapsed')) {
 						$(this).removeClass('collapsed');
 						$(this).children('.ellipsis').remove();
-					} else if ($(this).hasClass('has_children')) {
+					} else if ($(this).parent().hasClass('has_children')) {
 						var parent = $(this);
 						parent.addClass('collapsed');
 						var ellipsis = document.createElement('div');
