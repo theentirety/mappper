@@ -59,7 +59,7 @@ require(['parse', 'fonts', 'knockout', 'modules/app', 'ga', 'offline', 'moment',
 
 	// init and load the third-party fonts
 	WebFont.load({
-		typekit: { id: 'aym5xdc' }
+		typekit: { id: 'xje1sem' }
 	});
 
 	ko.bindingHandlers.module.baseDir = 'modules';

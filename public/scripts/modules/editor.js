@@ -26,11 +26,14 @@ define(['knockout'], function(ko) {
 			editor_lastEditTimestamp = editor_draftTimestamp;
 
 			editor_colors = ko.observableArray([
-				{ color: '#000' },
-				{ color: 'yellow' },
-				{ color: 'blue' },
-				{ color: 'pink' },
-				{ color: 'green' },
+				{ color: '#ed217c' },
+				{ color: '#843b6e' },
+				{ color: '#69a5d9' },
+				{ color: '#4c8179' },
+				{ color: '#bfd84b' },
+				{ color: '#f2ba11' },
+				{ color: '#f26611' },
+				{ color: '#000000' }
 			]);
 
 			ko.postbox.subscribe('save', function() {

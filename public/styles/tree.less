@@ -101,18 +101,20 @@
 			cursor: pointer;
 			text-align: left;
 			border: 4px solid;
-			font-weight: bold;
+			// font-weight: bold;
 			padding: 10px;
 			text-decoration: none;
 			color: fade(#000, 90%);
 			font-family: arial, verdana, tahoma;
-			font-size: 14px;
+			font-size: 16px;
 			display: inline-block;
 			background-color: #FFF;
 			border-radius: 10px;
 			white-space: normal;
 			word-break: break-word;
-			font-family: @_font-proxima;
+			font-family: @_font-condensed;
+			line-height: 16px;
+			// font-weight: 300;
 
 			&:hover, &:hover+ol li span {
 				// We will apply the hover effect the the lineage of the element also
@@ -133,8 +135,8 @@
 				padding: 12px;
 			}
 			&.dialog {
-				background-color: fade(#000, 60%);
-				color: #FFF;
+				background-color: #e5e5e5;
+				color: #000;
 				&:hover {
 					background-color: fade(@_color-hoverbg, 60%);
 					color: #000;
