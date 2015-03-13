@@ -365,6 +365,7 @@ define(['knockout'], function(ko) {
 						if (font) {
 							color = $(font).attr('color');
 							$(span).attr('style', 'border-color:'+color);
+							$(span).attr('data-color', color);
 						}
 
 						// add the dialog class

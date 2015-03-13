@@ -26,8 +26,16 @@ define(['knockout'], function(ko) {
 				$('#tree span').on('click', function() {
 					if ($(this).hasClass('collapsed')) {
 						$(this).removeClass('collapsed');
+						$(this).children('.ellipsis').remove();
 					} else {
-						$(this).addClass('collapsed');
+						var parent = $(this);
+						parent.addClass('collapsed');
+						var ellipsis = document.createElement('div');
+						$(ellipsis).addClass('ellipsis');
+						if ($(this).attr('data-color')) {
+							$(ellipsis).css('background-color', $(this).data('color'));
+						}
+						parent.append(ellipsis);
 					}
 				});
 			}
