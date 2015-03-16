@@ -79,10 +79,23 @@ define(['knockout'], function(ko) {
 				// listen for shift clicks on the nodes
 				$('body').on('click', 'li', function(event) {
 					if (event.offsetX < 0 && $(event.target).hasClass('has_children')) {
+						var toggleTo = 'expanded';
 						if ($(event.target).hasClass('collapsed')) {
 							$(event.target).removeClass('collapsed');
 						} else {
 							$(event.target).addClass('collapsed');
+							toggleTo = 'collapsed';
+						}
+
+						if (event.shiftKey) {
+							var children = $(event.target).next('ol').find('.has_children');
+							$(children).each(function() {
+								if (toggleTo == 'collapsed') {
+									$(this).addClass('collapsed');
+								} else {
+									$(this).removeClass('collapsed');
+								}
+							});
 						}
 					}
 				});

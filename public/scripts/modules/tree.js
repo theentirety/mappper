@@ -27,20 +27,41 @@ define(['knockout'], function(ko) {
 			}
 
 			tree_attachBindings = function() {
-				$('#tree span').on('click', function() {
-					if ($(this).hasClass('collapsed')) {
-						$(this).removeClass('collapsed');
-						$(this).children('.ellipsis').remove();
-					} else if ($(this).parent().hasClass('has_children')) {
-						var parent = $(this);
+				$('#tree span').on('click', function(event) {
+					var toggleTo = 'expanded';
+					if ($(event.target).hasClass('collapsed')) {
+						$(event.target).removeClass('collapsed');
+						$(event.target).children('.ellipsis').remove();
+					} else if ($(event.target).parent().hasClass('has_children')) {
+						var parent = $(event.target);
 						parent.addClass('collapsed');
+						toggleTo = 'collapsed';
 						var ellipsis = document.createElement('div');
 						$(ellipsis).addClass('ellipsis');
-						if ($(this).attr('data-color')) {
-							$(ellipsis).css('background-color', $(this).data('color'));
+						if ($(event.target).attr('data-color')) {
+							$(ellipsis).css('background-color', $(event.target).data('color'));
 						}
 						parent.append(ellipsis);
 					}
+
+					if (event.shiftKey) {
+						var children = $(event.target).next('ol').find('.has_children>span');
+						$(children).each(function() {
+							if (toggleTo == 'collapsed') {
+								$(this).addClass('collapsed');
+								var ellipsis = document.createElement('div');
+								$(ellipsis).addClass('ellipsis');
+								var parent = $(this).parent('li');
+								if ($(parent).attr('data-color')) {
+									$(ellipsis).css('background-color', $(parent).data('color'));
+								}
+								$(this).append(ellipsis);
+							} else {
+								$(this).removeClass('collapsed');
+							}
+						});
+					}
+
 				});
 			}
 
