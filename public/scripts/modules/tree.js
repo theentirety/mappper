@@ -51,9 +51,8 @@ define(['knockout'], function(ko) {
 								$(this).addClass('collapsed');
 								var ellipsis = document.createElement('div');
 								$(ellipsis).addClass('ellipsis');
-								var parent = $(this).parent('li');
-								if ($(parent).attr('data-color')) {
-									$(ellipsis).css('background-color', $(parent).data('color'));
+								if ($(this).attr('data-color')) {
+									$(ellipsis).css('background-color', $(this).data('color'));
 								}
 								$(this).append(ellipsis);
 							} else {

@@ -88,6 +88,15 @@ define(['knockout'], function(ko) {
 						}
 
 						if (event.shiftKey) {
+							if (window.getSelection) {
+								if (window.getSelection().empty) {  // Chrome
+									window.getSelection().empty();
+								} else if (window.getSelection().removeAllRanges) {  // Firefox
+								window.getSelection().removeAllRanges();
+								}
+							} else if (document.selection) {  // IE?
+								document.selection.empty();
+							}
 							var children = $(event.target).next('ol').find('.has_children');
 							$(children).each(function() {
 								if (toggleTo == 'collapsed') {
