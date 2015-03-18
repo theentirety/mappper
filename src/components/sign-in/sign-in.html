@@ -1,0 +1,19 @@
+<auth></auth>
+<loading></loading>
+<modal params="title: 'Sign In'"></modal>
+<div class="sign-in modal-container">
+	<div class="modal-content">
+		<form data-bind="submit: submit">
+			<input type="text" placeholder="Email" data-bind="value: email, valueUpdate: 'input'">
+			<input type="password" placeholder="Password" data-bind="value: password, valueUpdate: 'input'"></input>
+			<button type="submit" data-bind="disable: !email() || !password()">Sign In</button>
+			<a class="signup" href="#sign-up">Don't have an account? Sign up</a>
+			<a class="forgotpassword" href="#forgot-password">Forgot your password?</a>
+		</form>
+	</div>
+</div>
+<file></file>
+<map></map>
+<maptools></maptools>
+<tree></tree>
+<treetools></treetools>

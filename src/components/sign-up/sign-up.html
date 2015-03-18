@@ -1,0 +1,18 @@
+<auth></auth>
+<modal params="title: 'Sign Up'"></modal>
+<div class="sign-up modal-container">
+	<div class="modal-content">
+		<form data-bind="submit: submit">
+			<input type="text" placeholder="Email" data-bind="value: email, valueUpdate: 'input'">
+			<input type="password" placeholder="Password" data-bind="value: password, valueUpdate: 'input'"></input>
+			<input type="password" placeholder="Confirm Password" data-bind="value: confirmpassword, valueUpdate: 'input'"></input>
+			<button type="submit" data-bind="disable: !email() || !password() || !confirmpassword()">Sign Up</button>
+			<a class="signin" href="#sign-in">Already registered? Sign in</a>
+		</form>
+	</div>
+</div>
+<file></file>
+<map></map>
+<maptools></maptools>
+<tree></tree>
+<treetools></treetools>

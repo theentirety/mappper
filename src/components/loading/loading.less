@@ -1,0 +1,73 @@
+loading {
+	@stripe-color: fade(black, 20%);
+	position: fixed;
+	z-index: 200000;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	pointer-events: none;
+	.message {
+		font-size: 200px;
+		text-transform: uppercase;
+		color: #FFF;
+		position: absolute;
+		text-align: center;
+		z-index: 200001;
+		width: 100%;
+		height: 200px;
+		overflow: hidden;
+		top: 50%;
+		margin-top: -100px;
+		font-family: Arial;
+	}
+	.loading-container {
+		width: 100%;
+		height: 100%;
+		&.active {
+			.loading {
+				-ms-transform: translate(0px, 0px); /* IE 9 */
+				-webkit-transform: translate(0px, 0px); /* Safari */
+				transform: translate(0px, 0px);
+			}
+			.loading-2 {
+				-ms-transform: translate(0px, 0px); /* IE 9 */
+				-webkit-transform: translate(0px, 0px); /* Safari */
+				transform: translate(0px, 0px);
+			}
+		}
+	}
+	.loading, .loading-2 {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-size: 50px 50px;
+
+		-webkit-transition: -webkit-transform 1s; /* Safari */
+		transition: transform 1s;
+
+		background-image: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, @stripe-color), color-stop(.25, transparent), color-stop(.5, transparent), color-stop(.5, @stripe-color), color-stop(.75, @stripe-color), color-stop(.75, transparent), to(transparent));
+		background-image: -webkit-linear-gradient(-45deg, @stripe-color 25%, transparent 25%, transparent 50%, @stripe-color 50%, @stripe-color 75%, transparent 75%, transparent);
+		background-image: -moz-linear-gradient(-45deg, @stripe-color 25%, transparent 25%, transparent 50%, @stripe-color 50%, @stripe-color 75%, transparent 75%, transparent);
+		background-image: -ms-linear-gradient(-45deg, @stripe-color 25%, transparent 25%, transparent 50%, @stripe-color 50%, @stripe-color 75%, transparent 75%, transparent);
+		background-image: -o-linear-gradient(-45deg, @stripe-color 25%, transparent 25%, transparent 50%, @stripe-color 50%, @stripe-color 75%, transparent 75%, transparent);
+		background-image: linear-gradient(-45deg, @stripe-color 25%, transparent 25%, transparent 50%, @stripe-color 50%, @stripe-color 75%, transparent 75%, transparent);
+
+
+	}
+	.loading {
+		-ms-transform: translate(3000px,-3000px); /* IE 9 */
+		-webkit-transform: translate(3000px,-3000px); /* Safari */
+		transform: translate(3000px,-3000px);
+	}
+	.loading-2 {
+		background-size: 40px 40px;
+		// margin-left: -50px;
+		-ms-transform: translate(-3000px,3000px); /* IE 9 */
+		-webkit-transform: translate(-3000px,3000px); /* Safari */
+		transform: translate(-3000px,3000px);
+	}
+}
