@@ -1,6 +1,8 @@
 define(["knockout", "text!./editor.html"], function(ko, templateMarkup) {
 
 	function Editor(params) {
+		var self = this;
+
 
 	}
 
