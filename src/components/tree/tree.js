@@ -5,8 +5,8 @@ define(['knockout', 'text!./tree.html', 'knockout-postbox'], function(ko, templa
 
 		this.visible = ko.observable(true).publishOn('tree.visibility');
 		this.isDirty = ko.observable(false).publishOn('tree.isDirty');
+		this.expanded = ko.observable(true).publishOn('tree.expanded');
 		this.localStorageAvailable = ko.observable(false);
-		this.expanded = ko.observable(true);
 
 		this.shiftKeyPressed = false;
 		this.draftTimestamp = new Date();
@@ -59,7 +59,6 @@ define(['knockout', 'text!./tree.html', 'knockout-postbox'], function(ko, templa
 
 			// listen for shift clicks on the nodes
 			$('#tree').on('click', 'li', function(event) {
-				console.log('asdf')
 				if (event.offsetX < 0 && $(event.target).hasClass('has_children')) {
 					var toggleTo = 'expanded';
 					if ($(event.target).hasClass('collapsed')) {

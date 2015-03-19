@@ -6,13 +6,13 @@ define(['knockout', 'text!./map.html', 'debeki', 'knockout-postbox'], function(k
 		// observables
 		this.scale = ko.observable(1);
 		this.orientation = ko.observable('square').subscribeTo('maptools.orientation');
+		this.treeExpanded = ko.observable(true).subscribeTo('tree.expanded');
 		this.dragging = false;
 		this.curYPos = 0;
 		this.curXPos = 0;
 
 			// subscriptions
 		ko.postbox.subscribe('tree.render', function() {
-			console.log('asdf')
 			self.attachBindings();
 		});
 
@@ -28,7 +28,6 @@ define(['knockout', 'text!./map.html', 'debeki', 'knockout-postbox'], function(k
 		// private functions
 		this.init = function() {
 			self.attachBindings();
-			// console.log(utterscroll)
 			debiki.Utterscroll.enable({
 			// 	// scrollstoppers: '.CodeMirror, .ui-resizable-handle'
 			});

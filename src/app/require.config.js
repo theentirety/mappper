@@ -14,7 +14,7 @@ var require = {
         "parse":                "bower_modules/parse/parse.min",
         "async-load":           "bower_modules/async-load/load.min",
         "dom-class":            "bower_modules/dom-class/class.min",
-        "debeki":          "vendor/debiki-utterscroll"
+        "debeki":               "vendor/debiki-utterscroll"
     },
     shim: {
         "knockout": { deps: ["jquery"] },

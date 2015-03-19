@@ -1,4 +1,4 @@
-<div id="map" class="tree-container" data-bind="css: orientation">
+<div id="map" class="tree-container" data-bind="css: orientation() + (treeExpanded() ? ' tree-expanded' : '')">
 	<ol>
 		<li>
 			<span>First node name...</span>

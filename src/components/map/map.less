@@ -3,12 +3,15 @@
 
 map {
 	text-align: center;
+	padding: 60px;
 	* {
 		margin: 0;
 		padding: 0;
 	}
 	.tree-container {
-		margin-top: 60px;
+		&.tree-expanded {
+			margin-left: 400px;
+		}
 		&.square {
 			li>span {
 				width: 100px;
@@ -38,6 +41,12 @@ map {
 		position: relative;
 		white-space: nowrap;
 		cursor: move;
+		&:first-child {
+			margin-top: 80px;
+			> li {
+				padding: 0px 200px;
+			}
+		}
 		ol::before {
 			// Time to add downward connectors from parents
 			content: '';
@@ -92,6 +101,8 @@ map {
 		}
 		&:only-child {
 			padding-top: 20px;
+			padding-left: 0;
+			padding-right: 0;
 			&::before {
 				display: block;
 				border-radius: 0;
