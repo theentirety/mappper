@@ -1,4 +1,4 @@
-define(['knockout', 'text!./tree.html'], function(ko, templateMarkup) {
+define(['knockout', 'text!./tree.html', 'knockout-postbox'], function(ko, templateMarkup) {
 
 	function Tree(params) {
 		var self = this;
@@ -144,7 +144,7 @@ define(['knockout', 'text!./tree.html'], function(ko, templateMarkup) {
 			});
 			
 			$('.tree-container').html(temp);
-			ko.postbox.publish('renderTree');
+			ko.postbox.publish('tree.render');
 		}
 
 		this.render = function() {

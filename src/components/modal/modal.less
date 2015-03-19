@@ -16,7 +16,7 @@ modal {
 	flex-direction: row;
 	align-items: center;
 	.modal-content {
-		background-color: lighten(black, 95%);
+		background-color: #333;
 		min-width: 300px;
 		min-height: 200px;
 		border-radius: @modal-border-radius;
@@ -60,11 +60,12 @@ modal {
 			}
 		}
 		.error {
-			color: red;
-			background-color: lighten(red, 40%);
+			@error-color: #facd61;
+			color: darken(@error-color, 40%);
+			background-color: @error-color;
 			border-radius: 3px;
 			display: block;
-			border: 1px solid lighten(red, 30%);
+			border: 1px solid darken(@error-color, 30%);
 			max-height: 0;
 			opacity: 0;
 			-webkit-transition: all 0.2s ease-out;
@@ -84,14 +85,14 @@ modal {
  				}
  			}
  			span {
-				margin: 15px 15px 10px 15px;
+				margin: 15px 15px 13px 15px;
 				display: block;
 				padding-right: 20px;
  			}
  			button {
 				background-color: transparent;
 				border: 0;
-				color: red;
+				color: @error-color;
 				font-size: 8px;
 				position: absolute;
 				right: 5px;
@@ -101,7 +102,7 @@ modal {
 				text-align: center;
 				cursor: pointer;
 				&:hover {
-					background-color: fade(red, 10%);
+					background-color: fade(@error-color, 10%);
 				}
  			}
 			&.visible {
