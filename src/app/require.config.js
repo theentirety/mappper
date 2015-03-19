@@ -12,7 +12,6 @@ var require = {
         "signals":              "bower_modules/js-signals/dist/signals.min",
         "text":                 "bower_modules/requirejs-text/text",
         "parse":                "bower_modules/parse/parse.min",
-        "typekit":              "bower_modules/typekit-load/load.min",
         "async-load":           "bower_modules/async-load/load.min",
         "dom-class":            "bower_modules/dom-class/class.min",
         "utterscroll":          "vendor/debiki-utterscroll"

@@ -1,13 +1,18 @@
 @import "material-design-iconic-font.less";
 
+@import "../components/auth/auth.less";
 @import "../components/map/map.less";
 @import "../components/modal/modal.less";
 @import "../components/sign-in/sign-in.less";
 @import "../components/sign-up/sign-up.less";
 @import "../components/forgot-password/forgot-password.less";
 @import "../components/loading/loading.less";
+@import "../components/file-info/file.less";
 
-@font-sans: Helvetica, Arial, san-serif;
+// @font-sans: Helvetica, Arial, san-serif;
+
+@font-sans: 'proxima-nova-alt';
+@font-condensed: 'proxima-nova-alt-ext-cond';
 
 *, *:before, *:after {
 	-moz-box-sizing: border-box;
@@ -60,37 +65,6 @@ form {
 			color: lighten(black, 70%);
 		}
 	}
-	button {
-		font-size: 24px;
-		color: #FFF;
-		background-color: #3495E0;
-		border: 0px none;
-		border-radius: 5px;
-		padding: 10px 20px;
-		display: block;
-		box-shadow: 0 2px 0px fade(black, 20%);
-		cursor: pointer;
-		-webkit-transition: all 0.2s;
-		-moz-transition: all 0.2s;
-		transition: all 0.2s;
-		-webkit-transform: translate3d(0,0,0);
-		transform: translate3d(0,0,0);
-		&:disabled {
-			opacity: 0.2;
-			box-shadow: none;
-			cursor: default;
-			-webkit-transform: translate3d(0,1px,0);
-			transform: translate3d(0,1px,0);
-		}
-		&:hover {
-			background-color: darken(#3495E0, 5%);
-		}
-		&:active {
-			box-shadow: none;
-			-webkit-transform: translate3d(0,1px,0);
-			transform: translate3d(0,1px,0);
-		}
-	}
 	a {
 		color: lighten(black, 40%);
 		text-decoration: none;
@@ -103,5 +77,37 @@ form {
 		&:hover {
 			text-decoration: underline;
 		}
+	}
+}
+
+.standard-button {
+	font-size: 24px;
+	color: #FFF;
+	background-color: #3495E0;
+	border: 0px none;
+	border-radius: 5px;
+	padding: 10px 20px;
+	display: block;
+	box-shadow: 0 2px 0px fade(black, 20%);
+	cursor: pointer;
+	-webkit-transition: all 0.2s;
+	-moz-transition: all 0.2s;
+	transition: all 0.2s;
+	-webkit-transform: translate3d(0,0,0);
+	transform: translate3d(0,0,0);
+	&:disabled {
+		opacity: 0.2;
+		box-shadow: none;
+		cursor: default;
+		-webkit-transform: translate3d(0,1px,0);
+		transform: translate3d(0,1px,0);
+	}
+	&:hover {
+		background-color: darken(#3495E0, 5%);
+	}
+	&:active {
+		box-shadow: none;
+		-webkit-transform: translate3d(0,1px,0);
+		transform: translate3d(0,1px,0);
 	}
 }

@@ -13,7 +13,7 @@ define(['knockout', 'text!./sign-in.html', 'parse'], function(ko, templateMarkup
 
 				Parse.User.logIn(self.email(), self.password(), {
 					success: function(user) {
-						ko.postbox.publish('auth.currentUser', user);
+						ko.postbox.publish('auth.login', user);
 						ko.postbox.publish('loading', false);
 						document.location.href = '#editor';
 					},

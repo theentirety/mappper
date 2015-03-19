@@ -1,0 +1,7 @@
+<div class="map-info">
+	<span class="title" data-bind="text: title() + (isDirty() ? '*' : '')"></span>
+	<span class="version_number" data-bind="visible: activeVersionNumber >= 1, text: (activeVersionNumber() == 0 ? 'LATEST' : 'v' + activeVersionNumber())"></span>
+</div>
+<button type="button" class="files-menu md md-folder" data-bind="click: open"></button>
+<button type="button" class="view-menu md md-remove-red-eye"></button>
+<auth></auth>

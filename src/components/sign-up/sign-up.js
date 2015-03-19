@@ -20,7 +20,7 @@ define(['knockout', 'text!./sign-up.html', 'parse'], function(ko, templateMarkup
 
 					user.signUp(null, {
 						success: function(user) {
-							ko.postbox.publish('auth.currentUser', user);
+							ko.postbox.publish('auth.login', user);
 							ko.postbox.publish('loading', false);
 							document.location.href = '#editor';
 						},
