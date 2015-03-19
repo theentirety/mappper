@@ -1,4 +1,4 @@
-define(['knockout', 'text!./map.html', 'utterscroll', 'knockout-postbox'], function(ko, templateMarkup, utterscroll) {
+define(['knockout', 'text!./map.html', 'debeki', 'knockout-postbox'], function(ko, templateMarkup, debeki) {
 
 	function Map(params) {
 		var self = this;
@@ -6,6 +6,9 @@ define(['knockout', 'text!./map.html', 'utterscroll', 'knockout-postbox'], funct
 		// observables
 		this.scale = ko.observable(1);
 		this.orientation = ko.observable('square').subscribeTo('maptools.orientation');
+		this.dragging = false;
+		this.curYPos = 0;
+		this.curXPos = 0;
 
 			// subscriptions
 		ko.postbox.subscribe('tree.render', function() {
@@ -26,14 +29,13 @@ define(['knockout', 'text!./map.html', 'utterscroll', 'knockout-postbox'], funct
 		this.init = function() {
 			self.attachBindings();
 			// console.log(utterscroll)
-			// Utterscroll.enable({
+			debiki.Utterscroll.enable({
 			// 	// scrollstoppers: '.CodeMirror, .ui-resizable-handle'
-			// });
+			});
 		};
 
 		this.attachBindings = function() {
 			$('#map span').on('click', function(event) {
-				console.log('asdf')
 				var toggleTo = 'expanded';
 				if ($(event.target).hasClass('collapsed')) {
 					$(event.target).removeClass('collapsed');
@@ -66,7 +68,6 @@ define(['knockout', 'text!./map.html', 'utterscroll', 'knockout-postbox'], funct
 						}
 					});
 				}
-
 			});
 		}
 

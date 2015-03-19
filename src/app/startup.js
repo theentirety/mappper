@@ -1,4 +1,4 @@
-define(['jquery', 'knockout', './router', 'parse', 'utterscroll', 'knockout-postbox', 'knockout-projections'], function($, ko, router, parse) {
+define(['jquery', 'knockout', './router', 'parse', 'debeki', 'knockout-postbox', 'knockout-projections'], function($, ko, router, parse) {
 
   // Components can be packaged as AMD modules, such as the following:
   ko.components.register('editor', { require: 'components/editor/editor' });

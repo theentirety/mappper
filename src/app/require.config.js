@@ -14,13 +14,13 @@ var require = {
         "parse":                "bower_modules/parse/parse.min",
         "async-load":           "bower_modules/async-load/load.min",
         "dom-class":            "bower_modules/dom-class/class.min",
-        "utterscroll":          "vendor/debiki-utterscroll"
+        "debeki":          "vendor/debiki-utterscroll"
     },
     shim: {
         "knockout": { deps: ["jquery"] },
         "jquery": { export: '$' },
         "parse": { export: 'Parse' },
-        "utterscroll": { deps: ["jquery"], export: 'utterscroll' },
+        "debeki": { deps: ["jquery"], export: 'debeki' },
         "knockout-postbox": { deps: ["knockout"] },
         "knockout-projections": { deps: ["knockout"] },
     }
