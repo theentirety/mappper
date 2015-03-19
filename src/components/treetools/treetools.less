@@ -1,0 +1,52 @@
+treetools {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 400px;
+	z-index: 6;
+	.tools {
+		position: absolute;
+		top: 0;
+		right: 0;
+		.tool-icons {
+			background-color: #0a0a0a;
+			span {
+				display: block;
+				color: #999;
+				width: 30px;
+				text-align: center;
+				padding: 5px 0;
+				&:first-of-type {
+					padding-top: 10px;
+				}
+				&:last-of-type {
+					padding-bottom: 10px;
+				}
+				&:before {
+					font-size: 24px;
+				}
+			}
+		}
+	}
+	.tools-menu {
+		position: absolute;
+		left: 30px;
+		top: 0;
+		background-color: fade(black, 80%);
+		border-radius: 0 5px 5px 0;
+		padding: 5px 0;
+		.tool-row {
+			display: block;
+			white-space: nowrap;
+			padding: 0 10px;
+			span {
+				display: inline-block;
+				padding: 5px 0;
+				&:before {
+					font-size: 24px;
+					color: fade(white, 90%);
+				}
+			}
+		}
+	}
+}

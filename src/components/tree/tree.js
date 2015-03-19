@@ -7,7 +7,9 @@ define(['knockout', 'text!./tree.html', 'knockout-postbox'], function(ko, templa
 		this.isDirty = ko.observable(false).publishOn('tree.isDirty');
 		this.expanded = ko.observable(true).publishOn('tree.expanded');
 		this.localStorageAvailable = ko.observable(false);
+		// this.selectionTop = ko.observable(0).publishOn('tree.selection-top');
 
+		this.selectionTop = 0;
 		this.shiftKeyPressed = false;
 		this.draftTimestamp = new Date();
 		this.lastEditTimestamp = this.draftTimestamp;
@@ -56,6 +58,20 @@ define(['knockout', 'text!./tree.html', 'knockout-postbox'], function(ko, templa
 					localStorage.setItem('draft', '');
 				}
 			}
+
+			$(document).on('selectionchange', function() {
+				var selection = this.getSelection();
+				if (selection.anchorNode) {
+					var treeOffset = $('#tree').offset();
+					var selectionOffset = $(selection.anchorNode.parentElement).offset();
+					var position = selectionOffset.top - treeOffset.top + 44;
+					if (self.selectionTop != position) {
+						ko.postbox.publish('tree.selection-top', position);
+					}
+				} else {
+					ko.postbox.publish('tree.selection-top', -1);
+				}
+			});
 
 			// listen for shift clicks on the nodes
 			$('#tree').on('click', 'li', function(event) {
@@ -224,6 +240,8 @@ define(['knockout', 'text!./tree.html', 'knockout-postbox'], function(ko, templa
 		this.toggleWidth = function() {
 			if (self.expanded()) {
 				self.expanded(false);
+				var selection = window.getSelection();
+				selection.removeAllRanges();
 			} else {
 				self.expanded(true);
 			}

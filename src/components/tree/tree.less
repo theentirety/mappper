@@ -2,7 +2,7 @@ tree {
 	position: fixed;
 	left: -390px;
 	top: 0;
-	padding-top: 60px;
+	padding-top: 44px;
 	width: 400px;
 	height: 100%;
 	z-index: 5;
@@ -47,6 +47,7 @@ tree {
 		border-right: 10px solid white;
 		height: 100%;
 		width: 100%;
+		position: absolute;
 		background-color: white;
 		-webkit-transform: translate3d(0,0,0);
 		transform: translate3d(0,0,0);
@@ -56,6 +57,7 @@ tree {
 		&.expanded {
 			-webkit-transform: translate3d(360px,0,0);
 			transform: translate3d(360px,0,0);
+			border-right: 0 solid white;
 		}
 		&:focus {
 			outline-width: 0;
@@ -71,7 +73,7 @@ tree {
 				padding: 0 60px;
 				height: 100%;
 				width: 100%;
-				overflow: auto;
+				overflow: scroll;
 			}
 			&::before {
 				background-color: #F2F2F2;
