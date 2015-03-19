@@ -40,13 +40,11 @@ define(['knockout', 'text!./tree.html'], function(ko, templateMarkup) {
 				if (draft.length > 0) {
 					var confirmLoad = confirm('There is an unsaved draft. Do you want to restore it?');
 					if (confirmLoad) {
-						// self.message('Loading...');
-						// self.showMessage(true);
+						ko.postbox.publish('loading', true);
 						var loader = window.setTimeout(function() {
 							$('#tree').html(draft);
 							self.scrub(draft);
-							// self.showMessage(false);
-							// self.message('');
+							ko.postbox.publish('loading', false);
 							// self.treeTitle(localStorage.getItem('draftTitle'));
 							// self.treeId(localStorage.getItem('draftId'));
 							self.isDirty(true);
@@ -60,7 +58,8 @@ define(['knockout', 'text!./tree.html'], function(ko, templateMarkup) {
 			}
 
 			// listen for shift clicks on the nodes
-			$('body').on('click', 'li', function(event) {
+			$('#tree').on('click', 'li', function(event) {
+				console.log('asdf')
 				if (event.offsetX < 0 && $(event.target).hasClass('has_children')) {
 					var toggleTo = 'expanded';
 					if ($(event.target).hasClass('collapsed')) {
@@ -238,6 +237,8 @@ define(['knockout', 'text!./tree.html'], function(ko, templateMarkup) {
 				return false;
 			}
 		}
+
+		this.init();
 
 	}
 

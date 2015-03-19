@@ -1,5 +1,5 @@
 @_color-line: fade(#000, 40%);
-@_color-hoverbg: #c8e4f8;
+@_color-hoverbg: fade(black, 10%);
 
 map {
 	text-align: center;
@@ -106,24 +106,26 @@ map {
 		span {
 			cursor: default;
 			text-align: left;
-			border: 4px solid;
+			// border: 4px solid fade(black, 10%);
 			padding: 10px;
 			text-decoration: none;
 			color: fade(#000, 90%);
 			font-family: arial, verdana, tahoma;
 			font-size: 16px;
 			display: inline-block;
-			background-color: #FFF;
-			border-radius: 10px;
+			background-color: #f2f2f2;
+			border-radius: 5px;
 			white-space: normal;
 			word-break: break-word;
 			font-family: @font-condensed;
 			line-height: 16px;
+			box-shadow: 0 2px 0 fade(black, 10%);
 
 			&:hover, &:hover+ol li span {
 				// We will apply the hover effect the the lineage of the element also
 				background-color: @_color-hoverbg;
 				color: #000;
+				box-shadow: 0 2px 0 fade(black, 20%);
 			}
 			&:hover+ol li::after, &:hover+ol li::before, &:hover+ol::before, &:hover+ol ol::before {
 				border-color: #000;
@@ -152,14 +154,15 @@ map {
 				display: none;
 			}
 			&.component {
-				border: 4px dotted;
+				border: 2px dotted fade(black, 40%);
 				padding: 12px;
 			}
 			&.dialog {
-				background-color: #e5e5e5;
+				// background-color: #e5e5e5;
+				border: 2px solid fade(black, 30%);
 				color: #000;
 				&:hover {
-					background-color: fade(@_color-hoverbg, 60%);
+					// background-color: fade(black, 20%);
 					color: #000;
 				}
 			}
@@ -179,12 +182,12 @@ map {
 				&::after {
 					bottom: -14px;
 					left: -3px;
-					width: 100px;
+					right: -3px;
 				}
 				&::before {
 					bottom: -9px;
 					left: -3px;
-					width: 100px;
+					right: -3px;
 				}
 				&+ol::before {
 					top: 10px;

@@ -1,6 +1,6 @@
 tree {
 	position: fixed;
-	left: -360px;
+	left: -390px;
 	top: 0;
 	padding-top: 60px;
 	width: 400px;
@@ -15,8 +15,8 @@ tree {
 		top: 30px;
 		background-color: #333333;
 		border-radius: 15px 15px 0 0;
-		-webkit-transform: translate3d(10px,0,0);
-		transform: translate3d(10px,0,0);
+		-webkit-transform: translate3d(40px,0,0);
+		transform: translate3d(40px,0,0);
 		-webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 		-moz-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 		transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -44,6 +44,7 @@ tree {
 		}
 	}
 	#tree {
+		border-right: 10px solid white;
 		height: 100%;
 		width: 100%;
 		background-color: white;
@@ -56,50 +57,69 @@ tree {
 			-webkit-transform: translate3d(360px,0,0);
 			transform: translate3d(360px,0,0);
 		}
-		&.submenu_active {
-			padding-left: 35px;
+		&:focus {
+			outline-width: 0;
 		}
+		// &.submenu_active {
+		// 	padding-left: 35px;
+		// }
 		ol {
 			position: relative;
 			list-style: none;
+			padding-left: 25px;
 			&:first-child {
-				padding: 0 30px;
+				padding: 0 60px;
 				height: 100%;
 				width: 100%;
 				overflow: auto;
 			}
 			&::before {
-				border-left: 1px solid fade(#000, 5%);
+				background-color: #F2F2F2;
+				border-radius: 0 0 8px 8px;
 				content: '';
 				position: absolute;
 				top: 0;
 				bottom: 0;
-				left: -15px;
+				width: 15px;
+				left: -16px;
 			}
 		}
 		li {
 			color: #000;
 			margin-left: 0;
 			white-space: nowrap;
+			padding-left: 9px;
 			&:before {
-				font-family: FontAwesome;
-			    content: '\f10c';
+ 				font-family: 'Material Design Iconic Font';
+			    content: '\f2e3';
 			    width: 15px;
-			    color: fade(#000, 20%);
+			    height: 20px;
+			    line-height: 15px;
+			    text-align: center;
+			    color: fade(#000, 50%);
 			    position: absolute;
-			    margin-left: -20px;
-				font-size: 7px;
-				padding: 7px 0 0 3px;
+			    margin-left: -25px;
+				font-size: 3px;
+				margin-top: 3px;
 			}
 			&.has_children:before {
-				content: '\f0d7';
-				font-size: 20px;
+				content: '\f112';
+				font-size: 12px;
 				padding: 0;
+				color: #999;
+				border-radius: 8px 8px 0 0;
+				background-color: #F2F2F2;
+				vertical-align: bottom;
+				line-height: 17px;
+				cursor: pointer;
 			}
 			&.collapsed {
 				&:before {
-					content: '\f0da';
-					padding-left: 3px;
+					content: '\f0fd';
+					color: #999;
+					border-radius: 8px;
+					height: 15px;
+					background-color: #333;
 				}
 				+ ol {
 					display: none;
