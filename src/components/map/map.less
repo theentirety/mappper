@@ -136,7 +136,7 @@ map {
 				// We will apply the hover effect the the lineage of the element also
 				background-color: @_color-hoverbg;
 				color: #000;
-				box-shadow: 0 2px 0 fade(black, 20%);
+				// box-shadow: 0 2px 0 fade(black, 20%);
 			}
 			&:hover+ol li::after, &:hover+ol li::before, &:hover+ol::before, &:hover+ol ol::before {
 				border-color: #000;
@@ -146,7 +146,7 @@ map {
 					pointer-events: none;
 					background-color: #333;
 					position: absolute;
-					bottom: -9px;
+					bottom: -8px;
 					left: 50%;
 					margin-left: -8px;
 					width: 17px;
@@ -154,12 +154,13 @@ map {
 					border-radius: 8px;
 					text-align: center;
 					font-size: 22px;
-					line-height: 15px;
+					line-height: 17px;
 					&:after {
  						font-family: 'Material Design Iconic Font';
 						content: "\f0fd";
-						color: #999;
-						font-size: 13px;
+						color: #FFF;
+						font-size: 15px;
+						padding-left: 1px;
 					}
 				}
 			}
@@ -167,12 +168,12 @@ map {
 				display: none;
 			}
 			&.component {
-				border: 2px dotted fade(black, 40%);
+				border: 3px dotted fade(black, 40%);
 				padding: 12px;
 			}
 			&.dialog {
 				// background-color: #e5e5e5;
-				border: 2px solid fade(black, 30%);
+				border: 3px solid fade(black, 30%);
 				color: #000;
 				&:hover {
 					// background-color: fade(black, 20%);
@@ -181,26 +182,27 @@ map {
 			}
 			&.stacked {
 				position: relative;
+				box-shadow: 0 13px 0 fade(black, 10%);
 				&::after, &::before {
 					content: '';
 					display: block;
 					width: auto;
 					height: 40px;
-					border-bottom: 3px solid;
+					border-bottom: 2px solid fade(black, 60%);
 					padding: 0;
 					margin: 0;
-					border-radius: 10px;
+					border-radius: 5px;
 					position: absolute;
 				}
+				&::after, &::before {
+					left: 0px;
+					right: 0px;
+				}
 				&::after {
-					bottom: -14px;
-					left: -3px;
-					right: -3px;
+					bottom: -10px;
 				}
 				&::before {
-					bottom: -9px;
-					left: -3px;
-					right: -3px;
+					bottom: -5px;
 				}
 				&+ol::before {
 					top: 10px;

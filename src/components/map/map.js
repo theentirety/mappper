@@ -28,9 +28,9 @@ define(['knockout', 'text!./map.html', 'debeki', 'knockout-postbox'], function(k
 		// private functions
 		this.init = function() {
 			self.attachBindings();
-			// debiki.Utterscroll.enable({
-			// // 	// scrollstoppers: '.CodeMirror, .ui-resizable-handle'
-			// });
+			debiki.Utterscroll.enable({
+				scrollstoppers: 'tree'
+			});
 		};
 
 		this.attachBindings = function() {
