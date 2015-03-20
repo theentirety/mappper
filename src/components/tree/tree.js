@@ -146,6 +146,11 @@ define(['knockout', 'text!./tree.html', 'knockout-postbox'], function(ko, templa
 				var parent = $(this).prev('li');
 				var list = $(this).detach();
 				$(parent).append(list);
+				if ($(parent).hasClass('has_children')) {
+					var childSpan = $(parent).children('span').first();
+					childSpan.attr('data-bind', 'tooltip: { text: \'Click to show/hide. Shift-click to show/hide all children.\' }');
+					ko.applyBindings(self, $(childSpan)[0]);
+				}
 			});
 			
 			$('.tree-container').html(temp);

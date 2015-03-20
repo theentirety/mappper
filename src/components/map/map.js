@@ -68,6 +68,9 @@ define(['knockout', 'text!./map.html', 'debeki', 'knockout-postbox'], function(k
 					});
 				}
 			});
+			// var element = document.getElementById('map');
+			// ko.cleanNode(element);
+			// ko.applyBindingsToNode(element, null, self);
 		}
 
 		this.init();
