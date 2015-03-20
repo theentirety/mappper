@@ -10,19 +10,23 @@ define(['knockout', 'text!./map.html', 'debeki', 'knockout-postbox'], function(k
 		this.dragging = false;
 		this.curYPos = 0;
 		this.curXPos = 0;
+		this.scale = ko.observable(1);
 
 			// subscriptions
 		ko.postbox.subscribe('tree.render', function() {
 			self.attachBindings();
 		});
 
-		ko.postbox.subscribe('maptools.scale', function(value) {
-			self.scale(value / 100);
+		ko.postbox.subscribe('view-menu.zoom-in', function() {
+			self.zoom(1);
+		});
 
-			// NEED TO REWRITE WItHOUT TRANSIT
-			// $('#tree').transition({
-			// 	scale: tree_scale()
-			// }, 0)
+		ko.postbox.subscribe('view-menu.zoom-out', function() {
+			self.zoom(-1);
+		});
+
+		ko.postbox.subscribe('view-menu.orientation', function(orientation) {
+			self.setOrientation(orientation);
 		});
 
 		// private functions
@@ -31,6 +35,16 @@ define(['knockout', 'text!./map.html', 'debeki', 'knockout-postbox'], function(k
 			debiki.Utterscroll.enable({
 				scrollstoppers: 'tree'
 			});
+		};
+
+		this.setOrientation = function(orientation) {
+			self.orientation(orientation);
+		};
+
+		this.zoom = function(direction) {
+			var currentScale = self.scale();
+			self.scale(currentScale + (direction / 10));
+			$('#map').css('transform', 'scale(' + self.scale() + ')');
 		};
 
 		this.attachBindings = function() {

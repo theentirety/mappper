@@ -3,5 +3,8 @@
 	<span class="version_number" data-bind="visible: activeVersionNumber >= 1, text: (activeVersionNumber() == 0 ? 'LATEST' : 'v' + activeVersionNumber())"></span>
 </div>
 <button type="button" class="files-menu md md-folder" data-bind="click: open"></button>
-<button type="button" class="view-menu md md-remove-red-eye"></button>
+<div class="menu-option">
+	<button type="button" class="view-menu md md-remove-red-eye" data-bind="click: toggleViewMenu, css: { 'active': viewMenuVisible }"></button>
+	<view-menu></view-menu>
+</div>
 <auth></auth>

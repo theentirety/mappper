@@ -28,6 +28,7 @@ var requireJsRuntimeConfig = vm.runInNewContext(fs.readFileSync('src/app/require
             'components/forgot-password/forgot-password',
             'components/auth/auth',
             'components/tooltip/tooltip',
+            'components/view-menu/view-menu',
         ],
         insertRequire: ['app/startup'],
         bundles: {

@@ -29,6 +29,10 @@ file-info {
 			}
 		}
 	}
+	.menu-option {
+		position: relative;
+		margin-top: 15px;
+	}
 	button {
 		border: 0;
 		width: 30px;
@@ -40,5 +44,14 @@ file-info {
 		border-radius: 25px;
 		align-self: center;
 		cursor: pointer;
+		&.view-menu {
+			position: relative;
+			&.active {
+				background-color: fade(black, 10%);
+				&:before {
+					content: '\f102';
+				}
+			}
+		}
 	}
 }
