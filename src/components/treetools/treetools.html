@@ -1,28 +1,23 @@
 <div class="tools" data-bind="style: { 'top': topPosition() + 'px' }, visible: visible">
 	<div class="tool-icons">
-		<span class="md md-color-lens"></span>
-		<span class="md md-color-lens"></span>
-		<span class="md md-color-lens"></span>
+		<span class="md md-format-align-left" data-bind="tooltip: { text: 'Formatting tools' }"></span>
+		<span class="md md-insert-drive-file" data-bind="tooltip: { text: 'Page type tools' }"></span>
+		<span class="md md-color-lens" data-bind="tooltip: { text: 'Colors' }"></span>
 	</div>
 	<div class="tools-menu">
 		<div class="tool-row">
-			<span class="md md-color-lens"></span>
-			<span class="md md-color-lens"></span>
-			<span class="md md-color-lens"></span>
+			<span class="md md-format-indent-increase" data-bind="tooltip: { text: 'Indent' }"></span>
+			<span class="md md-format-indent-decrease" data-bind="tooltip: { text: 'Outdent' }"></span>
+			<span class="md md-format-list-bulleted" data-bind="tooltip: { text: 'Toggle bullets' }"></span>
 		</div>
 		<div class="tool-row">
-			<span class="md md-color-lens"></span>
-			<span class="md md-color-lens"></span>
-			<span class="md md-color-lens"></span>
+			<span class="md md-crop-din" data-bind="tooltip: { text: 'Page' }"></span>
+			<span class="md md-filter-none" data-bind="tooltip: { text: 'Multiple pages' }"></span>
+			<span class="md md-flip-to-front" data-bind="tooltip: { text: 'Modal' }"></span>
+			<span class="md md-select-all" data-bind="tooltip: { text: 'Component' }"></span>
 		</div>
-		<div class="tool-row">
-			<span class="md md-color-lens"></span>
-			<span class="md md-color-lens"></span>
-			<span class="md md-color-lens"></span>
-			<span class="md md-color-lens"></span>
-			<span class="md md-color-lens"></span>
-			<span class="md md-color-lens"></span>
-			<span class="md md-color-lens"></span>
+		<div class="tool-row" data-bind="foreach: swatch">
+			<span class="swatch" data-bind="style: { 'background-color': color }, tooltip: { text: color.toUpperCase() }, click: $parent.applyColor"></span>
 		</div>
 	</div>
 </div>

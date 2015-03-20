@@ -19,6 +19,7 @@ define(['jquery', 'knockout', './router', 'parse', 'debeki', 'knockout-postbox',
   ko.components.register('sign-up', { require: 'components/sign-up/sign-up' });
   ko.components.register('forgot-password', { require: 'components/forgot-password/forgot-password' });
   ko.components.register('loading', { require: 'components/loading/loading' });
+  ko.components.register('tooltip', { require: 'components/tooltip/tooltip' });
 
 
   // [Scaffolded component registrations will be inserted here. To retain this feature, don't remove this comment.]

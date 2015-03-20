@@ -33,13 +33,13 @@ treetools {
 		left: 30px;
 		top: 0;
 		background-color: fade(black, 80%);
-		border-radius: 0 5px 5px 0;
+		border-radius: 0 15px 15px 0;
 		padding: 5px 0;
 		.tool-row {
 			display: block;
 			white-space: nowrap;
 			padding: 0 10px;
-			span {
+			span, .swatch {
 				display: inline-block;
 				padding: 5px 0;
 				&:before {
@@ -47,6 +47,12 @@ treetools {
 					color: fade(white, 90%);
 				}
 			}
+		}
+		.swatch {
+			margin: 7px 1px 3px 3px;
+			width: 20px;
+			height: 20px;
+			border-radius: 15px;
 		}
 	}
 }

@@ -1,0 +1,27 @@
+tooltip {
+	@tooltip-color: #69a5d9;
+	.tooltip {
+		position: absolute;
+		z-index: 200000;
+		min-width: 60px;
+		color: #FFFFFF;
+		background-color: @tooltip-color;
+		height: 30px;
+		line-height: 30px;
+		text-align: center;
+		padding: 0 10px;
+		border-radius: 3px;
+		white-space: nowrap;
+		&:after {
+			content: '';
+			position: absolute;
+			top: 100%;
+			left: 20px;
+			margin-left: -8px;
+			width: 0; height: 0;
+			border-top: 8px solid @tooltip-color;
+			border-right: 8px solid transparent;
+			border-left: 8px solid transparent;
+		}
+	}
+}

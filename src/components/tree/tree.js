@@ -14,17 +14,6 @@ define(['knockout', 'text!./tree.html', 'knockout-postbox'], function(ko, templa
 		this.draftTimestamp = new Date();
 		this.lastEditTimestamp = this.draftTimestamp;
 
-		this.colors = ko.observableArray([
-			{ color: '#ed217c' },
-			{ color: '#843b6e' },
-			{ color: '#69a5d9' },
-			{ color: '#4c8179' },
-			{ color: '#bfd84b' },
-			{ color: '#f2ba11' },
-			{ color: '#f26611' },
-			{ color: '#000000' }
-		]);
-
 		this.init = function() {
 			self.localStorageAvailable(self.checkLocalstorage());
 			if (self.localStorageAvailable()) {
