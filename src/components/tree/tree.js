@@ -159,13 +159,13 @@ define(['knockout', 'text!./tree.html', 'knockout-postbox'], function(ko, templa
 			self.lastEditTimestamp = new Date();
 		}
 
-		this.apply = function(command, value) {
+		this.apply = function(tool, value) {
 			var el = document.getElementById('tree');
 			var value = value || null;
 
 			document.designMode = 'on';
 
-			if (command == 'normal' || command == 'bold' || command == 'italic' || command == 'underline') {
+			if (tool == 'normal' || tool == 'bold' || tool == 'italic' || tool == 'underline') {
 				if (document.queryCommandState('bold')) {
 					document.execCommand('bold', false, value); // remove bold (modal)
 				}
@@ -177,7 +177,7 @@ define(['knockout', 'text!./tree.html', 'knockout-postbox'], function(ko, templa
 				}
 			}
 
-			document.execCommand(command, false, value);
+			document.execCommand(tool, false, value);
 			document.designMode = 'off';
 
 			self.render();
@@ -243,6 +243,10 @@ define(['knockout', 'text!./tree.html', 'knockout-postbox'], function(ko, templa
 				return false;
 			}
 		}
+
+		ko.postbox.subscribe('tree.apply', function(options) {
+			self.apply(options.tool, options.value);
+		});
 
 		this.init();
 

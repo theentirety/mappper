@@ -5,6 +5,7 @@ define(['knockout', 'text!./treetools.html', 'knockout-postbox'], function(ko, t
 
 		this.topPosition = ko.observable(0);
 		this.visible = ko.observable(false);
+		this.menuVisible = ko.observable(false);
 
 		this.swatch = ko.observableArray([
 			{ color: '#000000' },
@@ -17,8 +18,27 @@ define(['knockout', 'text!./treetools.html', 'knockout-postbox'], function(ko, t
 			{ color: '#f26611' }
 		]);
 
-		this.applyColor = function() {
-			console.log(this)
+		this.applyColor = function(item, event) {
+			var color = $(event.target).attr('data-color');
+			ko.postbox.publish('tree.apply', {
+				tool: 'foreColor',
+				value: color
+			});
+		};
+
+		this.applyTool = function(item, event) {
+			var tool = $(event.target).attr('data-tool');
+			ko.postbox.publish('tree.apply', {
+				tool: tool
+			});
+		}
+
+		this.showMenu = function() {
+			self.menuVisible(true);
+		};
+
+		this.hideMenu = function() {
+			self.menuVisible(false);
 		};
 
 		ko.postbox.subscribe('tree.selection-top', function(topPosition) {
