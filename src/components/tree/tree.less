@@ -2,7 +2,7 @@ tree {
 	position: fixed;
 	left: -390px;
 	top: 0;
-	padding-top: 44px;
+	// padding-top: 44px;
 	width: 400px;
 	height: 100%;
 	z-index: 5;
@@ -62,18 +62,22 @@ tree {
 		&:focus {
 			outline-width: 0;
 		}
-		// &.submenu_active {
-		// 	padding-left: 35px;
-		// }
 		ol {
 			position: relative;
 			list-style: none;
 			padding-left: 20px;
+			margin: 0;
+			margin-bottom: 20px;
 			&:first-child {
-				padding: 0 60px;
-				height: 100%;
+				padding: 20px 60px 60px 60px;
+				position: absolute;
+				border-top: 1px solid fade(black, 10%);
+				top: 60px;
+				bottom: 0;
+				left: 0;
 				width: 100%;
 				overflow: scroll;
+				margin-bottom: 0;
 			}
 			&::before {
 				background-color: #F2F2F2;

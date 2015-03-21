@@ -1,4 +1,5 @@
 loading {
+	@loading-color: #3495E0;
 	position: fixed;
 	z-index: 200000;
 	top: -5px;
@@ -41,7 +42,7 @@ loading {
 	.loading {
 		position: absolute;
 		height: 100%;
-		background-color: fade(#3495E0, 100%);
+		background-color: fade(@loading-color, 100%);
 		animation: loading 2s linear infinite;
 	}
 	@keyframes loading {

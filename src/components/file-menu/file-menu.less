@@ -1,0 +1,31 @@
+file-menu {
+	.file-menu {
+		position: absolute;
+		right: 1px;
+		top: 45px;
+		background-color: fade(black, 10%);
+		padding: 10px 20px;
+		border-radius: 0 0 10px 10px;
+	}
+	.maps-loading, .maps-error {
+		white-space: nowrap;
+		font-family: @font-condensed;
+	}
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		li {
+			line-height: 25px;
+			span {
+				border-radius: 30px;
+				white-space: nowrap;
+				padding: 3px 10px;
+				cursor: pointer;
+				&:hover {
+					background-color: fade(#3495E0, 50%);
+				}
+			}
+		}
+	}
+}

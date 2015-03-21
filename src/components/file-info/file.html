@@ -1,8 +1,17 @@
 <div class="map-info">
 	<span class="title" data-bind="text: title() + (isDirty() ? '*' : '')"></span>
-	<span class="version_number" data-bind="visible: activeVersionNumber >= 1, text: (activeVersionNumber() == 0 ? 'LATEST' : 'v' + activeVersionNumber())"></span>
 </div>
-<button type="button" class="files-menu md md-folder" data-bind="click: open"></button>
+<div class="map-save">
+	<button class="save md md-save" data-bind="disable: !isDirty(), css: { 'disabled': !isDirty() }, click: save"></button>
+	<!-- <version-menu></version-menu> -->
+</div>
+<div class="map-version">
+	<button class="version_number" data-bind="visible: numVersions() >= 1, text: (version() == 0 ? 'LATEST' : 'v' + version())"></button>
+</div>
+<div class="file-option">
+	<button type="button" class="file-menu md md-folder" data-bind="click: toggleFileMenu, css: { 'active': fileMenuVisible }"></button>
+	<file-menu></file-menu>
+</div>
 <div class="menu-option">
 	<button type="button" class="view-menu md md-remove-red-eye" data-bind="click: toggleViewMenu, css: { 'active': viewMenuVisible }"></button>
 	<view-menu></view-menu>

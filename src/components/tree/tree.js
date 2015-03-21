@@ -4,7 +4,7 @@ define(['knockout', 'text!./tree.html', 'knockout-postbox'], function(ko, templa
 		var self = this;
 
 		this.visible = ko.observable(true).publishOn('tree.visibility');
-		this.isDirty = ko.observable(false).publishOn('tree.isDirty');
+		this.isDirty = ko.observable(false).syncWith('tree.isDirty');
 		this.expanded = ko.observable(true).publishOn('tree.expanded');
 		this.localStorageAvailable = ko.observable(false);
 		// this.selectionTop = ko.observable(0).publishOn('tree.selection-top');
@@ -48,21 +48,11 @@ define(['knockout', 'text!./tree.html', 'knockout-postbox'], function(ko, templa
 				}
 			}
 
-			$(document).on('selectionchange', function() {
-				var selection = this.getSelection();
-				if (selection.anchorNode) {
-					var treeOffset = $('#tree').offset();
-					var selectionOffset = $(selection.anchorNode.parentElement).offset();
-					var position = selectionOffset.top - treeOffset.top + 44;
-					if (self.selectionTop != position) {
-						ko.postbox.publish('tree.selection-top', position);
-					}
-				} else {
-					ko.postbox.publish('tree.selection-top', -1);
-				}
-			});
+			self.applyBindings();
+		}
 
-			// listen for shift clicks on the nodes
+		this.applyBindings = function() {
+			// listen for clicks on the nodes
 			$('#tree').on('click', 'li', function(event) {
 				if (event.offsetX < 0 && $(event.target).hasClass('has_children')) {
 					var toggleTo = 'expanded';
@@ -94,7 +84,21 @@ define(['knockout', 'text!./tree.html', 'knockout-postbox'], function(ko, templa
 					}
 				}
 			});
-		}
+
+			$(document).on('selectionchange', function() {
+				var selection = this.getSelection();
+				if (selection.anchorNode) {
+					var treeOffset = $('#tree').offset();
+					var selectionOffset = $(selection.anchorNode.parentElement).offset();
+					var position = selectionOffset.top - treeOffset.top;
+					if (self.selectionTop != position) {
+						ko.postbox.publish('tree.selection-top', position);
+					}
+				} else {
+					ko.postbox.publish('tree.selection-top', -1);
+				}
+			});
+		};
 
 		this.scrub = function(data) {
 			var temp = $(data).clone();
@@ -156,6 +160,13 @@ define(['knockout', 'text!./tree.html', 'knockout-postbox'], function(ko, templa
 			$('.tree-container').html(temp);
 			ko.postbox.publish('tree.render');
 		}
+
+		this.load = function(data) {
+			$('#tree').empty();
+			$('#tree').html(data);
+			self.scrub(data);
+			self.applyBindings();
+		};
 
 		this.render = function() {
 			self.formatExpandCollapse();
@@ -254,6 +265,10 @@ define(['knockout', 'text!./tree.html', 'knockout-postbox'], function(ko, templa
 			var num = parseInt(color.slice(1),16), amt = Math.round(2.55 * percent), R = (num >> 16) + amt, G = (num >> 8 & 0x00FF) + amt, B = (num & 0x0000FF) + amt;
 			return "#" + (0x1000000 + (R<255?R<1?0:R:255)*0x10000 + (G<255?G<1?0:G:255)*0x100 + (B<255?B<1?0:B:255)).toString(16).slice(1);
 		}
+
+		ko.postbox.subscribe('tree.load', function(data) {
+			self.load(data);
+		});
 
 		ko.postbox.subscribe('tree.apply', function(options) {
 			self.apply(options.tool, options.value);

@@ -1,0 +1,9 @@
+<div class="file-menu" data-bind="visible: visible">
+	<div class="maps-loading" data-bind="visible: loading">Fetching map list...</div>
+	<div class="maps-empty" data-bind="visible: !loading() && maps().length <= 0">No saved maps</div>
+	<ul data-bind="foreach: maps, visible: maps().length > 0">
+		<li>
+			<span data-bind="click: $parent.openMap, text: attributes.friendly"></span>
+		</li>
+	</ul>
+</div>

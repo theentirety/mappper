@@ -1,4 +1,4 @@
-define(['knockout', 'text!./loading.html'], function(ko, templateMarkup) {
+define(['knockout', 'text!./loading.html', 'knockout-postbox'], function(ko, templateMarkup) {
 
 	function Loading(params) {
 		var self = this;

@@ -18,7 +18,6 @@ var requireJsRuntimeConfig = vm.runInNewContext(fs.readFileSync('src/app/require
             'requireLib',
             'components/editor/editor',
             'components/map/map',
-            'components/maptools/maptools',
             'components/tree/tree',
             'components/treetools/treetools',
             'components/file/file',
@@ -29,6 +28,7 @@ var requireJsRuntimeConfig = vm.runInNewContext(fs.readFileSync('src/app/require
             'components/auth/auth',
             'components/tooltip/tooltip',
             'components/view-menu/view-menu',
+            'components/file-menu/file-menu',
         ],
         insertRequire: ['app/startup'],
         bundles: {

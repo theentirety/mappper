@@ -11,7 +11,6 @@ define(['jquery', 'knockout', './router', 'parse', 'debeki', 'knockout-postbox',
   ko.components.register('auth', { require: 'components/auth/auth' });
   ko.components.register('map', { require: 'components/map/map' });
   ko.components.register('tree', { require: 'components/tree/tree' });
-  ko.components.register('maptools', { require: 'components/maptools/maptools' });
   ko.components.register('file-info', { require: 'components/file-info/file' });
   ko.components.register('treetools', { require: 'components/treetools/treetools' });
   ko.components.register('modal', { require: 'components/modal/modal' });
@@ -21,6 +20,9 @@ define(['jquery', 'knockout', './router', 'parse', 'debeki', 'knockout-postbox',
   ko.components.register('loading', { require: 'components/loading/loading' });
   ko.components.register('tooltip', { require: 'components/tooltip/tooltip' });
   ko.components.register('view-menu', { require: 'components/view-menu/view-menu' });
+
+
+  ko.components.register('file-menu', { require: 'components/file-menu/file-menu' });
 
 
   // [Scaffolded component registrations will be inserted here. To retain this feature, don't remove this comment.]
