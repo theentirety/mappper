@@ -29,6 +29,7 @@ var requireJsRuntimeConfig = vm.runInNewContext(fs.readFileSync('src/app/require
             'components/tooltip/tooltip',
             'components/view-menu/view-menu',
             'components/file-menu/file-menu',
+            'components/legal/legal',
         ],
         insertRequire: ['app/startup'],
         bundles: {

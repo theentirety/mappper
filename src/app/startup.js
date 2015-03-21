@@ -25,6 +25,9 @@ define(['jquery', 'knockout', './router', 'parse', 'debeki', 'knockout-postbox',
   ko.components.register('file-menu', { require: 'components/file-menu/file-menu' });
 
 
+  ko.components.register('legal', { require: 'components/legal/legal' });
+
+
   // [Scaffolded component registrations will be inserted here. To retain this feature, don't remove this comment.]
 
   // init parse cloud code
