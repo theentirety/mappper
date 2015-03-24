@@ -59,10 +59,9 @@ Parse.Cloud.define('getTrees', function(request, response) {
 });
 
 Parse.Cloud.define('getTreeVersions', function(request, response) {
-	var currentUser = Parse.User.current();
 	var treeId = request.params.treeId || null;
 	
-	if (currentUser && treeId) {
+	if (treeId) {
 
 		var query = new Parse.Query('TreeVersion');
 
@@ -73,6 +72,7 @@ Parse.Cloud.define('getTreeVersions', function(request, response) {
 		});
 
 		query.descending('createdAt');
+		query.include('tree');
 
 		query.find({
 			success: function(result) {

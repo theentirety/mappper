@@ -33,9 +33,26 @@ file-info {
 		position: relative;
 		margin-top: 15px;
 	}
-	button {
+	.share {
+		position: absolute;
+		left: 50px;
+		top: 20px;
+		color: fade(black, 30%);
+		display: block;
+		line-height: 29px;
+		span {
+			user-select: text; /* CSS3 (little to no support) */
+			-ms-user-select: text; /* IE 10+ */
+			-moz-user-select: text; /* Gecko (Firefox) */
+			-webkit-user-select: text; /* Webkit (Safari, Chrome) */
+		}
+		&.expanded {
+			left: 410px;
+		}
+	}
+	button, a {
 		border: 0;
-		width: 30px;
+		min-width: 30px;
 		height: 30px;
 		text-align: center;
 		background-color: #333;
@@ -44,7 +61,8 @@ file-info {
 		border-radius: 25px;
 		align-self: center;
 		cursor: pointer;
-		&.save {
+		text-decoration: none;
+		&.save, &.share-button {
 			background-color: transparent;
 			border: 1px solid fade(black, 20%);
 			color: #3495E0;

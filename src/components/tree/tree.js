@@ -22,25 +22,32 @@ define(['knockout', 'text!./tree.html', 'hasher', 'knockout-postbox'], function(
 				if (draft.length > 0 && (currentPage == 'editor' || currentPage == '')) {
 					var confirmLoad = confirm('There is an unsaved draft. Do you want to restore it?');
 					if (confirmLoad) {
-						ko.postbox.publish('loading', true);
-						var loader = window.setTimeout(function() {
-							self.isDirty(true);
-							console.log(localStorage.getItem('draftTitle'))
-							self.treeTitle(localStorage.getItem('draftTitle') || '(untitled)');
-							self.treeId(localStorage.getItem('draftId'));
-							self.load(draft);
-							ko.postbox.publish('loading', false);
-						}, 1500);
+						self.loadDraft(draft);
 					} else {
 						return;
 					}
+				} else if (draft.length > 0 && (currentPage == 'sign-in' || currentPage == 'forgot-password')) {
+					self.loadDraft();
+					console.log('load')
 				} else {
 					localStorage.setItem('draft', '');
 				}
 			}
 
 			self.applySelectionBindings();
-		}
+		};
+
+		this.loadDraft = function(draft) {
+			ko.postbox.publish('loading', true);
+			var loader = window.setTimeout(function() {
+				self.isDirty(true);
+				console.log(localStorage.getItem('draftTitle'))
+				self.treeTitle(localStorage.getItem('draftTitle') || '(untitled)');
+				self.treeId(localStorage.getItem('draftId'));
+				self.load(draft);
+				ko.postbox.publish('loading', false);
+			}, 1500);
+		};
 
 		this.applySelectionBindings = function() {
 			$(document).on('selectionchange', function() {

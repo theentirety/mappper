@@ -1,14 +1,14 @@
 <div class="map-info">
 	<span class="title" data-bind="text: title() + (isDirty() ? '*' : '')"></span>
 </div>
-<div class="map-save">
+<div class="map-save" data-bind="visible: loggedIn">
 	<button class="save md md-save" data-bind="disable: !isDirty(), css: { 'disabled': !isDirty() }, click: save"></button>
-	<!-- <version-menu></version-menu> -->
 </div>
 <div class="map-version">
 	<button class="version_number" data-bind="visible: numVersions() >= 1, text: (version() == 0 ? 'LATEST' : 'v' + version())"></button>
+	<!-- <version-menu></version-menu> -->
 </div>
-<div class="file-option">
+<div class="file-option" data-bind="visible: loggedIn">
 	<button type="button" class="file-menu md md-folder" data-bind="click: toggleFileMenu, css: { 'active': fileMenuVisible }"></button>
 	<file-menu></file-menu>
 </div>
@@ -16,7 +16,8 @@
 	<button type="button" class="view-menu md md-remove-red-eye" data-bind="click: toggleViewMenu, css: { 'active': viewMenuVisible }"></button>
 	<view-menu></view-menu>
 </div>
-<div class="share">
-	<a class="standard-button" href="#share" data-bind="click: share">Share map</a>
+<div class="share" data-bind="visible: shortenedUrl() && !isDirty(), css: { 'expanded': treeExpanded() }">
+	<a class="md md-share share-button" data-bind="attr: { 'href': shortenedUrl() }" target="_blank"></a>
+	<span data-bind="text: shortenedUrl" contenteditable="contenteditable"></span>
 </div>
 <auth></auth>

@@ -35,7 +35,7 @@ define(['knockout', 'text!./map.html', 'debeki', 'knockout-postbox'], function(k
 		// private functions
 		this.init = function() {
 			debiki.Utterscroll.enable({
-				scrollstoppers: 'tree'
+				scrollstoppers: 'tree, file-info'
 			});
 		};
 

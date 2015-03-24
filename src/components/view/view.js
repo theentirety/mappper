@@ -5,7 +5,7 @@ define(['knockout', 'text!./view.html', 'hasher', 'knockout-postbox'], function(
 
 		this.title = ko.observable('(untitled)').syncWith('file.map-title');
 		this.mapId = ko.observable().syncWith('file.map-id');
-		this.version = ko.observable(-1);
+		this.version = ko.observable().syncWith('file.version-number');
 		this.versions = ko.observableArray();
 
 		this.init = function() {
@@ -17,22 +17,19 @@ define(['knockout', 'text!./view.html', 'hasher', 'knockout-postbox'], function(
 
 		this.load = function() {
 			ko.postbox.publish('loading', true);
-			if (self.mapId() && self.version() > 0) {
+			if (self.mapId() && self.version()) {
 				Parse.Cloud.run('getTreeVersions', {
 					treeId: self.mapId()
 				}, {
 					success: function(result) {
 						self.versions(result);
-						console.log(result[self.versions().length - self.version()])
 						var map = result[self.versions().length - self.version()];
 						if (map) {
 							self.title(map.attributes.tree.attributes.friendly);
-							$('#map').html(map.attributes.data);
-							// viewer_activeVersionNumber(result.attributes.tree.attributes.numVersions);
-							ko.postbox.publish('tree.render');
-							ko.postbox.publish('attachTreeBindings');
-
-
+							self.mapId(map.id);
+							var mapString = JSON.stringify(map.attributes.data);
+							ko.postbox.publish('map.render', mapString);
+							ko.postbox.publish('loading', false);
 						} else {
 							alert('This link is not a valid map version.');
 						}

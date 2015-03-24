@@ -6,16 +6,25 @@ define(['knockout', 'text!./file.html', 'parse', 'hasher', 'knockout-postbox'], 
 		this.title = ko.observable('(untitled)').syncWith('file.map-title');
 		this.mapId = ko.observable().syncWith('file.map-id');
 		this.numVersions = ko.observable(-1);
-		this.version = ko.observable(-1);
+		this.version = ko.observable().syncWith('file.version-number');
 		this.versionId = ko.observable().syncWith('file.version-id');
 		this.isDirty = ko.observable(false).syncWith('tree.isDirty');
 		this.viewMenuVisible = ko.observable(false);
 		this.fileMenuVisible = ko.observable(false).syncWith('file-info.file-menu-visible');
+		this.loggedIn = ko.observable(false);
+		this.shortenedUrl = ko.observable();
+		this.treeExpanded = ko.observable(true).subscribeTo('tree.expanded');
 
 		this.shareUrl = ko.computed(function() {
 			var domain = 'product-map-dev';
-			return 'http://' + domain + '.parseapp.com/#view?id=' + self.mapId() + '=' + self.versionId();
+			return 'http://' + domain + '.parseapp.com/#view/' + self.mapId() + '/' + self.version();
 		});
+
+		this.init = function() {
+			if (Parse.User.current()) {
+				self.loggedIn(true);
+			}
+		};
 
 		this.toggleFileMenu = function() {
 			if (Parse.User.current()) {
@@ -107,12 +116,7 @@ define(['knockout', 'text!./file.html', 'parse', 'hasher', 'knockout-postbox'], 
 			}
 		}
 
-		this.share = function() {
-			self.createShareableUrl();
-		};
-
 		this.createShareableUrl = function() {
-			console.log(self.mapId(), self.versionId())
 			if (self.mapId() && self.versionId()) {
 				gapi.client.setApiKey('AIzaSyDbqlcHF8cEjnVcIIIv3hEJBnZFWIPIyu4');
 				gapi.client.load('urlshortener', 'v1').then(function() {
@@ -120,12 +124,13 @@ define(['knockout', 'text!./file.html', 'parse', 'hasher', 'knockout-postbox'], 
 						'longUrl': self.shareUrl()
 					});
 				}).then(function(response) {
-					console.log(response.result.id);
+					self.shortenedUrl(response.result.id);
 				});
 			}
 		};
 
 		ko.postbox.subscribe('auth.logout', function() {
+			self.loggedIn(false);
 			self.fileMenuVisible(false);
 			self.viewMenuVisible(false);
 		});
@@ -146,6 +151,7 @@ define(['knockout', 'text!./file.html', 'parse', 'hasher', 'knockout-postbox'], 
 					ko.postbox.publish('tree.load', version.attributes.data);
 					self.isDirty(false);
 					ko.postbox.publish('loading', false);
+					self.createShareableUrl();
 				}, 
 				error: function(error) {
 					ko.postbox.publish('loading', false);
@@ -154,6 +160,8 @@ define(['knockout', 'text!./file.html', 'parse', 'hasher', 'knockout-postbox'], 
 				}
 			});
 		});
+
+		this.init();
 
 	}
 
