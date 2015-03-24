@@ -1,4 +1,4 @@
-define(['knockout', 'text!./modal.html'], function(ko, templateMarkup) {
+define(['knockout', 'text!./modal.html', 'hasher'], function(ko, templateMarkup, hasher) {
 
 	function Modal(params) {
 		var self = this;
@@ -32,7 +32,7 @@ define(['knockout', 'text!./modal.html'], function(ko, templateMarkup) {
 		};
 
 		this.close = function() {
-			document.location.href = '#editor';
+			hasher.setHash('editor');
 		};
 
 		this.showError = function(message) {
@@ -49,6 +49,10 @@ define(['knockout', 'text!./modal.html'], function(ko, templateMarkup) {
 			self.confirmation(false);
 			self.error('');
 		};
+
+		ko.postbox.subscribe('auth.logout', function() {
+			self.close();
+		});
 
 		ko.postbox.subscribe('modal.setError', function(message) {
 			self.showError(message);

@@ -1,16 +1,21 @@
-define(['knockout', 'text!./file.html', 'parse', 'knockout-postbox'], function(ko, templateMarkup, parse) {
+define(['knockout', 'text!./file.html', 'parse', 'hasher', 'knockout-postbox'], function(ko, templateMarkup, parse, hasher) {
 
 	function File(params) {
 		var self = this;
 
-		this.title = ko.observable('(untitled)');
-		this.mapId = ko.observable();
+		this.title = ko.observable('(untitled)').syncWith('file.map-title');
+		this.mapId = ko.observable().syncWith('file.map-id');
 		this.numVersions = ko.observable(-1);
 		this.version = ko.observable(-1);
-		this.versionId = ko.observable();
+		this.versionId = ko.observable().syncWith('file.version-id');
 		this.isDirty = ko.observable(false).syncWith('tree.isDirty');
 		this.viewMenuVisible = ko.observable(false);
 		this.fileMenuVisible = ko.observable(false).syncWith('file-info.file-menu-visible');
+
+		this.shareUrl = ko.computed(function() {
+			var domain = 'product-map-dev';
+			return 'http://' + domain + '.parseapp.com/#view?id=' + self.mapId() + '=' + self.versionId();
+		});
 
 		this.toggleFileMenu = function() {
 			if (Parse.User.current()) {
@@ -19,10 +24,9 @@ define(['knockout', 'text!./file.html', 'parse', 'knockout-postbox'], function(k
 				} else {
 					self.fileMenuVisible(true);
 				}
-				console.log(self.fileMenuVisible())
 				ko.postbox.publish('file-menu.state', self.fileMenuVisible());
 			} else {
-				document.location.href = '#sign-in';
+				hasher.setHash('sign-in');
 			}
 		};
 
@@ -99,9 +103,32 @@ define(['knockout', 'text!./file.html', 'parse', 'knockout-postbox'], function(k
 				}
 
 			} else {
-				document.location.href = '#sign-in';
+				hasher.setHash('sign-in');
 			}
 		}
+
+		this.share = function() {
+			self.createShareableUrl();
+		};
+
+		this.createShareableUrl = function() {
+			console.log(self.mapId(), self.versionId())
+			if (self.mapId() && self.versionId()) {
+				gapi.client.setApiKey('AIzaSyDbqlcHF8cEjnVcIIIv3hEJBnZFWIPIyu4');
+				gapi.client.load('urlshortener', 'v1').then(function() {
+					return gapi.client.urlshortener.url.insert({
+						'longUrl': self.shareUrl()
+					});
+				}).then(function(response) {
+					console.log(response.result.id);
+				});
+			}
+		};
+
+		ko.postbox.subscribe('auth.logout', function() {
+			self.fileMenuVisible(false);
+			self.viewMenuVisible(false);
+		});
 
 		ko.postbox.subscribe('file-info.open-map', function(map) {
 			ko.postbox.publish('loading', true);
@@ -115,6 +142,7 @@ define(['knockout', 'text!./file.html', 'parse', 'knockout-postbox'], function(k
 				treeId: self.mapId()
 			}, {
 				success: function(version) {
+					self.versionId(version.id);
 					ko.postbox.publish('tree.load', version.attributes.data);
 					self.isDirty(false);
 					ko.postbox.publish('loading', false);

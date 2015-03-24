@@ -1,4 +1,4 @@
-define(['knockout', 'text!./sign-up.html', 'parse'], function(ko, templateMarkup, parse) {
+define(['knockout', 'text!./sign-up.html', 'parse', 'hasher'], function(ko, templateMarkup, parse, hasher) {
 
 	function SignUp(params) {
 		var self = this;
@@ -22,7 +22,7 @@ define(['knockout', 'text!./sign-up.html', 'parse'], function(ko, templateMarkup
 						success: function(user) {
 							ko.postbox.publish('auth.login', user);
 							ko.postbox.publish('loading', false);
-							document.location.href = '#editor';
+							hasher.setHash('editor');
 						},
 						error: function(user, error) {
 							ko.postbox.publish('loading', false);

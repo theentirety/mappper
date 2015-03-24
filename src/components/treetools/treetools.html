@@ -6,15 +6,15 @@
 	</div>
 	<div class="tools-menu" data-bind="visible: menuVisible">
 		<div class="tool-row">
-			<span data-tool="indent" class="md md-format-indent-increase" data-bind="tooltip: { text: 'Indent' }, click: applyTool"></span>
-			<span data-tool="outdent" class="md md-format-indent-decrease" data-bind="tooltip: { text: 'Outdent' }, click: applyTool"></span>
+			<span data-tool="indent" class="md md-format-indent-increase" data-bind="tooltip: { text: 'Indent (tab)' }, click: applyTool"></span>
+			<span data-tool="outdent" class="md md-format-indent-decrease" data-bind="tooltip: { text: 'Outdent (shift + tab)' }, click: applyTool"></span>
 			<span data-tool="insertorderedlist" class="md md-format-list-bulleted" data-bind="tooltip: { text: 'Toggle bullets' }, click: applyTool"></span>
 		</div>
 		<div class="tool-row">
-			<span data-tool="normal" class="md md-crop-din" data-bind="tooltip: { text: 'Page' }, click: applyTool"></span>
-			<span data-tool="underline" class="md md-filter-none" data-bind="tooltip: { text: 'Multiple pages' }, click: applyTool"></span>
-			<span data-tool="bold" class="md md-flip-to-front" data-bind="tooltip: { text: 'Modal' }, click: applyTool"></span>
-			<span data-tool="italic" class="md md-select-all" data-bind="tooltip: { text: 'Component' }, click: applyTool"></span>
+			<span data-tool="normal" class="md md-crop-din" data-bind="tooltip: { text: 'Page (ctrl + shift + d)' }, click: applyTool"></span>
+			<span data-tool="underline" class="md md-filter-none" data-bind="tooltip: { text: 'Multiple pages (ctrl + shift + a)' }, click: applyTool"></span>
+			<span data-tool="bold" class="md md-flip-to-front" data-bind="tooltip: { text: 'Modal (ctrl + shift + m)' }, click: applyTool"></span>
+			<span data-tool="italic" class="md md-select-all" data-bind="tooltip: { text: 'Component (ctrl + shift + c)' }, click: applyTool"></span>
 		</div>
 		<div class="tool-row" data-bind="foreach: swatch">
 			<span class="swatch" data-bind="style: { 'background-color': color }, tooltip: { text: color.toUpperCase() }, click: $parent.applyColor, attr: { 'data-color': color }"></span>

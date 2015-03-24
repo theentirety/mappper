@@ -5,6 +5,7 @@ define(['knockout', 'text!./file-menu.html', 'knockout-postbox'], function(ko, t
 
 		this.visible = ko.observable(false).syncWith('file-info.file-menu-visible');
 		this.loading = ko.observable(false);
+		this.dirtyMap = ko.observable().syncWith('tree.isDirty');
 
 		this.maps = ko.observableArray();
 
@@ -26,12 +27,27 @@ define(['knockout', 'text!./file-menu.html', 'knockout-postbox'], function(ko, t
 
 		this.openMap = function(item) {
 			self.visible(false);
-			ko.postbox.publish('file-info.open-map', {
-				id: item.id,
-				friendly: item.attributes.friendly,
-				numVersions: item.attributes.numVersions
-			});
+			var openMap = true;
+
+			if (self.dirtyMap()) {
+				var confirmOpen = confirm('The current map has unsaved changes. Are you sure you wish to open this map and lose the previous changes?');
+				if (confirmOpen == false) {
+					openMap = false;
+				}
+			}
+
+			if (openMap) {
+				ko.postbox.publish('file-info.open-map', {
+					id: item.id,
+					friendly: item.attributes.friendly,
+					numVersions: item.attributes.numVersions
+				});
+			}
 		};
+
+		ko.postbox.subscribe('auth.logout', function() {
+			self.visible(false);
+		});
 
 		ko.postbox.subscribe('file-menu.state', function(state) {
 			if (state) {

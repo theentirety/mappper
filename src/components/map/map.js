@@ -12,9 +12,12 @@ define(['knockout', 'text!./map.html', 'debeki', 'knockout-postbox'], function(k
 		this.curXPos = 0;
 		this.scale = ko.observable(1);
 
-			// subscriptions
-		ko.postbox.subscribe('tree.render', function() {
-			self.attachBindings();
+		// subscriptions
+		ko.postbox.subscribe('map.render', function(data) {
+			var data = JSON.parse(data);
+			var temp = $(data).clone();
+
+			self.render(temp);
 		});
 
 		ko.postbox.subscribe('view-menu.zoom-in', function() {
@@ -31,7 +34,6 @@ define(['knockout', 'text!./map.html', 'debeki', 'knockout-postbox'], function(k
 
 		// private functions
 		this.init = function() {
-			self.attachBindings();
 			debiki.Utterscroll.enable({
 				scrollstoppers: 'tree'
 			});
@@ -45,6 +47,66 @@ define(['knockout', 'text!./map.html', 'debeki', 'knockout-postbox'], function(k
 			var currentScale = self.scale();
 			self.scale(currentScale + (direction / 10));
 			$('#map').css('transform', 'scale(' + self.scale() + ')');
+		};
+
+		this.render = function(data) {
+
+			// first we need to go through and turn all the text into span tags and apply styles
+			$(data).find('li').each(function() {
+				if ($(this).text() == '') {
+					$(this).remove();
+				} else {
+					var current = $(this).text();
+					var font = $(this).find('font').get(0);
+					var bold = $(this).find('b,strong').get(0);
+					var italic = $(this).find('i,em').get(0);
+					var underlined = $(this).find('u').get(0);
+
+					var nodeStyle = null;
+					var span = document.createElement('span');
+
+					// apply a color if added
+					if (font) {
+						color = $(font).attr('color');
+						$(span).attr('style', 'border-color:'+color);
+						$(span).attr('style', 'background-color:'+color);//self.lightenColor(color, 40));
+						$(span).attr('data-color', color);
+					}
+
+					// add the dialog class
+					if (bold) {
+						nodeStyle = 'dialog';
+					} 
+
+					// add the dialog class
+					if (underlined) {
+						nodeStyle = 'stacked';
+					} 
+
+					// add the component class
+					if (italic) {
+						nodeStyle = 'component';
+					}
+					
+					$(span).addClass(nodeStyle).text(current);
+					$(this).html(span);
+				}
+			});
+
+			// now we need to embed the ol tags inside the parent li tag
+			$(data).find('ol').each(function() {
+				var parent = $(this).prev('li');
+				var list = $(this).detach();
+				$(parent).append(list);
+				if ($(parent).hasClass('has_children')) {
+					var childSpan = $(parent).children('span').first();
+					childSpan.attr('data-bind', 'tooltip: { text: \'Click to show/hide. Shift-click to show/hide all children.\' }');
+					ko.applyBindings(self, $(childSpan)[0]);
+				}
+			});
+
+			$('#map').html(data);
+			self.attachBindings();
 		};
 
 		this.attachBindings = function() {

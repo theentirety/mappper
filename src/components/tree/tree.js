@@ -1,4 +1,4 @@
-define(['knockout', 'text!./tree.html', 'knockout-postbox'], function(ko, templateMarkup) {
+define(['knockout', 'text!./tree.html', 'hasher', 'knockout-postbox'], function(ko, templateMarkup, hasher) {
 
 	function Tree(params) {
 		var self = this;
@@ -6,39 +6,30 @@ define(['knockout', 'text!./tree.html', 'knockout-postbox'], function(ko, templa
 		this.visible = ko.observable(true).publishOn('tree.visibility');
 		this.isDirty = ko.observable(false).syncWith('tree.isDirty');
 		this.expanded = ko.observable(true).publishOn('tree.expanded');
+		this.treeTitle = ko.observable('(untitled)').syncWith('file.map-title');
+		this.treeId = ko.observable().syncWith('file.map-id');
 		this.localStorageAvailable = ko.observable(false);
-		// this.selectionTop = ko.observable(0).publishOn('tree.selection-top');
 
 		this.selectionTop = 0;
 		this.shiftKeyPressed = false;
-		this.draftTimestamp = new Date();
-		this.lastEditTimestamp = this.draftTimestamp;
 
 		this.init = function() {
 			self.localStorageAvailable(self.checkLocalstorage());
 			if (self.localStorageAvailable()) {
 				var draft = localStorage.getItem('draft') || '';
-				var draftSave = window.setInterval(function() {
-					if (self.draftTimestamp != self.lastEditTimestamp) {
-						var draftData = $('#tree').html()
-						localStorage.setItem('draft', draftData);
-						self.draftTimestamp = self.lastEditTimestamp;
-						// localStorage.setItem('draftId', self.treeId());
-						// localStorage.setItem('draftTitle', self.treeTitle());
-					}
-				}, 5000);
 
-				if (draft.length > 0) {
+				var currentPage = hasher.getHash();
+				if (draft.length > 0 && (currentPage == 'editor' || currentPage == '')) {
 					var confirmLoad = confirm('There is an unsaved draft. Do you want to restore it?');
 					if (confirmLoad) {
 						ko.postbox.publish('loading', true);
 						var loader = window.setTimeout(function() {
-							$('#tree').html(draft);
-							self.scrub(draft);
-							ko.postbox.publish('loading', false);
-							// self.treeTitle(localStorage.getItem('draftTitle'));
-							// self.treeId(localStorage.getItem('draftId'));
 							self.isDirty(true);
+							console.log(localStorage.getItem('draftTitle'))
+							self.treeTitle(localStorage.getItem('draftTitle') || '(untitled)');
+							self.treeId(localStorage.getItem('draftId'));
+							self.load(draft);
+							ko.postbox.publish('loading', false);
 						}, 1500);
 					} else {
 						return;
@@ -48,8 +39,24 @@ define(['knockout', 'text!./tree.html', 'knockout-postbox'], function(ko, templa
 				}
 			}
 
-			self.applyBindings();
+			self.applySelectionBindings();
 		}
+
+		this.applySelectionBindings = function() {
+			$(document).on('selectionchange', function() {
+				var selection = this.getSelection();
+				if (selection.anchorNode) {
+					var treeOffset = $('#tree').offset();
+					var selectionOffset = $(selection.anchorNode.parentElement).offset();
+					var position = selectionOffset.top - treeOffset.top;
+					if (self.selectionTop != position) {
+						ko.postbox.publish('tree.selection-top', position);
+					}
+				} else {
+					ko.postbox.publish('tree.selection-top', -1);
+				}
+			});
+		};
 
 		this.applyBindings = function() {
 			// listen for clicks on the nodes
@@ -84,97 +91,44 @@ define(['knockout', 'text!./tree.html', 'knockout-postbox'], function(ko, templa
 					}
 				}
 			});
-
-			$(document).on('selectionchange', function() {
-				var selection = this.getSelection();
-				if (selection.anchorNode) {
-					var treeOffset = $('#tree').offset();
-					var selectionOffset = $(selection.anchorNode.parentElement).offset();
-					var position = selectionOffset.top - treeOffset.top;
-					if (self.selectionTop != position) {
-						ko.postbox.publish('tree.selection-top', position);
-					}
-				} else {
-					ko.postbox.publish('tree.selection-top', -1);
-				}
-			});
 		};
-
-		this.scrub = function(data) {
-			var temp = $(data).clone();
-
-			// first we need to go through and turn all the text into span tags and apply styles
-			$(temp).find('li').each(function() {
-				if ($(this).text() == '') {
-					$(this).remove();
-				} else {
-					var current = $(this).text();
-					var font = $(this).find('font').get(0);
-					var bold = $(this).find('b,strong').get(0);
-					var italic = $(this).find('i,em').get(0);
-					var underlined = $(this).find('u').get(0);
-
-					var nodeStyle = null;
-					var span = document.createElement('span');
-
-					// apply a color if added
-					if (font) {
-						color = $(font).attr('color');
-						$(span).attr('style', 'border-color:'+color);
-						$(span).attr('style', 'background-color:'+color);//self.lightenColor(color, 40));
-						$(span).attr('data-color', color);
-					}
-
-					// add the dialog class
-					if (bold) {
-						nodeStyle = 'dialog';
-					} 
-
-					// add the dialog class
-					if (underlined) {
-						nodeStyle = 'stacked';
-					} 
-
-					// add the component class
-					if (italic) {
-						nodeStyle = 'component';
-					}
-					
-					$(span).addClass(nodeStyle).text(current);
-					$(this).html(span);
-				}
-			});
-
-			// now we need to embed the ol tags inside the parent li tag
-			$(temp).find('ol').each(function() {
-				var parent = $(this).prev('li');
-				var list = $(this).detach();
-				$(parent).append(list);
-				if ($(parent).hasClass('has_children')) {
-					var childSpan = $(parent).children('span').first();
-					childSpan.attr('data-bind', 'tooltip: { text: \'Click to show/hide. Shift-click to show/hide all children.\' }');
-					ko.applyBindings(self, $(childSpan)[0]);
-				}
-			});
-			
-			$('.tree-container').html(temp);
-			ko.postbox.publish('tree.render');
-		}
 
 		this.load = function(data) {
+			self.resetDraft();
 			$('#tree').empty();
 			$('#tree').html(data);
-			self.scrub(data);
+			ko.postbox.publish('map.render', JSON.stringify(data));
 			self.applyBindings();
+			self.formatExpandCollapse();
 		};
 
-		this.render = function() {
-			self.formatExpandCollapse();
-			var data = $('#tree').html();
-			self.scrub(data);
+		this.reload = function() {
 			self.isDirty(true);
-			self.lastEditTimestamp = new Date();
+			var data = $('#tree').html();
+			ko.postbox.publish('map.render', JSON.stringify(data));
+			self.applyBindings();
+			self.formatExpandCollapse();
+			self.saveDraft();
+		};
+
+		this.formatExpandCollapse = function() {
+			// first convert all of the dots to carets if they have children
+			$('#tree li').each(function() {
+				$(this).removeClass('has_children');
+				if ($(this).next('ol').length > 0) {
+					$(this).addClass('has_children');
+				} else {
+					$(this).removeClass('has_children').removeClass('collapsed');
+				}
+			});
 		}
+
+		this.saveDraft = function() {
+			var draftData = $('#tree').html()
+			localStorage.setItem('draft', draftData);
+			localStorage.setItem('draftId', self.treeId());
+			localStorage.setItem('draftTitle', self.treeTitle());
+		};
 
 		this.apply = function(tool, value) {
 			var el = document.getElementById('tree');
@@ -197,44 +151,63 @@ define(['knockout', 'text!./tree.html', 'knockout-postbox'], function(ko, templa
 			document.execCommand(tool, false, value);
 			document.designMode = 'off';
 
-			self.render();
+			self.reload();
 		}
 
-		this.formatExpandCollapse = function() {
-			// first convert all of the dots to carets if they have children
-			$('#tree li').each(function() {
-				$(this).removeClass('has_children');
-				if ($(this).next('ol').length > 0) {
-					$(this).addClass('has_children');
-				} else {
-					$(this).removeClass('has_children').removeClass('collapsed');
-				}
-			});
+
+		this.resetDraft = function() {
+			localStorage.setItem('draft', '');
 		}
 
 		this.keyup = function(item, event) {
 			var keyCode = event.which;
+
 			switch (keyCode) {
 				case 8:
 					// delete
-					self.formatExpandCollapse();
+					self.reload();
 					return true;
-					break;
-				case 192:
-					// tilde
-					self.apply('outdent');
-					self.formatExpandCollapse();
 					break;
 				case 13: 
 					// return/enter
-					self.formatExpandCollapse();
-					self.render();
+					self.reload();
 					return true;
 					break;
 				case 9: 
 					// tab
-					self.apply('indent');
-					// editor_formatExpandCollapse();
+					if (event.shiftKey) {
+						self.apply('outdent');
+					} else {
+						self.apply('indent');
+					}
+					break;
+				case 65: 
+					// ctrl + shift + a = stacked pages
+					if (event.shiftKey && event.ctrlKey) {
+						self.apply('underline');
+					}
+					return true;
+					break;
+				case 67: 
+					// ctrl + shift + c = component
+					if (event.shiftKey && event.ctrlKey) {
+						self.apply('italic');
+					}
+					return true;
+					break;
+				case 68: 
+					// ctrl + shift + d = page
+					if (event.shiftKey && event.ctrlKey) {
+						self.apply('normal');
+					}
+					return true;
+					break;
+				case 77: 
+					// ctrl + shift + m = modal
+					if (event.shiftKey && event.ctrlKey) {
+						self.apply('bold');
+					}
+					return true;
 					break;
 				default: 
 					return true;
@@ -272,6 +245,10 @@ define(['knockout', 'text!./tree.html', 'knockout-postbox'], function(ko, templa
 
 		ko.postbox.subscribe('tree.apply', function(options) {
 			self.apply(options.tool, options.value);
+		});
+
+		ko.postbox.subscribe('map.save', function(options) {
+			self.resetDraft();
 		});
 
 		this.init();

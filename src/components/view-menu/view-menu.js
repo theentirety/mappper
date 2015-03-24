@@ -18,6 +18,10 @@ define(['knockout', 'text!./view-menu.html', 'knockout-postbox'], function(ko, t
 			self.orientation(orientation);
 		};
 
+		ko.postbox.subscribe('auth.logout', function() {
+			self.visible(false);
+		});
+
 	}
 
 	// This runs when the component is torn down. Put here any logic necessary to clean up,

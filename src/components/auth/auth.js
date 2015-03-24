@@ -7,13 +7,6 @@ define(['knockout', 'text!./auth.html', 'parse', 'knockout-postbox'], function(k
 		this.currentUser = ko.observable().publishOn('auth.currentUser');
 
 		// subscriptions
-		ko.postbox.subscribe('auth.logout', function() {
-			self.logOut();
-		});
-
-		ko.postbox.subscribe('auth.login', function(user) {
-			self.logIn();
-		});
 
 		// private functions
 		this.logIn = function(user) {
@@ -22,9 +15,11 @@ define(['knockout', 'text!./auth.html', 'parse', 'knockout-postbox'], function(k
 		};
 
 		this.logOut = function() {
-			Parse.User.logOut();
-			self.currentUser(null);
-			// ko.postbox.publish('auth.currentUser', null);
+			if (Parse.User.current()) {
+				Parse.User.logOut();
+				self.currentUser(null);
+				ko.postbox.publish('auth.logout');
+			}
 		};
 
 		this.init = function() {
