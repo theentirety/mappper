@@ -3,7 +3,7 @@ define(['knockout', 'text!./loading.html', 'knockout-postbox'], function(ko, tem
 	function Loading(params) {
 		var self = this;
 
-		this.loading = ko.observable(false);
+		this.loading = ko.observable(true);
 		this.message = ko.observable('Loading').syncWith('loading.message');
 
 		ko.postbox.subscribe('loading', function(newValue) {

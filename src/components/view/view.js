@@ -4,8 +4,8 @@ define(['knockout', 'text!./view.html', 'hasher', 'knockout-postbox'], function(
 		var self = this;
 
 		this.title = ko.observable('(untitled)').syncWith('file.map-title');
-		this.mapId = ko.observable().syncWith('file.map-id');
-		this.version = ko.observable().syncWith('file.version-number');
+		this.mapId = ko.observable();
+		this.version = ko.observable();
 		this.versions = ko.observableArray();
 
 		this.init = function() {
@@ -17,6 +17,7 @@ define(['knockout', 'text!./view.html', 'hasher', 'knockout-postbox'], function(
 		};
 
 		this.load = function() {
+			ko.postbox.publish('loading', true);
 			if (self.mapId()) {
 				Parse.Cloud.run('getTreeVersions', {
 					treeId: self.mapId()
