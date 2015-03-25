@@ -175,9 +175,7 @@ define(['knockout', 'text!./file.html', 'parse', 'hasher', 'knockout-postbox'], 
 				success: function(result) {
 					var map = result[self.numVersions() - self.version()];
 					if (map) {
-						var mapString = JSON.stringify(map.attributes.data);
-						ko.postbox.publish('map.render', mapString);
-						ko.postbox.publish('loading', false);
+						ko.postbox.publish('tree.load', map.attributes.data);
 					} else {
 						alert('This is not a valid map version.');
 					}

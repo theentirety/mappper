@@ -28,6 +28,8 @@ define(['knockout', 'text!./tree.html', 'hasher', 'knockout-postbox'], function(
 					}
 				} else if (draft.length > 0 && (currentPage == 'sign-in' || currentPage == 'forgot-password')) {
 					self.loadDraft(draft);
+				} else {
+					ko.postbox.publish('loading', false);
 				}
 			}
 
@@ -243,6 +245,7 @@ define(['knockout', 'text!./tree.html', 'hasher', 'knockout-postbox'], function(
 
 		ko.postbox.subscribe('tree.load', function(data) {
 			self.load(data);
+			self.resetDraft();
 		});
 
 		ko.postbox.subscribe('tree.apply', function(options) {

@@ -107,6 +107,7 @@ define(['knockout', 'text!./map.html', 'debeki', 'knockout-postbox'], function(k
 
 			$('#map').html(data);
 			self.attachBindings();
+			ko.postbox.publish('loading', false);
 		};
 
 		this.attachBindings = function() {
