@@ -16,8 +16,8 @@
 	<button type="button" class="view-menu md md-remove-red-eye" data-bind="click: toggleViewMenu, css: { 'active': viewMenuVisible }"></button>
 	<view-menu></view-menu>
 </div>
-<div class="share" data-bind="visible: shortenedUrl() && !isDirty(), css: { 'expanded': treeExpanded() }">
-	<a class="md md-share share-button" data-bind="attr: { 'href': shortenedUrl() }" target="_blank"></a>
-	<span data-bind="text: shortenedUrl" contenteditable="contenteditable"></span>
+<div class="share" data-bind="visible: shareUrl() && !isDirty(), css: { 'expanded': treeExpanded() }">
+	<a class="md md-share share-button" data-bind="attr: { 'href': shareUrl() }" target="_blank"></a>
+	<span data-bind="text: shareUrl" contenteditable="contenteditable"></span>
 </div>
 <auth></auth>

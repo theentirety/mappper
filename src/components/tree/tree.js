@@ -17,7 +17,7 @@ define(['knockout', 'text!./tree.html', 'hasher', 'knockout-postbox'], function(
 			self.localStorageAvailable(self.checkLocalstorage());
 			if (self.localStorageAvailable()) {
 				var draft = localStorage.getItem('draft') || '';
-
+console.log(draft)
 				var currentPage = hasher.getHash();
 				if (draft.length > 0 && (currentPage == 'editor' || currentPage == '')) {
 					var confirmLoad = confirm('There is an unsaved draft. Do you want to restore it?');
@@ -27,10 +27,7 @@ define(['knockout', 'text!./tree.html', 'hasher', 'knockout-postbox'], function(
 						return;
 					}
 				} else if (draft.length > 0 && (currentPage == 'sign-in' || currentPage == 'forgot-password')) {
-					self.loadDraft();
-					console.log('load')
-				} else {
-					localStorage.setItem('draft', '');
+					self.loadDraft(draft);
 				}
 			}
 
@@ -101,7 +98,6 @@ define(['knockout', 'text!./tree.html', 'hasher', 'knockout-postbox'], function(
 		};
 
 		this.load = function(data) {
-			self.resetDraft();
 			$('#tree').empty();
 			$('#tree').html(data);
 			ko.postbox.publish('map.render', JSON.stringify(data));

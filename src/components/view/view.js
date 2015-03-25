@@ -9,6 +9,7 @@ define(['knockout', 'text!./view.html', 'hasher', 'knockout-postbox'], function(
 		this.versions = ko.observableArray();
 
 		this.init = function() {
+			ko.postbox.publish('loading', true);
 			var currentPage = hasher.getHash();
 			self.mapId(params.map);
 			self.version(params.version);
@@ -16,14 +17,18 @@ define(['knockout', 'text!./view.html', 'hasher', 'knockout-postbox'], function(
 		};
 
 		this.load = function() {
-			ko.postbox.publish('loading', true);
-			if (self.mapId() && self.version()) {
+			if (self.mapId()) {
 				Parse.Cloud.run('getTreeVersions', {
 					treeId: self.mapId()
 				}, {
 					success: function(result) {
 						self.versions(result);
-						var map = result[self.versions().length - self.version()];
+						var map = null;
+						if (self.version()) {
+							map = result[self.versions().length - self.version()];
+						} else {
+							map = result[0];
+						}
 						if (map) {
 							self.title(map.attributes.tree.attributes.friendly);
 							self.mapId(map.id);

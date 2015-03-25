@@ -1,0 +1,10 @@
+<div class="map-info">
+	<span class="title" data-bind="text: title"></span>
+</div>
+<div class="map-version">
+	<button class="version_number" data-bind="visible: numVersions() >= 1, text: (version() == 0 ? 'LATEST' : 'v' + version())"></button>
+</div>
+<div class="menu-option">
+	<button type="button" class="view-menu md md-remove-red-eye" data-bind="click: toggleViewMenu, css: { 'active': viewMenuVisible }"></button>
+	<view-menu></view-menu>
+</div>

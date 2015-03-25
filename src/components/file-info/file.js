@@ -12,12 +12,17 @@ define(['knockout', 'text!./file.html', 'parse', 'hasher', 'knockout-postbox'], 
 		this.viewMenuVisible = ko.observable(false);
 		this.fileMenuVisible = ko.observable(false).syncWith('file-info.file-menu-visible');
 		this.loggedIn = ko.observable(false);
-		this.shortenedUrl = ko.observable();
 		this.treeExpanded = ko.observable(true).subscribeTo('tree.expanded');
 
 		this.shareUrl = ko.computed(function() {
-			var domain = 'product-map-dev';
-			return 'http://' + domain + '.parseapp.com/#view/' + self.mapId() + '/' + self.version();
+			var url = null;
+			if (self.mapId()) {
+				url = hasher.getBaseURL() + '#v/' + self.mapId();
+				if (self.version() != self.numVersions()) {
+					url = url + '/' + self.version();
+				}
+			}
+			return url;
 		});
 
 		this.init = function() {
@@ -116,26 +121,13 @@ define(['knockout', 'text!./file.html', 'parse', 'hasher', 'knockout-postbox'], 
 			}
 		}
 
-		this.createShareableUrl = function() {
-			if (self.mapId() && self.versionId()) {
-				gapi.client.setApiKey('AIzaSyDbqlcHF8cEjnVcIIIv3hEJBnZFWIPIyu4');
-				gapi.client.load('urlshortener', 'v1').then(function() {
-					return gapi.client.urlshortener.url.insert({
-						'longUrl': self.shareUrl()
-					});
-				}).then(function(response) {
-					self.shortenedUrl(response.result.id);
-				});
-			}
-		};
-
-		ko.postbox.subscribe('auth.logout', function() {
+		this.logout = function() {
 			self.loggedIn(false);
 			self.fileMenuVisible(false);
 			self.viewMenuVisible(false);
-		});
+		};
 
-		ko.postbox.subscribe('file-info.open-map', function(map) {
+		this.openMap = function(map) {
 			ko.postbox.publish('loading', true);
 			self.mapId(map.id);
 			self.title(map.friendly);
@@ -151,7 +143,6 @@ define(['knockout', 'text!./file.html', 'parse', 'hasher', 'knockout-postbox'], 
 					ko.postbox.publish('tree.load', version.attributes.data);
 					self.isDirty(false);
 					ko.postbox.publish('loading', false);
-					self.createShareableUrl();
 				}, 
 				error: function(error) {
 					ko.postbox.publish('loading', false);
@@ -159,6 +150,14 @@ define(['knockout', 'text!./file.html', 'parse', 'hasher', 'knockout-postbox'], 
 					alert('We ran into a problem loading the map. Please try again.');
 				}
 			});
+		};
+
+		ko.postbox.subscribe('auth.logout', function() {
+			self.logout();
+		});
+
+		ko.postbox.subscribe('file-info.open-map', function(map) {
+			self.openMap(map);
 		});
 
 		this.init();
