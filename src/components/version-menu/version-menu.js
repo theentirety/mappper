@@ -4,6 +4,7 @@ define(['knockout', 'text!./version-menu.html', 'knockout-postbox'], function(ko
 		var self = this;
 
 		this.visible = ko.observable(false).syncWith('file-info.version-menu-visible');
+		this.activeVersion = ko.observable().syncWith('file.version-number');
 		this.numVersions = ko.observable(0);
 		this.versions = ko.observableArray();
 		this.dirtyMap = ko.observable().syncWith('tree.isDirty');
@@ -37,12 +38,7 @@ define(['knockout', 'text!./version-menu.html', 'knockout-postbox'], function(ko
 			}
 
 			if (openMap) {
-				console.log('open map')
-				// ko.postbox.publish('file-info.open-map', {
-				// 	id: item.id,
-				// 	friendly: item.attributes.friendly,
-				// 	numVersions: item.attributes.numVersions
-				// });
+				ko.postbox.publish('file-info.open-map-version', item.number);
 			}
 		};
 

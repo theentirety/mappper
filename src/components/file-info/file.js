@@ -166,6 +166,29 @@ define(['knockout', 'text!./file.html', 'parse', 'hasher', 'knockout-postbox'], 
 			});
 		};
 
+		this.openMapVersion = function(version) {
+			self.version(version);
+			ko.postbox.publish('loading', true);
+			Parse.Cloud.run('getTreeVersions', {
+				treeId: self.mapId()
+			}, {
+				success: function(result) {
+					var map = result[self.numVersions() - self.version()];
+					if (map) {
+						var mapString = JSON.stringify(map.attributes.data);
+						ko.postbox.publish('map.render', mapString);
+						ko.postbox.publish('loading', false);
+					} else {
+						alert('This is not a valid map version.');
+					}
+				}, 
+				error: function(error) {
+					console.log(error)
+					alert('There was an error loading the version. Please make sure the map ID ' + self.mapId() + ' is valid and refresh the page.');
+				}
+			});
+		};
+
 		ko.postbox.subscribe('auth.logout', function() {
 			self.logout();
 		});
@@ -174,6 +197,9 @@ define(['knockout', 'text!./file.html', 'parse', 'hasher', 'knockout-postbox'], 
 			self.openMap(map);
 		});
 
+		ko.postbox.subscribe('file-info.open-map-version', function(version) {
+			self.openMapVersion(version);
+		});
 		this.init();
 
 	}
