@@ -24,6 +24,7 @@ define(['jquery', 'knockout', './router', 'parse', 'debeki', 'knockout-postbox',
   ko.components.register('legal', { require: 'components/legal/legal' });
   ko.components.register('view', { require: 'components/view/view' });
   ko.components.register('file-info-view', { require: 'components/file-info-view/file' });
+  ko.components.register('version-menu', { require: 'components/version-menu/version-menu' });
 
 
   // [Scaffolded component registrations will be inserted here. To retain this feature, don't remove this comment.]

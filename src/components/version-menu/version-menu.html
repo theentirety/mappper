@@ -1,0 +1,9 @@
+<div class="version-menu" data-bind="visible: visible">
+	<ul data-bind="foreach: versions">
+		<li>
+			<div data-bind="click: $parent.openVersion">
+				<span data-bind="text: number"></span>
+			</div>
+		</li>
+	</ul>
+</div>

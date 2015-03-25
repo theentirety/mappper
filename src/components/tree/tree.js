@@ -17,13 +17,13 @@ define(['knockout', 'text!./tree.html', 'hasher', 'knockout-postbox'], function(
 			self.localStorageAvailable(self.checkLocalstorage());
 			if (self.localStorageAvailable()) {
 				var draft = localStorage.getItem('draft') || '';
-console.log(draft)
 				var currentPage = hasher.getHash();
 				if (draft.length > 0 && (currentPage == 'editor' || currentPage == '')) {
 					var confirmLoad = confirm('There is an unsaved draft. Do you want to restore it?');
 					if (confirmLoad) {
 						self.loadDraft(draft);
 					} else {
+						ko.postbox.publish('loading', false);
 						return;
 					}
 				} else if (draft.length > 0 && (currentPage == 'sign-in' || currentPage == 'forgot-password')) {
@@ -38,7 +38,6 @@ console.log(draft)
 			ko.postbox.publish('loading', true);
 			var loader = window.setTimeout(function() {
 				self.isDirty(true);
-				console.log(localStorage.getItem('draftTitle'))
 				self.treeTitle(localStorage.getItem('draftTitle') || '(untitled)');
 				self.treeId(localStorage.getItem('draftId'));
 				self.load(draft);

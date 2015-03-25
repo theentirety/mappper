@@ -20,7 +20,7 @@ file-info {
 		span {
 			display: block;
 			font-weight: lighter;
-			&.version_number {
+			&.version-number {
 				font-size: 12px;
 				color: fade(black, 40%);
 			}
@@ -29,7 +29,7 @@ file-info {
 			}
 		}
 	}
-	.menu-option, .file-option, .map-version, .map-save {
+	.menu-option, .file-option, .version-option, .map-save {
 		position: relative;
 		margin-top: 15px;
 	}
@@ -76,6 +76,21 @@ file-info {
 				background-color: fade(black, 10%);
 				&:before {
 					content: '\f102';
+				}
+			}
+		}
+		&.version-menu {
+			position: relative;
+			&.active {
+				background-color: fade(black, 10%);
+				span {
+					display: none;
+				}
+				&:before {
+					content: '\f102';
+					font-size: 16px;
+					line-height: 26px;
+					font-family: 'Material Design Iconic Font';
 				}
 			}
 		}

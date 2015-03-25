@@ -1,15 +1,11 @@
-file-menu {
-	.file-menu {
+version-menu {
+	.version-menu {
 		position: absolute;
-		right: 1px;
+		right: -4px;
 		top: 45px;
 		background-color: #CCC;
-		padding: 10px 20px;
+		padding: 10px 5px;
 		border-radius: 0 0 10px 10px;
-	}
-	.maps-loading, .maps-error {
-		white-space: nowrap;
-		font-family: @font-condensed;
 	}
 	ul {
 		margin: 0;
@@ -18,6 +14,7 @@ file-menu {
 		li {
 			line-height: 25px;
 			white-space: nowrap;
+			text-align: center;
 			div {
 				border-radius: 30px;
 				white-space: nowrap;
@@ -26,13 +23,6 @@ file-menu {
 				display: inline;
 				&:hover {
 					background-color: fade(#3495E0, 50%);
-					.version {
-						opacity: 1;
-					}
-				}
-				.version {
-					opacity: 0.3;
-					font-size: 11px;
 				}
 			}
 		}

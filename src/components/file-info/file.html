@@ -4,9 +4,11 @@
 <div class="map-save" data-bind="visible: loggedIn">
 	<button class="save md md-save" data-bind="disable: !isDirty(), css: { 'disabled': !isDirty() }, click: save"></button>
 </div>
-<div class="map-version">
-	<button class="version_number" data-bind="visible: numVersions() >= 1, text: (version() == 0 ? 'LATEST' : 'v' + version())"></button>
-	<!-- <version-menu></version-menu> -->
+<div class="version-option">
+	<button class="version-menu" data-bind="click: toggleVersionMenu, visible: numVersions() >= 1, css: { 'active': versionMenuVisible }">
+		<span class="text" data-bind="text: 'v' + version()"></span>
+	</button>
+	<version-menu></version-menu>
 </div>
 <div class="file-option" data-bind="visible: loggedIn">
 	<button type="button" class="file-menu md md-folder" data-bind="click: toggleFileMenu, css: { 'active': fileMenuVisible }"></button>

@@ -5,12 +5,13 @@ define(['knockout', 'text!./file.html', 'parse', 'hasher', 'knockout-postbox'], 
 
 		this.title = ko.observable('(untitled)').syncWith('file.map-title');
 		this.mapId = ko.observable().syncWith('file.map-id');
-		this.numVersions = ko.observable(-1);
+		this.numVersions = ko.observable(-1).syncWith('file-info.num-versions');
 		this.version = ko.observable().syncWith('file.version-number');
 		this.versionId = ko.observable().syncWith('file.version-id');
 		this.isDirty = ko.observable(false).syncWith('tree.isDirty');
 		this.viewMenuVisible = ko.observable(false);
 		this.fileMenuVisible = ko.observable(false).syncWith('file-info.file-menu-visible');
+		this.versionMenuVisible = ko.observable(false).syncWith('file-info.version-menu-visible');
 		this.loggedIn = ko.observable(false);
 		this.treeExpanded = ko.observable(true).subscribeTo('tree.expanded');
 
@@ -37,6 +38,8 @@ define(['knockout', 'text!./file.html', 'parse', 'hasher', 'knockout-postbox'], 
 					self.fileMenuVisible(false);
 				} else {
 					self.fileMenuVisible(true);
+					self.versionMenuVisible(false);
+					ko.postbox.publish('version-menu.state', self.versionMenuVisible());
 				}
 				ko.postbox.publish('file-menu.state', self.fileMenuVisible());
 			} else {
@@ -51,6 +54,17 @@ define(['knockout', 'text!./file.html', 'parse', 'hasher', 'knockout-postbox'], 
 				self.viewMenuVisible(true);
 			}
 			ko.postbox.publish('view-menu.state', self.viewMenuVisible());
+		};
+
+		this.toggleVersionMenu = function() {
+			if (self.versionMenuVisible()) {
+				self.versionMenuVisible(false);
+			} else {
+				self.versionMenuVisible(true);
+				self.fileMenuVisible(false);
+				ko.postbox.publish('file-menu.state', self.fileMenuVisible());
+			}
+			ko.postbox.publish('version-menu.state', self.versionMenuVisible());
 		};
 
 		this.save = function() {
