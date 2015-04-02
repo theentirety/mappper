@@ -184,6 +184,8 @@ define(['knockout', 'text!./tree.html', 'hasher', 'knockout-postbox'], function(
 					} else {
 						self.apply('indent');
 					}
+					self.reload();
+					return true;
 					break;
 				case 65: 
 					// ctrl + shift + a = stacked pages

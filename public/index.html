@@ -1,30 +1,16 @@
-<!doctype html>
-<html>
-<head>
-	<link rel="stylesheet" type="text/css" media="all" href="styles/main.css" />
-	<link rel="stylesheet" type="text/css" media="all" href="styles/lib/offline-theme-default.css" />
-	<link href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
-
-	<title>Product Map</title>
-	<meta charset="utf-8" />
-	<meta name="description" content="Build a simple product map with components." />
-</head>
-<body data-bind="css: { print_mode: $root.main_printMode }">
-	<header></header>
-	<main>
-		<!-- page content -->
-		<section data-bind="css: { 'lightbox_bg': $root.main_lightboxed }">
-			<section id="tree" data-bind="module: 'tree', css: { 'outline_open': $root.main_outlineOpen }"></section>
-			<section id="editor" data-bind="module: 'editor'"></section>
-			<section id="treenav" data-bind="module: 'treenav'"></section>
-		</section>
-		<!-- modals -->
-		<section data-bind="css: { 'lightbox_screen': $root.main_lightboxed }">
-			<section id="auth" data-bind="module: 'auth'"></section>
-			<section id="share" data-bind="module: 'share'"></section>
-		</section>
-	</main>
-
-	<script type="text/javascript" data-main="scripts/init" src="scripts/lib/require.js"></script>
-</body>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Site/Product Map</title>
+    <link rel="stylesheet" href="app.css">
+      <script src="//use.typekit.net/xje1sem.js"></script>
+      <script>try{Typekit.load();}catch(e){}</script>
+    <script src="scripts.js"></script>
+  </head>
+  <body>
+    <nav-bar params="route: route"></nav-bar>
+    <div id="page" class="container" data-bind="component: { name: route().page, params: route }"></div>
+  </body>
 </html>

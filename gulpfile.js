@@ -16,28 +16,44 @@ var requireJsRuntimeConfig = vm.runInNewContext(fs.readFileSync('src/app/require
         },
         include: [
             'requireLib',
-            'components/editor/editor',
             'components/map/map',
-            'components/tree/tree',
-            'components/treetools/treetools',
-            'components/file-info/file',
             'components/file-info-view/file',
-            'components/modal/modal',
-            'components/sign-in/sign-in',
-            'components/sign-up/sign-up',
-            'components/forgot-password/forgot-password',
             'components/auth/auth',
             'components/tooltip/tooltip',
             'components/view-menu/view-menu',
-            'components/file-menu/file-menu',
-            'components/version-menu/version-menu',
             'components/legal/legal',
             'components/view/view',
+            'components/loading/loading',
         ],
         insertRequire: ['app/startup'],
         bundles: {
             // If you want parts of the site to load on demand, remove them from the 'include' list
             // above, and group them into bundles here.
+
+            'editor': [
+                'components/editor/editor',
+                'components/tree/tree',
+                'components/treetools/treetools',
+                'components/version-menu/version-menu',
+                'components/file-menu/file-menu',
+                'components/file-info/file'
+            ],
+
+            'forgot-password': [
+                'components/modal/modal',
+                'components/forgot-password/forgot-password'
+            ],
+
+            'sign-in': [
+                'components/modal/modal',
+                'components/sign-in/sign-in'
+            ],
+
+            'sign-up': [
+                'components/modal/modal',
+                'components/sign-up/sign-up'
+            ],
+
             // 'bundle-name': [ 'some/module', 'another/module' ],
             // 'another-bundle-name': [ 'yet-another-module' ]
         }
@@ -47,18 +63,19 @@ var requireJsRuntimeConfig = vm.runInNewContext(fs.readFileSync('src/app/require
 gulp.task('js', function () {
     return rjs(requireJsOptimizerConfig)
         .pipe(uglify({ preserveComments: 'some' }))
-        .pipe(gulp.dest('./dist/'));
+        .pipe(gulp.dest('./public/'));
 });
 
 // Concatenates CSS files, rewrites relative paths to Bootstrap fonts, copies Bootstrap fonts
 gulp.task('css', function () {
-    var bowerCss = gulp.src('src/bower_modules/components-bootstrap/css/bootstrap.min.css')
-            .pipe(replace(/url\((')?\.\.\/fonts\//g, 'url($1fonts/')),
-        appCss = gulp.src('src/css/*.css'),
-        combinedCss = es.concat(bowerCss, appCss).pipe(concat('css.css')),
-        fontFiles = gulp.src('./src/bower_modules/components-bootstrap/fonts/*', { base: './src/bower_modules/components-bootstrap/' });
-    return es.concat(combinedCss, fontFiles)
-        .pipe(gulp.dest('./dist/'));
+  return gulp.src('src/less/app.less')
+    .pipe(less({
+      style: 'expanded',
+      loadPath: ['./src/bower_modules/less']
+    }))
+    .pipe(autoprefixer('last 1 version'))
+    .pipe(csso())
+    .pipe(gulp.dest('./public/'));
 });
 
 gulp.task('less', function() {
@@ -77,10 +94,20 @@ gulp.task('less', function() {
 gulp.task('html', function() {
     return gulp.src('./src/index.html')
         .pipe(htmlreplace({
-            'css': 'css.css',
+            'css': 'app.css',
             'js': 'scripts.js'
         }))
-        .pipe(gulp.dest('./dist/'));
+        .pipe(gulp.dest('./public/'));
+});
+
+gulp.task('images', function() {
+    return gulp.src('./src/images/**/*')
+        .pipe(gulp.dest('./public/images/'));
+});
+
+gulp.task('fonts', function() {
+    return gulp.src('./src/fonts/**/*')
+        .pipe(gulp.dest('./public/fonts/'));
 });
 
 gulp.task('browser-sync', function() {
@@ -97,12 +124,12 @@ gulp.task('browser-sync', function() {
 
 // Removes all files from ./dist/
 gulp.task('clean', function() {
-    return gulp.src('./dist/**/*', { read: false })
+    return gulp.src('./public/*', { read: false })
         .pipe(clean());
 });
 
 gulp.task('build', ['clean'], function() {
-    gulp.start(['html', 'js', 'css']);
+    gulp.start(['html', 'js', 'css', 'images', 'fonts']);
 });
 
 gulp.task('default', function() {

@@ -1,5 +1,0 @@
-<input type="range" name="points" min="10" max="100" data-bind="value: treenav_sliderValue, visible: !treenav_printMode()">
-<button data-bind="click: treenav_print, css: { active: treenav_printMode }" class="fa fa-print" title="Print"></button>
-<div id="treenav_orientation" data-bind="visible: !treenav_printMode(), foreach: treenav_orientationOptions">
-	<button data-bind="click: function() { treenav_selectOrientation($index()) }, attr: { class: className + ' ' + icon, title: title }, css: { active: treenav_activeOrientation() == $index() }"></button>
-</div>
