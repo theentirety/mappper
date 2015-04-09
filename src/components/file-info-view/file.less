@@ -1,0 +1,59 @@
+file-info-view {
+	position: fixed;
+	z-index: 2;
+	top: 0;
+	text-align: left;
+	left: 0;
+	right: 0;
+	height: 60px;
+	border-bottom: 1px solid fade(black, 5%);
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	padding: 0 20px;
+	background-color: white;
+	.map-info {
+		font-size: 24px;
+		font-family: @font-sans;
+		align-self: center;
+		span {
+			display: block;
+			font-weight: lighter;
+			&.version_number {
+				font-size: 12px;
+				color: fade(black, 40%);
+			}
+			&.title {
+				margin-right: 5px;
+			}
+		}
+	}
+	.menu-option {
+		position: relative;
+		margin-top: 15px;
+	}
+	button, a {
+		border: 0;
+		min-width: 30px;
+		height: 30px;
+		text-align: center;
+		background-color: #333;
+		color: #999;
+		margin-left: 5px;
+		border-radius: 25px;
+		align-self: center;
+		cursor: pointer;
+		text-decoration: none;
+		&.view-menu {
+			position: relative;
+			left: -5px;
+			&.active {
+				background-color: #333;
+				color: #fc6a6a;
+				&:before {
+					content: '\f102';
+				}
+			}
+		}
+	}
+}

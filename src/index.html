@@ -4,10 +4,15 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Mappper - Create and share site maps</title>
-    <link rel="stylesheet" href="app.css">
+    <!-- build:css -->
+      <link href="app.css" rel="stylesheet">
+    <!-- endbuild -->
       <script src="//use.typekit.net/xje1sem.js"></script>
       <script>try{Typekit.load();}catch(e){}</script>
-    <script src="scripts.js"></script>
+    <!-- build:js -->
+      <script src="app/require.config.js"></script>
+      <script data-main="app/startup" src="bower_modules/requirejs/require.js"></script>
+    <!-- endbuild -->
   </head>
   <body>
     <nav-bar params="route: route"></nav-bar>

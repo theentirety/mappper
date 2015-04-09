@@ -1,0 +1,10 @@
+<div id="tree" contenteditable="true" data-bind="event: { 'keydown': keyup }, visible: visible, css: { 'expanded': expanded }">
+	<ol>
+		<li>First node here...</li>
+	</ol>
+</div>
+<treetools></treetools>
+<div class="bar" data-bind="css: { 'expanded': expanded }">
+	<button class="md md-skip-next" data-bind="click: toggleWidth"></button>
+</div>
+<button class="standard-button render-button" type="button" data-bind="click: reload, visible: expanded">Render map</button>

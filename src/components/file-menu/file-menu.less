@@ -1,0 +1,42 @@
+file-menu {
+	.file-menu {
+		position: absolute;
+		left: 1px;
+		top: 40px;
+		background-color: #333;
+		padding: 10px;
+		border-radius: 0 0 15px 15px;
+		border-top: 4px solid #CCC;
+	}
+	.maps-loading, .maps-error {
+		white-space: nowrap;
+		color: #FFF;
+	}
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		li {
+			line-height: 25px;
+			white-space: nowrap;
+			color: #FFF;
+			div {
+				border-radius: 30px;
+				white-space: nowrap;
+				padding: 3px 10px;
+				cursor: pointer;
+				display: inline;
+				&:hover {
+					background-color: #579FF3;
+					.version {
+						opacity: 1;
+					}
+				}
+				.version {
+					opacity: 0.3;
+					font-size: 11px;
+				}
+			}
+		}
+	}
+}

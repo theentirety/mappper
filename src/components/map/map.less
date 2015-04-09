@@ -1,0 +1,219 @@
+@_color-line: fade(#000, 40%);
+@_color-hoverbg: fade(black, 10%);
+
+map {
+	text-align: center;
+	padding: 60px;
+	* {
+		margin: 0;
+		padding: 0;
+	}
+	#map {
+		transform: scale(1);
+		-webkit-transform: scale(1);
+	}
+	.tree-container {
+		&.tree-expanded {
+			margin-left: 400px;
+		}
+		&.square {
+			li>span {
+				width: 100px;
+				height: 100px;
+			}
+		}
+		&.portrait {
+			li>span {
+				width: 100px;
+				height: 160px;
+			}
+		}
+		&.landscape {
+			li>span {
+				width: 160px;
+				height: 100px;
+			}
+		}
+	}
+	ol:first-child {
+		text-align: center;
+		width: 100%;
+		padding-bottom: 40px;
+	}
+	ol {
+		padding-top: 20px;
+		position: relative;
+		white-space: nowrap;
+		cursor: move;
+		&:first-child {
+			margin-top: 80px;
+			> li {
+				padding: 0px 200px;
+			}
+		}
+		ol::before {
+			// Time to add downward connectors from parents
+			content: '';
+			position: absolute;
+			top: 0; 
+			left: 50%;
+			border-left: 1px solid @_color-line;
+			width: 0; 
+			height: 20px;
+		}
+		&:first-child > li:first-child::before {
+			display: none;
+		}
+	}
+	li {
+		display: inline-block;
+		text-align: center;
+		list-style-type: none;
+		position: relative;
+		padding: 20px 5px 0 5px;
+		vertical-align: top;
+		&::before, &::after {
+			// We will use ::before and ::after to draw the connectors
+			content: '';
+			position: absolute;
+			top: 0;
+			right: 50%;
+			border-top: 1px solid @_color-line;
+			width: 50%;
+			height: 20px;
+		}
+		&::after {
+			right: auto;
+			left: 50%;
+			border-left: 1px solid @_color-line;
+		}
+		&:only-child::after, &:only-child::before {
+			// We need to remove left-right connectors from elements without any siblings
+			display: none;
+		}
+		&:first-child::before, &:last-child::after {
+			// Remove left connector from first child and right connector from last child
+			border: 0 none;
+		}
+		&:last-child::before {
+			// Adding back the vertical connector to the last nodes
+			border-right: 1px solid @_color-line;
+			border-radius: 0 5px 0 0;
+		}
+		&:first-child::after {
+			border-radius: 5px 0 0 0;
+		}
+		&:only-child {
+			padding-top: 20px;
+			padding-left: 0;
+			padding-right: 0;
+			&::before {
+				display: block;
+				border-radius: 0;
+				left: 1px;
+			}
+		}
+		&.has_children {
+			> span {
+				cursor: pointer;
+			}
+		}
+		span {
+			cursor: default;
+			text-align: left;
+			// border: 4px solid fade(black, 10%);
+			padding: 10px;
+			text-decoration: none;
+			color: fade(#000, 90%);
+			font-family: arial, verdana, tahoma;
+			font-size: 16px;
+			display: inline-block;
+			background-color: #f2f2f2;
+			border-radius: 5px;
+			white-space: normal;
+			word-break: break-word;
+			font-family: @font-condensed;
+			line-height: 16px;
+			box-shadow: 0 2px 0 fade(black, 10%);
+
+			&:hover, &:hover+ol li span {
+				// We will apply the hover effect the the lineage of the element also
+				background-color: @_color-hoverbg;
+				color: #000;
+				// box-shadow: 0 2px 0 fade(black, 20%);
+			}
+			&:hover+ol li::after, &:hover+ol li::before, &:hover+ol::before, &:hover+ol ol::before {
+				border-color: #000;
+			}
+			&.collapsed {
+				.ellipsis {
+					pointer-events: none;
+					background-color: #333;
+					position: absolute;
+					bottom: -8px;
+					left: 50%;
+					margin-left: -8px;
+					width: 17px;
+					height: 17px;
+					border-radius: 8px;
+					text-align: center;
+					font-size: 22px;
+					line-height: 17px;
+					&:after {
+ 						font-family: 'Material Design Iconic Font';
+						content: "\f0fd";
+						color: #FFF;
+						font-size: 15px;
+					}
+				}
+			}
+			&.collapsed+ol, &.collapsed+li {
+				display: none;
+			}
+			&.component {
+				border: 3px dotted fade(black, 40%);
+				padding: 12px;
+				background-color: transparent;
+			}
+			&.dialog {
+				// background-color: #e5e5e5;
+				border: 3px solid fade(black, 30%);
+				border-width: 15px 3px 3px 3px;
+				color: #000;
+				&:hover {
+					// background-color: fade(black, 20%);
+					color: #000;
+				}
+			}
+			&.stacked {
+				position: relative;
+				box-shadow: 0 13px 0 fade(black, 10%);
+				&::after, &::before {
+					content: '';
+					display: block;
+					width: auto;
+					height: 40px;
+					border-bottom: 2px solid fade(black, 60%);
+					padding: 0;
+					margin: 0;
+					border-radius: 5px;
+					position: absolute;
+				}
+				&::after, &::before {
+					left: 0px;
+					right: 0px;
+				}
+				&::after {
+					bottom: -10px;
+				}
+				&::before {
+					bottom: -5px;
+				}
+				&+ol::before {
+					top: 10px;
+					height: 10px;
+				}
+			}
+		}
+	}
+}

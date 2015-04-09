@@ -1,0 +1,13 @@
+<div class="view-menu" data-bind="visible: visible">
+	<div class="toggle">
+		<span class="md md-search"></span>
+		<button class="md md-add" data-bind="click: zoomIn"></button>
+		<button class="md md-remove" data-bind="click: zoomOut"></button>
+	</div>
+	<div class="toggle">
+		<span class="md md-insert-drive-file"></span>
+		<button class="md md-crop-din selected" data-bind="click: function() { setOrientation('square') }, css: { 'selected': orientation() == 'square' }"></button>
+		<button class="md md-crop-landscape" data-bind="click: function() { setOrientation('landscape') }, css: { 'selected': orientation() == 'landscape' }"></button>
+		<!-- <button class="md md-crop-portrait" data-bind="click: function() { setOrientation('portrait') }, css: { 'selected': orientation() == 'portrait' }"></button> -->
+	</div>
+</div>

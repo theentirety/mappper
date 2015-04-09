@@ -59,10 +59,9 @@ Parse.Cloud.define('getTrees', function(request, response) {
 });
 
 Parse.Cloud.define('getTreeVersions', function(request, response) {
-	var currentUser = Parse.User.current();
 	var treeId = request.params.treeId || null;
 	
-	if (currentUser && treeId) {
+	if (treeId) {
 
 		var query = new Parse.Query('TreeVersion');
 
@@ -73,6 +72,7 @@ Parse.Cloud.define('getTreeVersions', function(request, response) {
 		});
 
 		query.descending('createdAt');
+		query.include('tree');
 
 		query.find({
 			success: function(result) {
@@ -126,7 +126,7 @@ Parse.Cloud.define('loadTreeVersion', function(request, response) {
 	var version = request.params.version || null;
 	var treeId = request.params.treeId || null;
 
-	if (treeId && version) {
+	if (treeId) {
 
 		var query = new Parse.Query('TreeVersion');
 
@@ -136,7 +136,10 @@ Parse.Cloud.define('loadTreeVersion', function(request, response) {
 			objectId: treeId
 		});
 
-		query.equalTo('objectId', version);
+		if (version) {
+			query.equalTo('objectId', version);
+		}
+		query.descending('createdAt');
 		query.include('tree');
 
 		query.first({
