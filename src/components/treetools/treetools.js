@@ -9,13 +9,13 @@ define(['knockout', 'text!./treetools.html', 'knockout-postbox'], function(ko, t
 
 		this.swatch = ko.observableArray([
 			{ color: '#000000' },
-			{ color: '#ed217c' },
-			{ color: '#843b6e' },
-			{ color: '#69a5d9' },
-			{ color: '#4c8179' },
-			{ color: '#bfd84b' },
-			{ color: '#f2ba11' },
-			{ color: '#f26611' }
+			// { color: '#c462b8' }, // purple
+			{ color: '#88beeb' }, // blue
+			{ color: '#8bc0a6' }, // dark green
+			{ color: '#bfd84b' }, // light green
+			{ color: '#f1c12f' }, // yellow
+			{ color: '#f68c3d' }, // orange
+			{ color: '#fc6a6a' } //pink
 		]);
 
 		this.applyColor = function(item, event) {

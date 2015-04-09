@@ -2,21 +2,34 @@ file-info {
 	position: fixed;
 	z-index: 2;
 	top: 0;
-	text-align: right;
-	left: 0;
+	left: 40px;
 	padding-left: 20px;
 	right: 0;
 	height: 60px;
 	border-bottom: 1px solid fade(black, 5%);
 	display: flex;
 	flex-direction: row;
-	justify-content: flex-end;
+	justify-content: space-between;
 	padding: 0 20px;
 	background-color: white;
+	.container {
+		display: flex;
+		flex-direction: row;
+		-webkit-transform: translate3d(0,0,0);
+		transform: translate3d(0,0,0);
+		-webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+		-moz-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+		transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+		&.expanded {
+			-webkit-transform: translate3d(360px,0,0);
+			transform: translate3d(360px,0,0);
+		}
+	}
 	.map-info {
 		font-size: 24px;
 		font-family: @font-sans;
 		align-self: center;
+		margin-left: 10px;
 		span {
 			display: block;
 			font-weight: lighter;
@@ -29,25 +42,15 @@ file-info {
 			}
 		}
 	}
-	.menu-option, .file-option, .version-option, .map-save {
+	.menu-option, .file-option, .version-option, .map-save, .share {
 		position: relative;
 		margin-top: 15px;
 	}
 	.share {
-		position: absolute;
-		left: 50px;
-		top: 20px;
-		color: fade(black, 30%);
 		display: block;
-		line-height: 29px;
-		span {
-			user-select: text; /* CSS3 (little to no support) */
-			-ms-user-select: text; /* IE 10+ */
-			-moz-user-select: text; /* Gecko (Firefox) */
-			-webkit-user-select: text; /* Webkit (Safari, Chrome) */
-		}
-		&.expanded {
-			left: 410px;
+		line-height: 30px;
+		:before {
+			padding-right: 2px;
 		}
 	}
 	button, a {
@@ -57,12 +60,12 @@ file-info {
 		text-align: center;
 		background-color: #333;
 		color: #999;
-		margin-left: 5px;
+		margin-right: 5px;
 		border-radius: 25px;
 		align-self: center;
 		cursor: pointer;
 		text-decoration: none;
-		&.save, &.share-button {
+		&.save {
 			background-color: transparent;
 			border: 1px solid fade(black, 20%);
 			color: #3495E0;
@@ -73,7 +76,8 @@ file-info {
 		&.view-menu, &.file-menu {
 			position: relative;
 			&.active {
-				background-color: fade(black, 10%);
+				background-color: #333;
+				color: #fc6a6a;
 				&:before {
 					content: '\f102';
 				}
@@ -82,7 +86,8 @@ file-info {
 		&.version-menu {
 			position: relative;
 			&.active {
-				background-color: fade(black, 10%);
+				background-color: #333;
+				color: #fc6a6a;
 				span {
 					display: none;
 				}

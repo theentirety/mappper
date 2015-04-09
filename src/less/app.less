@@ -7,8 +7,8 @@
 @import "../components/sign-up/sign-up.less";
 @import "../components/forgot-password/forgot-password.less";
 @import "../components/loading/loading.less";
-@import "../components/file-info/file.less";
 @import "../components/file-info-view/file.less";
+@import "../components/file-info/file.less";
 @import "../components/tree/tree.less";
 @import "../components/treetools/treetools.less";
 @import "../components/tooltip/tooltip.less";
@@ -71,6 +71,9 @@ form {
 		margin: 0 10px 10px 0;
 		display: block;
 		width: 100%;
+		font-family: @font-sans;
+		font-weight: light;
+		font-size: 18px;
 		&::-webkit-input-placeholder, &:-moz-placeholder, &::-moz-placeholder, &:-ms-input-placeholder  {
 			color: lighten(black, 70%);
 		}
@@ -93,7 +96,7 @@ form {
 .standard-button {
 	font-size: 24px;
 	color: #FFF;
-	background-color: #3495E0;
+	background-color: #333;
 	border: 0px none;
 	border-radius: 5px;
 	padding: 10px 20px;
@@ -105,6 +108,15 @@ form {
 	transition: all 0.2s;
 	-webkit-transform: translate3d(0,0,0);
 	transform: translate3d(0,0,0);
+	font-family: @font-sans;
+	font-weight: light;
+	font-size: 18px;
+	&.light {
+		background-color: #739DD3;
+		&:hover {
+			background-color: darken(#739DD3, 10%);
+		}
+	}
 	&:disabled {
 		opacity: 0.2;
 		box-shadow: none;
@@ -113,7 +125,8 @@ form {
 		transform: translate3d(0,1px,0);
 	}
 	&:hover {
-		background-color: darken(#3495E0, 5%);
+		background-color: #739DD3;
+		color: #FFF;
 	}
 	&:active {
 		box-shadow: none;

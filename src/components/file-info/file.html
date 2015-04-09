@@ -1,25 +1,29 @@
-<div class="map-info">
-	<span class="title" data-bind="text: title() + (isDirty() ? '*' : '')"></span>
+<div class="container" data-bind="css: { 'expanded': treeExpanded }">
+	<div class="file-option" data-bind="visible: loggedIn">
+		<button type="button" class="file-menu md md-folder" data-bind="click: toggleFileMenu, css: { 'active': fileMenuVisible }"></button>
+		<file-menu></file-menu>
+	</div>
+	<div class="version-option">
+		<button class="version-menu" data-bind="click: toggleVersionMenu, visible: numVersions() >= 1, css: { 'active': versionMenuVisible }">
+			<span class="text" data-bind="text: 'v' + version()"></span>
+		</button>
+		<version-menu></version-menu>
+	</div>
+	<div class="map-info">
+		<span class="title" data-bind="text: title() + (isDirty() ? '*' : '')"></span>
+	</div>
+	<div class="map-save" data-bind="visible: loggedIn">
+		<button class="save md md-save" data-bind="disable: !isDirty(), css: { 'disabled': !isDirty() }, click: save"></button>
+	</div>
 </div>
-<div class="map-save" data-bind="visible: loggedIn">
-	<button class="save md md-save" data-bind="disable: !isDirty(), css: { 'disabled': !isDirty() }, click: save"></button>
+<div class="container">
+	<div class="share" data-bind="visible: shareUrl() && !isDirty(), css: { 'expanded': treeExpanded() }">
+		<a class="md md-share share-button" data-bind="attr: { 'href': shareUrl() }" target="_blank"></a>
+		<!-- <span data-bind="text: shareUrl" contenteditable="contenteditable"></span> -->
+	</div>
+	<div class="menu-option">
+		<button type="button" class="view-menu md md-remove-red-eye" data-bind="click: toggleViewMenu, css: { 'active': viewMenuVisible }"></button>
+		<view-menu></view-menu>
+	</div>
+	<auth></auth>
 </div>
-<div class="version-option">
-	<button class="version-menu" data-bind="click: toggleVersionMenu, visible: numVersions() >= 1, css: { 'active': versionMenuVisible }">
-		<span class="text" data-bind="text: 'v' + version()"></span>
-	</button>
-	<version-menu></version-menu>
-</div>
-<div class="file-option" data-bind="visible: loggedIn">
-	<button type="button" class="file-menu md md-folder" data-bind="click: toggleFileMenu, css: { 'active': fileMenuVisible }"></button>
-	<file-menu></file-menu>
-</div>
-<div class="menu-option">
-	<button type="button" class="view-menu md md-remove-red-eye" data-bind="click: toggleViewMenu, css: { 'active': viewMenuVisible }"></button>
-	<view-menu></view-menu>
-</div>
-<div class="share" data-bind="visible: shareUrl() && !isDirty(), css: { 'expanded': treeExpanded() }">
-	<a class="md md-share share-button" data-bind="attr: { 'href': shareUrl() }" target="_blank"></a>
-	<span data-bind="text: shareUrl" contenteditable="contenteditable"></span>
-</div>
-<auth></auth>

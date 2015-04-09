@@ -17,13 +17,13 @@ tree {
 			text-align: center;
 			align-self: center;
 			cursor: pointer;
-			color: white;
+			color: #CCC;
 			text-decoration: none;
 			line-height: 30px;
 			padding: 0 10px;
-			font-size: 16px;
-			font-family: @font-condensed;
-			// text-transform: uppercase;
+			font-size: 14px;
+			font-family: @font-sans;
+			background-color: #333;
 		}
 	}
 	.bar {
@@ -75,6 +75,7 @@ tree {
 		-webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 		-moz-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 		transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+		-webkit-user-select: initial;
 		&.expanded {
 			-webkit-transform: translate3d(360px,0,0);
 			transform: translate3d(360px,0,0);

@@ -34,6 +34,7 @@ define(['knockout', 'text!./tree.html', 'hasher', 'knockout-postbox'], function(
 			}
 
 			self.applySelectionBindings();
+			self.applyBindings();
 		};
 
 		this.loadDraft = function(draft) {
@@ -102,7 +103,6 @@ define(['knockout', 'text!./tree.html', 'hasher', 'knockout-postbox'], function(
 			$('#tree').empty();
 			$('#tree').html(data);
 			ko.postbox.publish('map.render', JSON.stringify(data));
-			self.applyBindings();
 			self.formatExpandCollapse();
 		};
 
@@ -110,7 +110,6 @@ define(['knockout', 'text!./tree.html', 'hasher', 'knockout-postbox'], function(
 			self.isDirty(true);
 			var data = $('#tree').html();
 			ko.postbox.publish('map.render', JSON.stringify(data));
-			self.applyBindings();
 			self.formatExpandCollapse();
 			self.saveDraft();
 		};

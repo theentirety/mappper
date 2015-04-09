@@ -2,15 +2,14 @@ file-info-view {
 	position: fixed;
 	z-index: 2;
 	top: 0;
-	text-align: right;
+	text-align: left;
 	left: 0;
-	padding-left: 20px;
 	right: 0;
 	height: 60px;
 	border-bottom: 1px solid fade(black, 5%);
 	display: flex;
 	flex-direction: row;
-	justify-content: flex-end;
+	justify-content: space-between;
 	padding: 0 20px;
 	background-color: white;
 	.map-info {
@@ -45,18 +44,12 @@ file-info-view {
 		align-self: center;
 		cursor: pointer;
 		text-decoration: none;
-		&.save, &.share-button {
-			background-color: transparent;
-			border: 1px solid fade(black, 20%);
-			color: #3495E0;
-			&.disabled {
-				opacity: 0.2;
-			}
-		}
-		&.view-menu, &.file-menu {
+		&.view-menu {
 			position: relative;
+			left: -5px;
 			&.active {
-				background-color: fade(black, 10%);
+				background-color: #333;
+				color: #fc6a6a;
 				&:before {
 					content: '\f102';
 				}
